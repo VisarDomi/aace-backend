@@ -33,7 +33,7 @@ ACL_METHODS = 'Access-Control-Allow-Methods'
 ACL_ALLOWED_HEADERS = 'Access-Control-Allow-Headers'
 
 OPTIONS_METHOD = 'OPTIONS'
-ALLOWED_ORIGINS = 'http://localhost:8080'
+ALLOWED_ORIGINS = 'http://localhost:5000'
 ALLOWED_METHODS = 'GET, POST, PUT, DELETE, OPTIONS'
 ALLOWED_HEADERS = 'Authorization, DNT, X-CustomHeader, Keep-Alive, User-Agent, ' \
                   'X-Requested-With, If-Modified-Since, Cache-Control, Content-Type'
