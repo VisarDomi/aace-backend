@@ -8,7 +8,7 @@ import jsonschema
 
 from .exceptions import InvalidAPIRequest
 
-SCHEMAS_DIR = 'core/api/specifications/schemas'
+SCHEMAS_DIR = 'api/specifications/schemas'
 SCHEMAS_PATH = os.path.join(os.getcwd(), SCHEMAS_DIR)
 
 

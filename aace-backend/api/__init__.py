@@ -5,15 +5,13 @@ from .common.middleware import after_request_middleware, before_request_middlewa
 from .common.middleware import response
 from .foss import bp as foss_bp
 
-from flask_cors import CORS
-
 
 
 def create_app():
 
     # initialize flask application
     app = Flask(__name__)
-    cors = CORS(app, resources={r"/foss/*": {"origins": "*"}})
+
     # register all blueprints
     app.register_blueprint(foss_bp)
 

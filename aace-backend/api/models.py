@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String
 
-from ..common.database import BaseModel
-from ..common.serializers import ModelSerializerMixin
+from .common.database import BaseModel
+from .common.serializers import ModelSerializerMixin
 
 
 class Foss(BaseModel, ModelSerializerMixin):
