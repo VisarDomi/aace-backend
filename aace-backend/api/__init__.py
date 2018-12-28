@@ -1,9 +1,18 @@
 from flask import Flask
 
-from .common.database import init_db
+from .common.database import init_db, drop_db
 from .common.middleware import after_request_middleware, before_request_middleware, teardown_appcontext_middleware
 from .common.middleware import response
-from .foss import bp as foss_bp
+from .bp_auth import bp as auth_bp
+from .bp_admin import bp as admin_bp
+from .bp_error import bp as error_bp
+from .bp_event import bp as event_bp
+from .bp_group import bp as group_bp
+from .bp_message import bp as message_bp
+from .bp_multimedia import bp as multimedia_bp
+from .bp_notification import bp as notification_bp
+from .bp_post import bp as post_bp
+from .bp_user import bp as user_bp
 
 
 
@@ -13,7 +22,16 @@ def create_app():
     app = Flask(__name__)
 
     # register all blueprints
-    app.register_blueprint(foss_bp)
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(admin_bp)
+    app.register_blueprint(error_bp)
+    app.register_blueprint(event_bp)
+    app.register_blueprint(group_bp)
+    app.register_blueprint(message_bp)
+    app.register_blueprint(multimedia_bp)
+    app.register_blueprint(notification_bp)
+    app.register_blueprint(post_bp)
+    app.register_blueprint(user_bp)
 
     # register custom response class
     app.response_class = response.JSONResponse
@@ -31,6 +49,7 @@ def create_app():
     response.json_error_handler(app=app)
 
     # initialize the database
+    drop_db()
     init_db()
 
     return app
