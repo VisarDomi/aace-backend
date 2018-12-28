@@ -33,7 +33,7 @@ class Role(BaseModel, ModelSerializerMixin):
     User.role
     """
     __tablename__ = 'roles'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
 
     users = relationship('User', backref='role', lazy='dynamic')
@@ -72,13 +72,13 @@ class User(BaseModel, ModelSerializerMixin):
     MessageGroup.users.all()
     """
     __tablename__ = 'users'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     name = Column(String)
     surname = Column(String)
     email = Column(String, unique=True)
     password_hash = Column(String)
-    phone = Column(Integer)
+    phone = Column(String, unique=True)
     image_file = Column(String)
     is_active = Column(Boolean)
     
@@ -128,7 +128,7 @@ class Education(BaseModel, ModelSerializerMixin):
     Document.education
     """
     __tablename__ = 'educations'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     
     name = Column(String)
 
@@ -145,7 +145,7 @@ class Experience(BaseModel, ModelSerializerMixin):
     Document.experience
     """
     __tablename__ = 'experiences'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     
     name = Column(String)
 
@@ -161,7 +161,7 @@ class Qualification(BaseModel, ModelSerializerMixin):
     Document.qualifications
     """
     __tablename__ = 'qualifications'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     name = Column(String)
 
@@ -178,7 +178,7 @@ class Document(BaseModel, ModelSerializerMixin):
     Document.qualifications
     """
     __tablename__ = 'documents'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     name = Column(String)
     url = Column(String)
@@ -193,7 +193,7 @@ class Privilege(BaseModel, ModelSerializerMixin):
     Privilege.users.all()
     """
     __tablename__ = 'privileges'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     name = Column(String)
     
@@ -203,7 +203,7 @@ class Group(BaseModel, ModelSerializerMixin):
     Group.users.all()
     """
     __tablename__ = 'groups'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     name = Column(String, unique=True)
 
@@ -223,7 +223,7 @@ class Event(BaseModel, ModelSerializerMixin):
     Event.users.all()
     """
     __tablename__ = 'events'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     
     text = Column(Text)
     timestamp = Column(DateTime, default=datetime.utcnow)
@@ -247,18 +247,18 @@ class Post(BaseModel, ModelSerializerMixin):
     Video.post
     """
     __tablename__ = 'posts'
-    id = Column(Integer, primary_key = True, autoincrement=True)
-    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
     text = Column(Text)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
     user_id = Column(Integer, ForeignKey('users.id'))
     event_id = Column(Integer, ForeignKey('events.id'))
-    
+
     comments = relationship('Comment', backref='post', lazy='dynamic')
     images = relationship('Image', backref='post', lazy='dynamic')
     videos = relationship('Video', backref='post', lazy='dynamic')
-    
+
 class Comment(BaseModel, ModelSerializerMixin):
     """
     User.comments.all()
@@ -267,7 +267,7 @@ class Comment(BaseModel, ModelSerializerMixin):
     Comment.post
     """
     __tablename__ = 'comments'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     
     text = Column(Text)
     timestamp = Column(DateTime, default=datetime.utcnow)
@@ -288,7 +288,7 @@ class Message(BaseModel, ModelSerializerMixin):
     Video.message
     """
     __tablename__ = 'messages'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     text = Column(Text)
     timestamp = Column(DateTime, default=datetime.utcnow)
@@ -309,7 +309,7 @@ class MessageRecipient(BaseModel, ModelSerializerMixin):
     MessageRecipient.messagegroup
     """
     __tablename__ = 'messagerecipients'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     is_read = Column(Boolean)
 
     message_id = Column(Integer, ForeignKey('messages.id'))
@@ -341,7 +341,7 @@ class Image(BaseModel, ModelSerializerMixin):
     Image.post
     """
     __tablename__ = 'images'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     image_path = Column(String)
 
@@ -357,7 +357,7 @@ class Video(BaseModel, ModelSerializerMixin):
     Video.post
     """
     __tablename__ = 'videos'
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     video_path = Column(String)
 

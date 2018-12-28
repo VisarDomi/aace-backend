@@ -6,10 +6,11 @@ from . import bp
 from . import domain
 
 
-# @bp.route('/foss', methods=['POST'])
-# @schema('create_foss.json')
-# def create_foss():
-#     return domain.create_foss(request.json)
+@bp.route('/api/post', methods=['POST'])
+@schema('create_post.json')
+# @auth.login_required
+def create_post():
+    return domain.create_post(request.json)
 
 
 # @bp.route('/foss', methods=['GET'])
