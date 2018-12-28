@@ -1,5 +1,5 @@
 from flask import Flask
-
+from flask_login import LoginManager
 from .common.database import init_db, drop_db
 from .common.middleware import after_request_middleware, before_request_middleware, teardown_appcontext_middleware
 from .common.middleware import response
@@ -18,7 +18,7 @@ from config import Config
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
-
+login_manager = LoginManager()
 def create_app():
 
     # initialize flask application
@@ -27,6 +27,9 @@ def create_app():
     # config app
     app.config.from_object(Config)
 
+    # Set the secret key to some random bytes. Keep this really secret!
+    app.secret_key = b'[2;d&4a(2ks?.<02-s\l)]'
+    login_manager.init_app(app)
     # register all blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(admin_bp)

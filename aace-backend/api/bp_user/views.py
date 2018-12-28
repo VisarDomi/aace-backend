@@ -1,7 +1,6 @@
 from flask import request
 
 from ..common.validation import schema
-
 from . import bp
 from . import domain
 
@@ -32,7 +31,6 @@ def get_user(user_id):
 def update_user(user_id):
     return domain.update_user(request.json, user_id)
 
-
 @bp.route('/api/user/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
     domain.delete_user(user_id)
@@ -40,3 +38,11 @@ def delete_user(user_id):
     return {
         'message': 'User with `id: %s` has been deleted.' % user_id
     }
+
+@bp.route('/login', methods=['POST'])
+def login():
+    login_user(user)
+
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return domain.get_user_object(user_id)

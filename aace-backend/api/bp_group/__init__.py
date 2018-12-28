@@ -1,7 +1,7 @@
 from flask import Blueprint
 
 
-BP_NAME = 'group'
+BP_NAME = 'bp_group'
 bp = Blueprint(BP_NAME, __name__)
 
 from . import views

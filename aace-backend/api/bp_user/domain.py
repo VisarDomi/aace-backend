@@ -56,3 +56,11 @@ def delete_user(user_id):
     :type user_id: integer
     """
     backend.delete_user(user_id)
+
+def get_user_object(user_id):
+    """Get user object
+    :param user_id: id of the User object to be returned
+    :type user_id: integer
+    """
+
+    backend.get_user_by_id(user_id)

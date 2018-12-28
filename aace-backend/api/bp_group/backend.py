@@ -1,43 +1,55 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
-from ..common.exceptions import RecordAlreadyExists, RecordNotFound
+from ..common.exceptions import RecordAlreadyExists, RecordNotFound, MissingArguments
 
-# from .models import Foss
-
-
-# def create_foss(foss_data):
-#     foss = Foss(**foss_data)
-#     try:
-#         foss.save()
-#     except IntegrityError:
-#         msg = 'Email `%s` already has been taken' % foss_data['email']
-#         raise RecordAlreadyExists(message=msg)
-
-#     return foss
+from ..common.models import Group
+from ..common.models import User
 
 
-# def get_foss_by_id(foss_id):
-#     try:
-#         result = Foss.query.filter(Foss.id == foss_id).one()
-#     except NoResultFound:
-#         msg = 'There is no Foss with `id: %s`' % id
-#         raise RecordNotFound(message=msg)
+def create_group(group_data):
 
-#     return result
+    if group_data['name'] is None: 
+        msg = "Please provide an name."
+        raise MissingArguments(message=msg)
+    # if Group.query.filter_by(email = group_data['email']).first() is not None: 
+    #     print("existing group")
+    #     # abort(400) #existing group
+    
+    group = Group(**group_data)
+    print("The group is: ", group)
+    try:
+        group.save()
+    except IntegrityError:
+        msg = 'Group `%s` has been already created.' % group_data['name']
+        raise RecordAlreadyExists(message=msg)
+
+    return group
 
 
-# def get_all_fosses():
-#     return Foss.query.all()
+def get_group_by_id(group_id):
+    try:
+        result = Group.query.filter(Group.id == group_id).one()
+    except NoResultFound:
+        msg = 'There is no Group with `id: %s`' % id
+        raise RecordNotFound(message=msg)
+
+    return result
 
 
-# def update_foss(foss_data, foss_id):
-#     foss = get_foss_by_id(foss_id)
-#     foss.update(**foss_data)
-
-#     return foss
+def get_all_groups():
+    return Group.query.all()
 
 
-# def delete_foss(foss_id):
-#     foss = get_foss_by_id(foss_id)
-#     foss.delete()
+def update_group(group_data, group_id):
+    group = get_group_by_id(group_id)
+    # group.update(**group_data)
+    user = User.query.filter(User.id == group_data['user_id']).one()
+    group.users.append(user)
+
+    return group
+
+
+def delete_group(group_id):
+    group = get_group_by_id(group_id)
+    group.delete()

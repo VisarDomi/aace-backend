@@ -205,7 +205,7 @@ class Group(BaseModel, ModelSerializerMixin):
     __tablename__ = 'groups'
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    name = Column(String)
+    name = Column(String, unique=True)
 
     def __repr__(self):
         return 'Group: {}'.format(self.name)
