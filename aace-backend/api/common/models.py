@@ -78,7 +78,7 @@ class User(BaseModel, ModelSerializerMixin):
     surname = Column(String)
     email = Column(String, unique=True)
     password_hash = Column(String)
-    phone = Column(String)
+    phone = Column(Integer)
     image_file = Column(String)
     is_active = Column(Boolean)
     
@@ -205,7 +205,7 @@ class Group(BaseModel, ModelSerializerMixin):
     __tablename__ = 'groups'
     id = Column(Integer, primary_key = True, autoincrement=True)
 
-    name = Column(String)
+    name = Column(String, unique=True)
 
     def __repr__(self):
         return 'Group: {}'.format(self.name)

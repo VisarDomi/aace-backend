@@ -29,7 +29,6 @@ def get_user(user_id):
 def update_user(user_id):
     return domain.update_user(request.json, user_id)
 
-
 @bp.route('/api/user/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
     domain.delete_user(user_id)
