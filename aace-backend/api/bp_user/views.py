@@ -5,6 +5,8 @@ from ..common.validation import schema
 from . import bp
 from . import domain
 
+from flask_httpauth import HTTPBasicAuth
+auth = HTTPBasicAuth()
 
 
 
@@ -13,7 +15,7 @@ from . import domain
 def create_user():
     return domain.create_user(request.json)
 
-
+@auth.login_required
 # @bp.route('/foss', methods=['GET'])
 # def get_fosses():
 #     return domain.get_all_fosses()

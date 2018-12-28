@@ -78,7 +78,7 @@ class User(BaseModel, ModelSerializerMixin):
     surname = Column(String)
     email = Column(String, unique=True)
     password_hash = Column(String)
-    phone = Column(String)
+    phone = Column(String, unique=True)
     image_file = Column(String)
     is_active = Column(Boolean)
     
