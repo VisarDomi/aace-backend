@@ -14,26 +14,26 @@ def create_user():
     return domain.create_user(request.json)
 
 
-# @bp.route('/foss', methods=['GET'])
-# def get_fosses():
-#     return domain.get_all_fosses()
+@bp.route('/api/users', methods=['GET'])
+def get_users():
+    return domain.get_all_users()
 
 
-# @bp.route('/foss/<foss_id>', methods=['GET'])
-# def get_foss(foss_id):
-#     return domain.get_foss_by_id(foss_id)
+@bp.route('/api/user/<user_id>', methods=['GET'])
+def get_user(user_id):
+    return domain.get_user_by_id(user_id)
 
 
-# @bp.route('/foss/<foss_id>', methods=['PUT'])
-# @schema('/update_foss.json')
-# def update_foss(foss_id):
-#     return domain.update_foss(request.json, foss_id)
+@bp.route('/api/user/<user_id>', methods=['PUT'])
+@schema('/update_user.json')
+def update_user(user_id):
+    return domain.update_user(request.json, user_id)
 
 
-# @bp.route('/foss/<foss_id>', methods=['DELETE'])
-# def delete_foss(foss_id):
-#     domain.delete_foss(foss_id)
+@bp.route('/api/user/<user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    domain.delete_user(user_id)
 
-#     return {
-#         'message': 'Foss with `id: %s` has been deleted.' % foss_id
-#     }
+    return {
+        'message': 'User with `id: %s` has been deleted.' % user_id
+    }
