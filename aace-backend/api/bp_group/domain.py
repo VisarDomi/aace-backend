@@ -1,58 +1,58 @@
 from . import backend
 
 
-# def create_foss(foss_data):
-#     """Create Foss.
-#     :param foss_data: Foss information
-#     :type foss_data: dict
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.create_foss(foss_data)
+def create_group(group_data):
+    """Create group.
+    :param group_data: group information
+    :type group_data: dict
+    :returns: serialized group object
+    :rtype: dict
+    """
+    group = backend.create_group(group_data)
 
-#     return foss.to_dict()
-
-
-# def get_foss_by_id(foss_id):
-#     """Get Foss by id.
-#     :param foss_id: id of the foss to be retrived
-#     :type foss_id: integer
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.get_foss_by_id(foss_id)
-
-#     return foss.to_dict()
+    return group.to_dict()
 
 
-# def get_all_fosses():
-#     """Get all Fosses.
-#     :returns: serialized Foss objects
-#     :rtype: list
-#     """
-#     fosses = backend.get_all_fosses()
-#     return [
-#         foss.to_dict() for foss in fosses
-#     ]
+def get_group_by_id(group_id):
+    """Get Group by id.
+    :param group_id: id of the group to be retrived
+    :type group_id: integer
+    :returns: serialized Group object
+    :rtype: dict
+    """
+    group = backend.get_group_by_id(group_id)
+
+    return group.to_dict()
 
 
-# def update_foss(foss_data, foss_id):
-#     """Update Foss.
-#     :param foss_data: Foss information
-#     :type foss_data: dict
-#     :param foss_id: id of the Foss to be updated
-#     :type foss_id: integer
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.update_foss(foss_data, foss_id)
-
-#     return foss.to_dict()
+def get_all_groups():
+    """Get all groups.
+    :returns: serialized Group objects
+    :rtype: list
+    """
+    groups = backend.get_all_groups()
+    return [
+        group.to_dict() for group in groups
+    ]
 
 
-# def delete_foss(foss_id):
-#     """Delete Foss.
-#     :param foss_id: id of the Foss to be deleted
-#     :type foss_id: integer
-#     """
-#     backend.delete_foss(foss_id)
+def update_group(group_data, group_id):
+    """Update Group.
+    :param group_data: Group information
+    :type group_data: dict
+    :param group_id: id of the Group to be updated
+    :type group_id: integer
+    :returns: serialized Group object
+    :rtype: dict
+    """
+    group = backend.update_group(group_data, group_id)
+
+    return group.to_dict()
+
+
+def delete_group(group_id):
+    """Delete Group.
+    :param group_id: id of the Group to be deleted
+    :type group_id: integer
+    """
+    backend.delete_group(group_id)
