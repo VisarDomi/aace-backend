@@ -49,7 +49,7 @@ def create_app():
     response.json_error_handler(app=app)
 
     # initialize the database
-    drop_db()
+    # drop_db()
     init_db()
 
     return app

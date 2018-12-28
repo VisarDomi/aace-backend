@@ -4,6 +4,7 @@ from ..common.database import BaseModel
 from ..common.serializers import ModelSerializerMixin
 
 from datetime import datetime
+from passlib.apps import custom_app_context as pwd_context
 
 user_privilege = Table('user_privilege', BaseModel.metadata,
             Column('user_id', Integer, ForeignKey('users.id')),
@@ -75,8 +76,8 @@ class User(BaseModel, ModelSerializerMixin):
 
     name = Column(String)
     surname = Column(String)
-    email = Column(String)
-    password = Column(String)
+    email = Column(String, unique=True)
+    password_hash = Column(String)
     phone = Column(String)
     image_file = Column(String)
     is_active = Column(Boolean)
@@ -109,6 +110,11 @@ class User(BaseModel, ModelSerializerMixin):
                     backref=backref('users', lazy='dynamic'),
                     lazy='dynamic')
 
+    def hash_password(self, password):
+        self.password_hash = pwd_context.encrypt(password)
+
+    def verify_password(self, password):
+        return pwd_context.verify(password, self.password_hash)
 
     def __repr__(self):
         return f"User({self.name} {self.surname})"

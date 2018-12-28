@@ -1,4 +1,4 @@
-from werkzeug.exceptions import Conflict, NotFound, Unauthorized
+from werkzeug.exceptions import Conflict, NotFound, Unauthorized, BadRequest
 
 
 class JSONException(Exception):
@@ -68,3 +68,10 @@ class RecordAlreadyExists(DatabaseError):
     Raised in the case of violation of a unique constraint.
     """
     status_code = Conflict.code
+
+class MissingArguments(Exception):
+    """
+    Raised when the user hasn't supplied the arguments. 
+    This is also enforced on the front-end, so technically there is no need for this, but it's just an additional security measure.
+    """
+    status_code = BadRequest.code

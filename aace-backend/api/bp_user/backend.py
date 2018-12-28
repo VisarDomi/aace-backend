@@ -1,20 +1,30 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
-from ..common.exceptions import RecordAlreadyExists, RecordNotFound
+from ..common.exceptions import RecordAlreadyExists, RecordNotFound, MissingArguments
 
-# from .models import Foss
+from ..common.models import User
 
 
-# def create_foss(foss_data):
-#     foss = Foss(**foss_data)
-#     try:
-#         foss.save()
-#     except IntegrityError:
-#         msg = 'Email `%s` already has been taken' % foss_data['email']
-#         raise RecordAlreadyExists(message=msg)
+def create_user(user_data):
 
-#     return foss
+    if user_data['email'] is None or user_data['password'] is None: 
+        msg = "Please provide an email and a password."
+        raise MissingArguments(message=msg)
+    # if User.query.filter_by(email = user_data['email']).first() is not None: 
+    #     print("existing user")
+    #     # abort(400) #existing user
+    
+    user = User(**user_data)
+    user.hash_password(user_data['password'])
+    print("The user is: ", user)
+    try:
+        user.save()
+    except IntegrityError:
+        msg = 'Email `%s` is already in use for another account.' % user_data['email']
+        raise RecordAlreadyExists(message=msg)
+
+    return user
 
 
 # def get_foss_by_id(foss_id):

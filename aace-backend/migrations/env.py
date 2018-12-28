@@ -7,7 +7,6 @@ from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
 from api.common.database import BaseModel
 
 
@@ -23,6 +22,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+
 from api.common import models  
 target_metadata = models.BaseModel.metadata
 
