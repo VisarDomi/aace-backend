@@ -1,4 +1,4 @@
-from ..models import Foss
+from api.foss.models import Foss
 
 
 def test_create_foss_implicitly():

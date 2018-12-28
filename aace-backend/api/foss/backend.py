@@ -3,7 +3,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from ..common.exceptions import RecordAlreadyExists, RecordNotFound
 
-from ..models import Foss
+from .models import Foss
 
 
 def create_foss(foss_data):
