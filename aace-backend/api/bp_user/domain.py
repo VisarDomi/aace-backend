@@ -13,46 +13,46 @@ def create_user(user_data):
     return user.to_dict()
 
 
-# def get_foss_by_id(foss_id):
-#     """Get Foss by id.
-#     :param foss_id: id of the foss to be retrived
-#     :type foss_id: integer
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.get_foss_by_id(foss_id)
+def get_user_by_id(user_id):
+    """Get User by id.
+    :param user_id: id of the user to be retrived
+    :type user_id: integer
+    :returns: serialized User object
+    :rtype: dict
+    """
+    user = backend.get_user_by_id(user_id)
 
-#     return foss.to_dict()
-
-
-# def get_all_fosses():
-#     """Get all Fosses.
-#     :returns: serialized Foss objects
-#     :rtype: list
-#     """
-#     fosses = backend.get_all_fosses()
-#     return [
-#         foss.to_dict() for foss in fosses
-#     ]
+    return user.to_dict()
 
 
-# def update_foss(foss_data, foss_id):
-#     """Update Foss.
-#     :param foss_data: Foss information
-#     :type foss_data: dict
-#     :param foss_id: id of the Foss to be updated
-#     :type foss_id: integer
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.update_foss(foss_data, foss_id)
-
-#     return foss.to_dict()
+def get_all_users():
+    """Get all Users.
+    :returns: serialized User objects
+    :rtype: list
+    """
+    users = backend.get_all_users()
+    return [
+        user.to_dict() for user in users
+    ]
 
 
-# def delete_foss(foss_id):
-#     """Delete Foss.
-#     :param foss_id: id of the Foss to be deleted
-#     :type foss_id: integer
-#     """
-#     backend.delete_foss(foss_id)
+def update_user(user_data, user_id):
+    """Update User.
+    :param user_data: User information
+    :type user_data: dict
+    :param user_id: id of the User to be updated
+    :type user_id: integer
+    :returns: serialized User object
+    :rtype: dict
+    """
+    user = backend.update_user(user_data, user_id)
+
+    return user.to_dict()
+
+
+def delete_user(user_id):
+    """Delete User.
+    :param user_id: id of the User to be deleted
+    :type user_id: integer
+    """
+    backend.delete_user(user_id)
