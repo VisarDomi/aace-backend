@@ -3,18 +3,13 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from ..common.exceptions import RecordAlreadyExists, RecordNotFound
 
-# from .models import Foss
+from ..common.models import User, Post
 
+from flask_login import login_manager
 
-# def create_foss(foss_data):
-#     foss = Foss(**foss_data)
-#     try:
-#         foss.save()
-#     except IntegrityError:
-#         msg = 'Email `%s` already has been taken' % foss_data['email']
-#         raise RecordAlreadyExists(message=msg)
-
-#     return foss
+def create_post(post_data):
+    post = Post(**post_data)
+    return post
 
 
 # def get_foss_by_id(foss_id):

@@ -1,16 +1,16 @@
 from . import backend
 
 
-# def create_foss(foss_data):
-#     """Create Foss.
-#     :param foss_data: Foss information
-#     :type foss_data: dict
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.create_foss(foss_data)
+def create_post(post_data):
+    """Create post.
+    :param post_data: post information
+    :type post_data: dict
+    :returns: serialized post object
+    :rtype: dict
+    """
+    post = backend.create_post(post_data)
 
-#     return foss.to_dict()
+    return post.to_dict()
 
 
 # def get_foss_by_id(foss_id):

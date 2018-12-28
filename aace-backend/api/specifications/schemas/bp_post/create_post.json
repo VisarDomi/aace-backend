@@ -1,0 +1,14 @@
+{
+  "title": "Create post",
+  "description": "Create a post object",
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "required": [
+    "text"
+  ],
+  "properties": {
+    "text": {
+      "type": "string"
+    }
+  }
+}
