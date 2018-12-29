@@ -45,7 +45,6 @@ def enable_cors(response):
     These headers are needed for the clients that
     will consume the API via AJAX requests.
     """
-    print('entered enable_cors')
     if request.method == OPTIONS_METHOD:
         response = current_app.make_default_options_response()
     response.headers[ACL_ORIGIN] = ALLOWED_ORIGINS
@@ -61,12 +60,9 @@ def commit_session(response):
     of a successful request with status_code
     under 400.
     """
-    print('status code from response: ')
-    print(response.status_code)
     if response.status_code >= 400:
         return response
     try:
-        print('about to commit session')
         db_session.commit()
     except DatabaseError:
         db_session.rollback()

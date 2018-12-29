@@ -25,15 +25,7 @@ def create_group(group_data):
 
     return group
 
-def return_group(group):
-    users = group.users.all()
-    group = group.to_dict()
-    users = {x.id: x.to_dict() for x in users}
-    return_object = {
-                        "group_data" : {**group},
-                        "users" : {**users}
-                    }
-    return return_object
+
 
 def get_group_by_id(group_id):
     try:
@@ -46,7 +38,6 @@ def get_group_by_id(group_id):
 
 def get_group(group_id):
     group = get_group_by_id(group_id)
-    group = return_group(group)
     return group
 
 def get_all_groups():
@@ -56,7 +47,6 @@ def get_all_groups():
 def update_group(group_data, group_id):
     group = get_group_by_id(group_id)
     group.update(**group_data)
-    group = return_group(group)
     return group
 
 
@@ -69,7 +59,6 @@ def remove_user_from_group(group_data, group_id):
     user = User.query.filter(User.id == group_data['user_id']).one()
     group.users.remove(user)
     group.save()
-    group = return_group(group)
     return group
 
 
@@ -78,7 +67,6 @@ def add_user_to_group(group_data, group_id):
     user = User.query.filter(User.id == group_data['user_id']).one()
     group.users.append(user)
     group.save()
-    group = return_group(group)
     return group
 
 

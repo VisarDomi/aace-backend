@@ -1,5 +1,17 @@
 from . import backend
 
+from ..common.models import Group
+from ..common.models import User
+
+def return_group(group):
+    users = group.users.all()
+    group = group.to_dict()
+    users = {x.id: x.to_dict() for x in users}
+    return_object = {
+                        "group_data" : {**group},
+                        "users" : {**users}
+                    }
+    return return_object
 
 def create_group(group_data):
     """Create group.
@@ -9,9 +21,8 @@ def create_group(group_data):
     :rtype: dict
     """
     group = backend.create_group(group_data)
-
-    return group.to_dict()
-
+    group = return_group(group)
+    return group
 
 def get_group(group_id):
     """Get Group by id.
@@ -21,9 +32,8 @@ def get_group(group_id):
     :rtype: dict
     """
     group = backend.get_group(group_id)
-    
+    group = return_group(group)
     return group
-
 
 def get_all_groups():
     """Get all groups.
@@ -46,7 +56,7 @@ def update_group(group_data, group_id):
     :rtype: dict
     """
     group = backend.update_group(group_data, group_id)
-
+    group = return_group(group)
     return group
 
 
@@ -59,10 +69,12 @@ def delete_group(group_id):
 
 def add_user_to_group(group_data, group_id):
     group = backend.add_user_to_group(group_data, group_id)
+    group = return_group(group)
     return group
 
 def remove_user_from_group(group_data, group_id):
     group = backend.remove_user_from_group(group_data, group_id)
+    group = return_group(group)
     return group
 
 

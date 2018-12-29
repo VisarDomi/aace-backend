@@ -9,8 +9,8 @@ from flask_login import login_manager
 
 def create_post(post_data):
     post = Post(**post_data)
+    post.save()
     return post
-
 
 def get_post_by_id(post_id):
     try:
@@ -22,7 +22,7 @@ def get_post_by_id(post_id):
     return result
 
 
-def get_all_postes():
+def get_all_posts():
     return Post.query.all()
 
 
