@@ -47,7 +47,7 @@ def update_group(group_data, group_id):
     """
     group = backend.update_group(group_data, group_id)
 
-    return group.to_dict()
+    return group
 
 
 def delete_group(group_id):
@@ -61,8 +61,8 @@ def add_user_to_group(group_data, group_id):
     group = backend.add_user_to_group(group_data, group_id)
     return group
 
-def remove_user_to_group(group_data, group_id):
-    group = backend.remove_user_to_group(group_data, group_id)
+def remove_user_from_group(group_data, group_id):
+    group = backend.remove_user_from_group(group_data, group_id)
     return group
 
 

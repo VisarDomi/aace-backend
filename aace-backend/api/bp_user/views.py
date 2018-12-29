@@ -16,7 +16,7 @@ def create_user():
 
 
 @bp.route('/api/users', methods=['GET'])
-@auth.login_required
+# @auth.login_required
 def get_users():
     return domain.get_all_users()
 
