@@ -3,9 +3,8 @@ from flask import request
 from ..common.validation import schema
 from . import bp
 from . import domain
+from ..bp_auth.views import token_auth
 
-from flask_httpauth import HTTPBasicAuth
-auth = HTTPBasicAuth()
 
 
 
@@ -16,7 +15,7 @@ def create_user():
 
 
 @bp.route('/api/users', methods=['GET'])
-# @auth.login_required
+@token_auth.login_required
 def get_users():
     return domain.get_all_users()
 

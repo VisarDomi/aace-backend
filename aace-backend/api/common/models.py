@@ -2,9 +2,11 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, Foreign
 from sqlalchemy.orm import relationship, backref
 from ..common.database import BaseModel
 from ..common.serializers import ModelSerializerMixin
-
-from datetime import datetime
-from passlib.apps import custom_app_context as pwd_context
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime, timedelta
+import base64
+import os
 
 user_privilege = Table('user_privilege', BaseModel.metadata,
             Column('user_id', Integer, ForeignKey('users.id')),
@@ -41,7 +43,7 @@ class Role(BaseModel, ModelSerializerMixin):
     def __repr__(self):
         return f"Role: {self.name}"
 
-class User(BaseModel, ModelSerializerMixin):
+class User(BaseModel, UserMixin, ModelSerializerMixin):
     """
     Role.users.all()
     User.role
@@ -78,6 +80,8 @@ class User(BaseModel, ModelSerializerMixin):
     surname = Column(String)
     email = Column(String, unique=True)
     password_hash = Column(String)
+    token = Column(String, index=True, unique=True)
+    token_expiration = Column(DateTime)
     phone = Column(String, unique=True)
     image_file = Column(String)
     is_active = Column(Boolean)
@@ -110,11 +114,31 @@ class User(BaseModel, ModelSerializerMixin):
                     backref=backref('users', lazy='dynamic'),
                     lazy='dynamic')
 
-    def hash_password(self, password):
-        self.password_hash = pwd_context.encrypt(password)
 
-    def verify_password(self, password):
-        return pwd_context.verify(password, self.password_hash)
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def get_token(self, expires_in=3600):
+        now = datetime.utcnow()
+        if self.token and self.token_expiration > now + timedelta(seconds=60):
+            return self.token
+        self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
+        self.token_expiration = now + timedelta(seconds=expires_in)
+        self.save()
+        return self.token
+
+    def revoke_token(self):
+        self.token_expiration = datetime.utcnow() - timedelta(seconds=1)
+
+    @staticmethod
+    def check_token(token):
+        user = User.query.filter_by(token=token).first()
+        if user is None or user.token_expiration < datetime.utcnow():
+            return None
+        return user
 
     def __repr__(self):
         return f"User({self.name} {self.surname})"

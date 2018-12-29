@@ -14,7 +14,9 @@ def create_user(user_data):
 
     
     user = User(**user_data)
-    user.hash_password(user_data['password'])
+    print("the user data is: ", user_data)
+    print("The created user is: ", user)
+    user.set_password(user_data['password'])
     print("The user is: ", user)
     try:
         user.save()
