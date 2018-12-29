@@ -13,16 +13,16 @@ def create_group(group_data):
     return group.to_dict()
 
 
-def get_group_by_id(group_id):
+def get_group(group_id):
     """Get Group by id.
     :param group_id: id of the group to be retrived
     :type group_id: integer
     :returns: serialized Group object
     :rtype: dict
     """
-    group = backend.get_group_by_id(group_id)
-
-    return group.to_dict()
+    group = backend.get_group(group_id)
+    
+    return group
 
 
 def get_all_groups():
@@ -56,3 +56,14 @@ def delete_group(group_id):
     :type group_id: integer
     """
     backend.delete_group(group_id)
+
+def add_user_to_group(group_data, group_id):
+    group = backend.add_user_to_group(group_data, group_id)
+    return group
+
+def remove_user_to_group(group_data, group_id):
+    group = backend.remove_user_to_group(group_data, group_id)
+    return group
+
+
+
