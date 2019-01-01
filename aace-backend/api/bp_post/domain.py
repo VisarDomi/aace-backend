@@ -13,46 +13,46 @@ def create_post(post_data):
     return post.to_dict()
 
 
-# def get_foss_by_id(foss_id):
-#     """Get Foss by id.
-#     :param foss_id: id of the foss to be retrived
-#     :type foss_id: integer
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.get_foss_by_id(foss_id)
+def get_post_by_id(post_id):
+    """Get Post by id.
+    :param post_id: id of the post to be retrived
+    :type post_id: integer
+    :returns: serialized Post object
+    :rtype: dict
+    """
+    post = backend.get_post_by_id(post_id)
 
-#     return foss.to_dict()
-
-
-# def get_all_fosses():
-#     """Get all Fosses.
-#     :returns: serialized Foss objects
-#     :rtype: list
-#     """
-#     fosses = backend.get_all_fosses()
-#     return [
-#         foss.to_dict() for foss in fosses
-#     ]
+    return post.to_dict()
 
 
-# def update_foss(foss_data, foss_id):
-#     """Update Foss.
-#     :param foss_data: Foss information
-#     :type foss_data: dict
-#     :param foss_id: id of the Foss to be updated
-#     :type foss_id: integer
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.update_foss(foss_data, foss_id)
-
-#     return foss.to_dict()
+def get_all_posts():
+    """Get all Posts.
+    :returns: serialized Post objects
+    :rtype: list
+    """
+    posts = backend.get_all_posts()
+    return [
+        post.to_dict() for post in posts
+    ]
 
 
-# def delete_foss(foss_id):
-#     """Delete Foss.
-#     :param foss_id: id of the Foss to be deleted
-#     :type foss_id: integer
-#     """
-#     backend.delete_foss(foss_id)
+def update_post(post_data, post_id):
+    """Update Post.
+    :param post_data: Post information
+    :type post_data: dict
+    :param post_id: id of the Post to be updated
+    :type post_id: integer
+    :returns: serialized Post object
+    :rtype: dict
+    """
+    post = backend.update_post(post_data, post_id)
+
+    return post.to_dict()
+
+
+def delete_post(post_id):
+    """Delete Post.
+    :param post_id: id of the Post to be deleted
+    :type post_id: integer
+    """
+    backend.delete_post(post_id)

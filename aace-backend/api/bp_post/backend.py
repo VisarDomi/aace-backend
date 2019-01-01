@@ -9,30 +9,30 @@ from flask_login import login_manager
 
 def create_post(post_data):
     post = Post(**post_data)
+    post.save()
+    return post
+
+def get_post_by_id(post_id):
+    try:
+        result = Post.query.filter(Post.id == post_id).one()
+    except NoResultFound:
+        msg = 'There is no Post with `id: %s`' % id
+        raise RecordNotFound(message=msg)
+
+    return result
+
+
+def get_all_posts():
+    return Post.query.all()
+
+
+def update_post(post_data, post_id):
+    post = get_post_by_id(post_id)
+    post.update(**post_data)
+
     return post
 
 
-# def get_foss_by_id(foss_id):
-#     try:
-#         result = Foss.query.filter(Foss.id == foss_id).one()
-#     except NoResultFound:
-#         msg = 'There is no Foss with `id: %s`' % id
-#         raise RecordNotFound(message=msg)
-
-#     return result
-
-
-# def get_all_fosses():
-#     return Foss.query.all()
-
-
-# def update_foss(foss_data, foss_id):
-#     foss = get_foss_by_id(foss_id)
-#     foss.update(**foss_data)
-
-#     return foss
-
-
-# def delete_foss(foss_id):
-#     foss = get_foss_by_id(foss_id)
-#     foss.delete()
+def delete_post(post_id):
+    post = get_post_by_id(post_id)
+    post.delete()

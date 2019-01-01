@@ -1,37 +1,48 @@
-from flask import request
-
+from flask import request,jsonify,g
 from ..common.validation import schema
 
 from . import bp
 from . import domain
+from ..common.models import User
+
+from flask_httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPTokenAuth
+basic_auth = HTTPBasicAuth()
+token_auth = HTTPTokenAuth()
+
+def get_token():
+    pass
+
+def revoke_token():
+    pass
+
+@basic_auth.verify_password
+def verify_password(email, password):
+    print("In verification password I get: ", email, password)
+    user = User.query.filter_by(email=email).first()
+    print("I got user: ", user)
+    if user is None:
+        return False
+    g.current_user = user
+    return user.check_password(password)
+
+@basic_auth.error_handler
+def basic_auth_error():
+    return {"error message":"401"}
+
+@bp.route('/tokens', methods=['POST'])
+@basic_auth.login_required
+def get_token():
+    token = g.current_user.get_token()
+    g.current_user.save()
+    return jsonify({'token': token})
 
 
-# @bp.route('/foss', methods=['POST'])
-# @schema('create_foss.json')
-# def create_foss():
-#     return domain.create_foss(request.json)
+@token_auth.verify_token
+def verify_token(token):
+    g.current_user = User.check_token(token) if token else None
+    return g.current_user is not None
 
-
-# @bp.route('/foss', methods=['GET'])
-# def get_fosses():
-#     return domain.get_all_fosses()
-
-
-# @bp.route('/foss/<foss_id>', methods=['GET'])
-# def get_foss(foss_id):
-#     return domain.get_foss_by_id(foss_id)
-
-
-# @bp.route('/foss/<foss_id>', methods=['PUT'])
-# @schema('/update_foss.json')
-# def update_foss(foss_id):
-#     return domain.update_foss(request.json, foss_id)
-
-
-# @bp.route('/foss/<foss_id>', methods=['DELETE'])
-# def delete_foss(foss_id):
-#     domain.delete_foss(foss_id)
-
-#     return {
-#         'message': 'Foss with `id: %s` has been deleted.' % foss_id
-#     }
+@token_auth.error_handler
+def token_auth_error():
+    return {"error message":"401"}

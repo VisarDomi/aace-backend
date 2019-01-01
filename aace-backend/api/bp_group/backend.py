@@ -12,19 +12,19 @@ def create_group(group_data):
     if group_data['name'] is None: 
         msg = "Please provide an name."
         raise MissingArguments(message=msg)
-    # if Group.query.filter_by(email = group_data['email']).first() is not None: 
-    #     print("existing group")
-    #     # abort(400) #existing group
-    
+
     group = Group(**group_data)
+    group.save()
+
     print("The group is: ", group)
-    try:
-        group.save()
-    except IntegrityError:
-        msg = 'Group `%s` has been already created.' % group_data['name']
-        raise RecordAlreadyExists(message=msg)
+    # try:
+    #     print('group saved')
+    # except IntegrityError:
+    #     msg = 'Group `%s` has been already created.' % group_data['name']
+    #     raise RecordAlreadyExists(message=msg)
 
     return group
+
 
 
 def get_group_by_id(group_id):
@@ -36,6 +36,9 @@ def get_group_by_id(group_id):
 
     return result
 
+def get_group(group_id):
+    group = get_group_by_id(group_id)
+    return group
 
 def get_all_groups():
     return Group.query.all()
@@ -43,13 +46,27 @@ def get_all_groups():
 
 def update_group(group_data, group_id):
     group = get_group_by_id(group_id)
-    # group.update(**group_data)
-    user = User.query.filter(User.id == group_data['user_id']).one()
-    group.users.append(user)
-
+    group.update(**group_data)
     return group
 
 
 def delete_group(group_id):
     group = get_group_by_id(group_id)
     group.delete()
+
+def remove_user_from_group(group_data, group_id):
+    group = get_group_by_id(group_id)
+    user = User.query.filter(User.id == group_data['user_id']).one()
+    group.users.remove(user)
+    group.save()
+    return group
+
+
+def add_user_to_group(group_data, group_id):
+    group = get_group_by_id(group_id)
+    user = User.query.filter(User.id == group_data['user_id']).one()
+    group.users.append(user)
+    group.save()
+    return group
+
+
