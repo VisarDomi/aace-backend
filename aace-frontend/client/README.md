@@ -1,29 +1,17 @@
-# client
+# Single-Page-Association-Network
+A reactive network for acce created with Vue
 
-## Project setup
-```
-npm install
-```
+# Usage
+1. First install all dependencies:
+    ```bash
+    # with npm
+    npm install
+    
+    # or with yarn
+    yarn
+    ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+2. Start the server
+    ```javascript
+    npm start [OR] yarn start
+    ```
