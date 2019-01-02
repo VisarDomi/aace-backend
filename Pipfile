@@ -27,6 +27,7 @@ sqlalchemy-utils = "==0.33.9"
 virtualenv = "==16.2.0"
 virtualenv-clone = "==0.4.0"
 werkzeug = "==0.14.1"
+flask-dotenv = "*"
 
 [requires]
 python_version = "3.7"
