@@ -53,6 +53,7 @@ def create_app(config_class=Config):
     response.json_error_handler(app=app)
 
     # initialize the database
+    # drop_db()
     init_db()
 
     if not app.debug and not app.testing:
