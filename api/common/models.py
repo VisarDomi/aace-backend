@@ -249,7 +249,7 @@ class Event(BaseModel, ModelSerializerMixin):
     __tablename__ = 'events'
     id = Column(Integer, primary_key=True, autoincrement=True)
     
-    text = Column(Text)
+    text = Column(Text(10000))
     timestamp = Column(DateTime, default=datetime.utcnow)
     
     posts = relationship('Post', backref='event', lazy='dynamic')
@@ -273,7 +273,7 @@ class Post(BaseModel, ModelSerializerMixin):
     __tablename__ = 'posts'
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    text = Column(Text)
+    text = Column(Text(10000))
     timestamp = Column(DateTime, default=datetime.utcnow)
 
     user_id = Column(Integer, ForeignKey('users.id'))
@@ -293,7 +293,7 @@ class Comment(BaseModel, ModelSerializerMixin):
     __tablename__ = 'comments'
     id = Column(Integer, primary_key=True, autoincrement=True)
     
-    text = Column(Text)
+    text = Column(Text(10000))
     timestamp = Column(DateTime, default=datetime.utcnow)
 
     user_id = Column(Integer, ForeignKey('users.id'))
@@ -314,7 +314,7 @@ class Message(BaseModel, ModelSerializerMixin):
     __tablename__ = 'messages'
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    text = Column(Text)
+    text = Column(Text(10000))
     timestamp = Column(DateTime, default=datetime.utcnow)
 
     sender_id = Column(Integer, ForeignKey('users.id'))
