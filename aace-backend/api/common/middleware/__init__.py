@@ -10,13 +10,10 @@ def before_request_middleware(app):
 
 
 def after_request_middleware(app):
-    print('                   after request commit')
     app.after_request_funcs.setdefault(None, [
         request.enable_cors,
         request.commit_session,
     ])
-
-    print('                    request sent')
 
 def teardown_appcontext_middleware (app):
     app.teardown_appcontext_funcs = [

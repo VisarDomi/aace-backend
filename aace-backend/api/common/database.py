@@ -5,8 +5,9 @@ from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy_utils import database_exists, create_database, drop_database
 
+from config import Config
 
-engine = create_engine('postgresql://postgres:postgres@localhost:5432/aace') #highly hackable
+engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
 
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,

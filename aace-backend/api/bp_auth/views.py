@@ -10,12 +10,6 @@ from flask_httpauth import HTTPTokenAuth
 basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
 
-def get_token():
-    pass
-
-def revoke_token():
-    pass
-
 @basic_auth.verify_password
 def verify_password(email, password):
     print("In verification password I get: ", email, password)
@@ -28,13 +22,12 @@ def verify_password(email, password):
 
 @basic_auth.error_handler
 def basic_auth_error():
-    return {"error message":"401"}
+    return {"error message":"basic_auth_error"}
 
-@bp.route('/tokens', methods=['POST'])
+@bp.route('/api/login', methods=['POST'])
 @basic_auth.login_required
 def get_token():
-    token = g.current_user.get_token()
-    g.current_user.save()
+    token = g.current_user.get_token(expires_in=20)
     return jsonify({'token': token})
 
 
@@ -45,4 +38,4 @@ def verify_token(token):
 
 @token_auth.error_handler
 def token_auth_error():
-    return {"error message":"401"}
+    return {"error message":"token_auth_error"}

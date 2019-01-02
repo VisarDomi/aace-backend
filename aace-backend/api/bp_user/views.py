@@ -38,9 +38,9 @@ def delete_user(user_id):
         'message': 'User with `id: %s` has been deleted.' % user_id
     }
 
-@bp.route('/login', methods=['POST'])
-def login():
-    login_user(user)
+# @bp.route('/api/login', methods=['POST'])
+# def login():
+#     login_user(user)
 
 # @login_manager.user_loader
 # def load_user(user_id):

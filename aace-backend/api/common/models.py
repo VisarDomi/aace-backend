@@ -82,7 +82,7 @@ class User(BaseModel, UserMixin, ModelSerializerMixin):
     password_hash = Column(String)
     token = Column(String, index=True, unique=True)
     token_expiration = Column(DateTime)
-    phone = Column(String, unique=True)
+    phone = Column(String)
     image_file = Column(String)
     is_active = Column(Boolean)
     
