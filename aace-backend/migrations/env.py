@@ -8,10 +8,8 @@ from logging.config import fileConfig
 
 # print(sys.path.append(os.path.join(os.path.dirname(__file__), '..')))
 # print("the os path dirname file is: ", os.path.dirname(__file__))
-print("the join is: ", os.path.join(os.path.dirname(__file__), '..'))
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
 sys.path.append(parent_dir)
-print(parent_dir)
 from api.common.database import BaseModel
 
 
