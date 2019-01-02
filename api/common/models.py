@@ -21,7 +21,7 @@ user_group = Table('user_group', BaseModel.metadata,
 user_event = Table('user_event', BaseModel.metadata,
                     Column('user_id', Integer, ForeignKey('users.id')),
                     Column('event_id', Integer, ForeignKey('events.id')),
-                    Column('type_of_engagement', String),
+                    Column('type_of_engagement', String(200)),
                     )
 
 user_messagegroup = Table('user_messagegroup',  BaseModel.metadata,
@@ -36,7 +36,7 @@ class Role(BaseModel, ModelSerializerMixin):
     """
     __tablename__ = 'roles'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String)
+    name = Column(String(200))
 
     users = relationship('User', backref='role', lazy='dynamic')
 
@@ -76,14 +76,14 @@ class User(BaseModel, ModelSerializerMixin):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    name = Column(String)
-    surname = Column(String)
-    email = Column(String, unique=True)
-    password_hash = Column(String)
-    token = Column(String, index=True, unique=True)
+    name = Column(String(200))
+    surname = Column(String(200))
+    email = Column(String(200), unique=True)
+    password_hash = Column(String(200))
+    token = Column(String(200), index=True, unique=True)
     token_expiration = Column(DateTime)
-    phone = Column(String)
-    image_file = Column(String)
+    phone = Column(String(200))
+    image_file = Column(String(200))
     is_active = Column(Boolean)
     
     role_id = Column(Integer, ForeignKey('roles.id'))
@@ -154,7 +154,7 @@ class Education(BaseModel, ModelSerializerMixin):
     __tablename__ = 'educations'
     id = Column(Integer, primary_key=True, autoincrement=True)
     
-    name = Column(String)
+    name = Column(String(200))
 
     user_id = Column(Integer, ForeignKey('users.id'))
 
@@ -171,7 +171,7 @@ class Experience(BaseModel, ModelSerializerMixin):
     __tablename__ = 'experiences'
     id = Column(Integer, primary_key=True, autoincrement=True)
     
-    name = Column(String)
+    name = Column(String(200))
 
     user_id = Column(Integer, ForeignKey('users.id'))
     documents = relationship('Document', backref='experience', lazy='dynamic')
@@ -187,7 +187,7 @@ class Qualification(BaseModel, ModelSerializerMixin):
     __tablename__ = 'qualifications'
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    name = Column(String)
+    name = Column(String(200))
 
     user_id = Column(Integer, ForeignKey('users.id'))
     documents = relationship('Document', backref='qualification', lazy='dynamic')
@@ -204,8 +204,8 @@ class Document(BaseModel, ModelSerializerMixin):
     __tablename__ = 'documents'
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    name = Column(String)
-    url = Column(String)
+    name = Column(String(200))
+    url = Column(String(200))
 
     education_id = Column(Integer, ForeignKey('educations.id'))
     experience_id = Column(Integer, ForeignKey('experiences.id'))
@@ -219,7 +219,7 @@ class Privilege(BaseModel, ModelSerializerMixin):
     __tablename__ = 'privileges'
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    name = Column(String)
+    name = Column(String(200))
     
 class Group(BaseModel, ModelSerializerMixin):
     """
@@ -229,7 +229,7 @@ class Group(BaseModel, ModelSerializerMixin):
     __tablename__ = 'groups'
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    name = Column(String, unique=True)
+    name = Column(String(200), unique=True)
 
     def __repr__(self):
         return 'Group: {}'.format(self.name)
@@ -352,7 +352,7 @@ class MessageGroup(BaseModel, ModelSerializerMixin):
     __tablename__ = 'messagegroups'
     id = Column(Integer, primary_key = True, autoincrement=True)
 
-    name = Column(String)
+    name = Column(String(200))
 
     messagerecipients = relationship('MessageRecipient', backref='messagegroup', lazy='dynamic')
 
@@ -367,7 +367,7 @@ class Image(BaseModel, ModelSerializerMixin):
     __tablename__ = 'images'
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    image_path = Column(String)
+    image_path = Column(String(200))
 
     event_id = Column(Integer, ForeignKey('events.id'))
     post_id = Column(Integer, ForeignKey('posts.id'))
@@ -383,7 +383,7 @@ class Video(BaseModel, ModelSerializerMixin):
     __tablename__ = 'videos'
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    video_path = Column(String)
+    video_path = Column(String(200))
 
     event_id = Column(Integer, ForeignKey('events.id'))
     post_id = Column(Integer, ForeignKey('posts.id'))
