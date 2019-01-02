@@ -5,8 +5,6 @@ from ..common.exceptions import RecordAlreadyExists, RecordNotFound
 
 from ..common.models import User, Post
 
-from flask_login import login_manager
-
 def create_post(post_data):
     post = Post(**post_data)
     post.save()

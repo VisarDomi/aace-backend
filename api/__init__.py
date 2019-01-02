@@ -25,20 +25,17 @@ def create_app(config_class=Config):
     # config app
     app.config.from_object(config_class)
 
-    # Set the secret key to some random bytes. Keep this really secret!
-    # app.secret_key = b'[2;d&4a(2ks?.<02-s\l)]'
-
     # register all blueprints
-    app.register_blueprint(auth_bp)
-    app.register_blueprint(admin_bp)
-    app.register_blueprint(error_bp)
-    app.register_blueprint(event_bp)
-    app.register_blueprint(group_bp)
-    app.register_blueprint(message_bp)
-    app.register_blueprint(multimedia_bp)
-    app.register_blueprint(notification_bp)
-    app.register_blueprint(post_bp)
-    app.register_blueprint(user_bp)
+    app.register_blueprint(auth_bp, url_prefix='/api')
+    app.register_blueprint(admin_bp, url_prefix='/api')
+    app.register_blueprint(error_bp, url_prefix='/api')
+    app.register_blueprint(event_bp, url_prefix='/api')
+    app.register_blueprint(group_bp, url_prefix='/api')
+    app.register_blueprint(message_bp, url_prefix='/api')
+    app.register_blueprint(multimedia_bp, url_prefix='/api')
+    app.register_blueprint(notification_bp, url_prefix='/api')
+    app.register_blueprint(post_bp, url_prefix='/api')
+    app.register_blueprint(user_bp, url_prefix='/api')
 
     # register custom response class
     app.response_class = response.JSONResponse
@@ -56,7 +53,6 @@ def create_app(config_class=Config):
     response.json_error_handler(app=app)
 
     # initialize the database
-    # drop_db()
     init_db()
 
     if not app.debug and not app.testing:

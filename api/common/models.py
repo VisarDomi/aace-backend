@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, Foreign
 from sqlalchemy.orm import relationship, backref
 from ..common.database import BaseModel
 from ..common.serializers import ModelSerializerMixin
-from flask_login import UserMixin
+# from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 import base64
@@ -43,7 +43,7 @@ class Role(BaseModel, ModelSerializerMixin):
     def __repr__(self):
         return f"Role: {self.name}"
 
-class User(BaseModel, UserMixin, ModelSerializerMixin):
+class User(BaseModel, ModelSerializerMixin):
     """
     Role.users.all()
     User.role

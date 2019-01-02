@@ -6,7 +6,7 @@ from . import bp
 from . import domain
 
 
-@bp.route('/api/post', methods=['POST'])
+@bp.route('/post', methods=['POST'])
 @schema('create_post.json')
 # @auth.login_required
 def create_post():
