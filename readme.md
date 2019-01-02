@@ -22,4 +22,8 @@ pip install pipenv
 Install all packages from pipfile:
 pipenv install
 
+Then apply database migrations:
+cd migrations
+alembic upgrade head
+
 For production, remember to add .env to .gitignore.

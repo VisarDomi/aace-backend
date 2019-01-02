@@ -29,7 +29,7 @@ def basic_auth_error():
     return {"error message":"basic_auth_error"}
 
 
-@bp.route('/api/login', methods=['POST'])
+@bp.route('/login', methods=['POST'])
 @basic_auth.login_required
 def get_token():
     token = g.current_user.get_token(expires_in=360000)
