@@ -8,6 +8,7 @@ from ..exceptions import InvalidContentType, InvalidPermissions
 
 
 def ensure_content_type():
+    print("Ensuring content type of type: ", request.method)
     """
     Ensures that the Content-Type for all requests
     is `application-json`, otherwise appropriate error
@@ -15,6 +16,12 @@ def ensure_content_type():
     :raises: InvalidContentType if Content-Type is not `application-json`
     """
     content_type = request.headers.get('Content-type')
+
+    if request.method == OPTIONS_METHOD or request.method == 'GET':
+        content_type = 'application/json'
+
+    print("The request comes in with a type: ", content_type)
+
     if not content_type == 'application/json':
         raise InvalidContentType(
             message='Invalid content-type. Only `application-json` is allowed.'
@@ -47,7 +54,9 @@ def enable_cors(response):
     """
     print('enable_cors: ')
     if request.method == OPTIONS_METHOD:
+        print("the method coming in for cors enabling is: ", request.method)
         response = current_app.make_default_options_response()
+    print("the method coming in is: ", request.method)
     response.headers[ACL_ORIGIN] = ALLOWED_ORIGINS
     response.headers[ACL_METHODS] = ALLOWED_METHODS
     response.headers[ACL_ALLOWED_HEADERS] = ALLOWED_HEADERS
