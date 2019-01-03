@@ -37,7 +37,6 @@ target_metadata = models.BaseModel.metadata
 
 # override the default `sqlalchemy.url` from the .ini file
 config.set_main_option('sqlalchemy.url', os.environ.get('SQLALCHEMY_DATABASE_URI'))
-# config.set_main_option('sqlalchemy.url', 'postgresql://postgres:postgres@localhost:5432/aace')
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.

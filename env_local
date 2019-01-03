@@ -1,5 +1,5 @@
-FLASK_APP=run.py
-SQLALCHEMY_DATABASE_URI='postgresql://postgres:postgres@localhost:5432/aace'
+FLASK_APP=aace.py
+SQLALCHEMY_DATABASE_URI='mysql+pymysql://aace:password@localhost:3306/aace'
 FLASK_DEBUG=1
 SECRET_KEY=b'adfgweijfols'
 MAIL_SERVER=smtp.googlemail.com
