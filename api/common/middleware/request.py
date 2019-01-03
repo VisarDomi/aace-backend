@@ -45,6 +45,7 @@ def enable_cors(response):
     These headers are needed for the clients that
     will consume the API via AJAX requests.
     """
+    print('enable_cors: ')
     if request.method == OPTIONS_METHOD:
         response = current_app.make_default_options_response()
     response.headers[ACL_ORIGIN] = ALLOWED_ORIGINS

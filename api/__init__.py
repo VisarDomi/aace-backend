@@ -25,7 +25,7 @@ def create_app(config_class=Config):
 
     # config app
     app.config.from_object(config_class)
-    cors = CORS(app, resources={r"*": {"origins": "*"}})
+    # cors = CORS(app, resources={r"*": {"origins": "*"}})
     # register all blueprints
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(admin_bp, url_prefix='/api')

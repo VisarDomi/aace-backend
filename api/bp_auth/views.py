@@ -15,9 +15,9 @@ token_auth = HTTPTokenAuth()
 
 @basic_auth.verify_password
 def verify_password(email, password):
-    print("In verification password I get: ", email, password)
+    print("auth.views.In verification password I get: ", email, password)
     user = User.query.filter_by(email=email).first()
-    print("I got user: ", user)
+    print("auth.views.I got user: ", user)
     if user is None:
         return False
     g.current_user = user

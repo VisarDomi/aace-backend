@@ -4,7 +4,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from ..common.exceptions import RecordAlreadyExists, RecordNotFound, MissingArguments
 
 from ..common.models import User
-
+from ..common.database import db_session
 
 def create_user(user_data):
 
@@ -14,13 +14,14 @@ def create_user(user_data):
 
     
     user = User(**user_data)
-    print("the user data is: ", user_data)
-    print("The created user is: ", user)
+    print("backend.the user data is: ", user_data)
+    print("backend.The created user is: ", user)
     user.set_password(user_data['password'])
-    print("The user is: ", user)
+    print("backend.The user is: ", user)
     try:
         user.save()
-        print('user saved')
+        print('backend.user saved')
+        # db_session.commit()
     except IntegrityError:
         msg = 'Email `%s` is already in use for another account.' % user_data['email']
         raise RecordAlreadyExists(message=msg)
