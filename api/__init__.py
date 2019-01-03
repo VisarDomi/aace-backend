@@ -13,7 +13,7 @@ from .bp_notification import bp as notification_bp
 from .bp_post import bp as post_bp
 from .bp_user import bp as user_bp
 from flask_cors import CORS
-
+import os
 from config import Config
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
