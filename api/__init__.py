@@ -25,7 +25,6 @@ def create_app(config_class=Config):
 
     # config app
     app.config.from_object(config_class)
-    # cors = CORS(app, resources={r"*": {"origins": "*"}})
     # register all blueprints
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(admin_bp, url_prefix='/api')
@@ -52,6 +51,7 @@ def create_app(config_class=Config):
 
     # register custom error handler
     response.json_error_handler(app=app)
+    cors = CORS(app)
 
     # initialize the database
     #drop_db()

@@ -11,7 +11,7 @@ def before_request_middleware(app):
 
 def after_request_middleware(app):
     app.after_request_funcs.setdefault(None, [
-        request.enable_cors,
+        # request.enable_cors,
         request.commit_session,
     ])
 
