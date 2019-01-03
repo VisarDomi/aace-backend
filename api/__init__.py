@@ -12,6 +12,7 @@ from .bp_multimedia import bp as multimedia_bp
 from .bp_notification import bp as notification_bp
 from .bp_post import bp as post_bp
 from .bp_user import bp as user_bp
+from flask_cors import CORS
 
 from config import Config
 import logging
@@ -24,6 +25,7 @@ def create_app(config_class=Config):
 
     # config app
     app.config.from_object(config_class)
+    cors = CORS(app, resources={r"*": {"origins": "*"}})
 
     # register all blueprints
     app.register_blueprint(auth_bp, url_prefix='/api')

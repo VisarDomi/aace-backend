@@ -28,6 +28,7 @@ virtualenv = "==16.2.0"
 virtualenv-clone = "==0.4.0"
 werkzeug = "==0.14.1"
 flask-dotenv = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.7"
