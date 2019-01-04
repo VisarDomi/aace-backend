@@ -51,7 +51,7 @@ def create_app(config_class=Config):
 
     # register custom error handler
     response.json_error_handler(app=app)
-    cors = CORS(app)
+    # cors = CORS(app)
 
     # initialize the database
     #drop_db()
