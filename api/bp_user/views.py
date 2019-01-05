@@ -6,7 +6,7 @@ from . import domain
 from ..bp_auth.views import token_auth
 
 
-@bp.route('/', methods=['POST'])
+@bp.route('', methods=['POST'])
 @schema('create_user.json')
 def create_user():
     return domain.create_user(request.json)
