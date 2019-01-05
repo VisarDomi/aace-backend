@@ -29,25 +29,8 @@ user_messagegroup = Table('user_messagegroup',  BaseModel.metadata,
                     Column('messagegroup_id', Integer, ForeignKey('messagegroups.id')),
                     )
 
-class Role(BaseModel, ModelSerializerMixin):
-    """
-    Role.users
-    User.role
-    """
-    __tablename__ = 'roles'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(200))
-
-    users = relationship('User', backref='role', lazy='dynamic')
-
-    def __repr__(self):
-        return f"Role: {self.name}"
-
 class User(BaseModel, ModelSerializerMixin):
     """
-    Role.users.all()
-    User.role
-
     User.educations.all()
     Education.user
     User.experiences.all()
@@ -85,9 +68,8 @@ class User(BaseModel, ModelSerializerMixin):
     phone = Column(String(200))
     image_file = Column(String(200))
     is_active = Column(Boolean)
-    register_status = Column(String(200))
-
-    role_id = Column(Integer, ForeignKey('roles.id'))
+    register_status = Column(String(200), default='applying')
+    role = Column(String(200), default='normal_user')
 
     educations = relationship('Education', backref='user', lazy='dynamic')
     experiences = relationship('Experience', backref='user', lazy='dynamic')

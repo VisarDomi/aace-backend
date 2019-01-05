@@ -9,7 +9,6 @@ def create_user(user_data):
     :rtype: dict
     """
     user = backend.create_user(user_data)
-
     return user.to_dict()
 
 
@@ -21,7 +20,6 @@ def get_user_by_id(user_id):
     :rtype: dict
     """
     user = backend.get_user_by_id(user_id)
-
     return user.to_dict()
 
 
@@ -46,7 +44,6 @@ def update_user(user_data, user_id):
     :rtype: dict
     """
     user = backend.update_user(user_data, user_id)
-
     return user.to_dict()
 
 
@@ -62,5 +59,4 @@ def get_user_object(user_id):
     :param user_id: id of the User object to be returned
     :type user_id: integer
     """
-
     backend.get_user_by_id(user_id)

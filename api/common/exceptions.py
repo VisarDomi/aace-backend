@@ -75,3 +75,25 @@ class MissingArguments(Exception):
     This is also enforced on the front-end, so technically there is no need for this, but it's just an additional security measure.
     """
     status_code = BadRequest.code
+
+
+class CannotChangeOthersProfile(JSONException):
+    """
+    Raised when the user hasn't supplied the arguments. 
+    This is also enforced on the front-end, so technically there is no need for this, but it's just an additional security measure.
+    """
+    status_code = Unauthorized.code
+
+class CannotDeleteOthersProfile(JSONException):
+    """
+    Raised when the user hasn't supplied the arguments. 
+    This is also enforced on the front-end, so technically there is no need for this, but it's just an additional security measure.
+    """
+    status_code = Unauthorized.code
+
+class YouAreNotAdmin(JSONException):
+    """
+    Raised when the user hasn't supplied the arguments. 
+    This is also enforced on the front-end, so technically there is no need for this, but it's just an additional security measure.
+    """
+    status_code = Unauthorized.code

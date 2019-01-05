@@ -26,16 +26,16 @@ def create_app(config_class=Config):
     # config app
     app.config.from_object(config_class)
     # register all blueprints
-    app.register_blueprint(auth_bp, url_prefix='/api')
-    app.register_blueprint(admin_bp, url_prefix='/api')
-    app.register_blueprint(error_bp, url_prefix='/api')
-    app.register_blueprint(event_bp, url_prefix='/api')
-    app.register_blueprint(group_bp, url_prefix='/api')
-    app.register_blueprint(message_bp, url_prefix='/api')
-    app.register_blueprint(multimedia_bp, url_prefix='/api')
-    app.register_blueprint(notification_bp, url_prefix='/api')
-    app.register_blueprint(post_bp, url_prefix='/api')
-    app.register_blueprint(user_bp, url_prefix='/api')
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    app.register_blueprint(admin_bp, url_prefix='/api/admin')
+    app.register_blueprint(error_bp, url_prefix='/api/error')
+    app.register_blueprint(event_bp, url_prefix='/api/event')
+    app.register_blueprint(group_bp, url_prefix='/api/group')
+    app.register_blueprint(message_bp, url_prefix='/api/message')
+    app.register_blueprint(multimedia_bp, url_prefix='/api/multimedia')
+    app.register_blueprint(notification_bp, url_prefix='/api/notification')
+    app.register_blueprint(post_bp, url_prefix='/api/post')
+    app.register_blueprint(user_bp, url_prefix='/api/user')
 
     # register custom response class
     app.response_class = response.JSONResponse
