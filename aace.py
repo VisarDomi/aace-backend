@@ -10,7 +10,7 @@ app = create_app()
 def run():
     # debug = os.environ.get('APP_DEBUG', True)
     host = os.environ.get('APP_HOST', '0.0.0.0')
-    port = int(os.environ.get('APP_PORT', 5000))
+    port = int(os.environ.get('APP_PORT', 8000))
 
     # app.run(debug=debug, host=host, port=port)
     app.run(host=host, port=port)

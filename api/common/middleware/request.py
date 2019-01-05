@@ -17,12 +17,16 @@ def ensure_content_type():
     """
     content_type = request.headers.get('Content-type')
 
-    if request.method == OPTIONS_METHOD or request.method == 'GET':
+    if content_type == 'application/json; charset=utf-8':
         content_type = 'application/json'
 
+    if request.method == OPTIONS_METHOD or request.method == 'GET':
+        content_type = 'application/json'
+    
     print("The request comes in with a type: ", content_type)
 
     if not content_type == 'application/json':
+        print('content type rejected', content_type)
         raise InvalidContentType(
             message='Invalid content-type. Only `application-json` is allowed.'
         )
