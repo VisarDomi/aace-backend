@@ -85,7 +85,8 @@ class User(BaseModel, ModelSerializerMixin):
     phone = Column(String(200))
     image_file = Column(String(200))
     is_active = Column(Boolean)
-    
+    register_status = Column(String(200))
+
     role_id = Column(Integer, ForeignKey('roles.id'))
 
     educations = relationship('Education', backref='user', lazy='dynamic')
