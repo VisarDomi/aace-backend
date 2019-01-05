@@ -15,10 +15,9 @@ def create_user(user_data):
         raise MissingArguments(message=msg)
     user = User(**user_data)
     user.set_password(user_data['password'])
+    user.role = 'admin'
     try:
         user.save()
-        if user.id == 1:
-            user.role == 'admin'
     except IntegrityError:
         msg = 'Email `%s` is already in use for another account.' % user_data['email']
         raise RecordAlreadyExists(message=msg)
