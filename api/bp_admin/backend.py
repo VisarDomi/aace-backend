@@ -37,7 +37,7 @@ def get_user_by_id(user_id):
     try:
         result = User.query.filter(User.id == user_id).one()
     except NoResultFound:
-        msg = 'There is no User with `id: %s`' % id
+        msg = 'There is no User with `id: %s`' % user_id
         raise RecordNotFound(message=msg)
     return result
 
