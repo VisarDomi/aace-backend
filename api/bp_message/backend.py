@@ -21,7 +21,7 @@ from ..common.exceptions import RecordAlreadyExists, RecordNotFound
 #     try:
 #         result = Foss.query.filter(Foss.id == foss_id).one()
 #     except NoResultFound:
-#         msg = 'There is no Foss with `id: %s`' % id
+#         msg = 'There is no Foss with `id: %s`' % foss_id
 #         raise RecordNotFound(message=msg)
 
 #     return result

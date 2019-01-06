@@ -23,7 +23,7 @@ def get_group_by_id(group_id):
     try:
         result = Group.query.filter(Group.id == group_id).one()
     except NoResultFound:
-        msg = 'There is no Group with `id: %s`' % id
+        msg = 'There is no Group with `id: %s`' % groud_id
         raise RecordNotFound(message=msg)
     return result
 

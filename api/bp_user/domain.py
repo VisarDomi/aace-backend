@@ -9,7 +9,15 @@ def create_user(user_data):
     :rtype: dict
     """
     user = backend.create_user(user_data)
-    return user.to_dict()
+    return user.to_dict(only=[
+            'id', 
+            'name', 
+            'surname', 
+            'phone',
+            'is_active', 
+            'register_status',
+            'role'
+        ])
 
 
 def get_user_by_id(user_id):

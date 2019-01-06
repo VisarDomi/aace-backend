@@ -14,7 +14,7 @@ def get_post_by_id(post_id):
     try:
         result = Post.query.filter(Post.id == post_id).one()
     except NoResultFound:
-        msg = 'There is no Post with `id: %s`' % id
+        msg = 'There is no Post with `id: %s`' % post_id
         raise RecordNotFound(message=msg)
 
     return result

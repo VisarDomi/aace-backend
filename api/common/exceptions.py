@@ -97,3 +97,17 @@ class YouAreNotAdmin(JSONException):
     This is also enforced on the front-end, so technically there is no need for this, but it's just an additional security measure.
     """
     status_code = Unauthorized.code
+
+class CannotChangeFirstAdminProperties(JSONException):
+    """
+    Raised when the user hasn't supplied the arguments. 
+    This is also enforced on the front-end, so technically there is no need for this, but it's just an additional security measure.
+    """
+    status_code = Unauthorized.code
+
+class CannotDeleteFirstAdmin(JSONException):
+    """
+    Raised when the user hasn't supplied the arguments. 
+    This is also enforced on the front-end, so technically there is no need for this, but it's just an additional security measure.
+    """
+    status_code = Unauthorized.code

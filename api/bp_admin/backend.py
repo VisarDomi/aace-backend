@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
 from ..common.exceptions import RecordAlreadyExists, RecordNotFound
-from ..common.exceptions import YouAreNotAdmin
+from ..common.exceptions import YouAreNotAdmin, CannotChangeFirstAdminProperties, CannotDeleteFirstAdmin
 
 from ..common.models import User
 
@@ -50,11 +50,19 @@ def get_all_users():
 @are_you_admin
 def update_user(user_data, user_id):
     user = get_user_by_id(user_id)
-    user.update(**user_data)
-    return user
+    if user.id != 1:
+        user.update(**user_data)
+        return user
+    else:
+        msg = 'Cannot change admin with `id: %s`' % user_id
+        raise CannotChangeFirstAdminProperties(message=msg)
 
 
 @are_you_admin
 def delete_user(user_id):
-    user = get_user_by_id(user_id)
-    user.delete()
+    if user.id != 1:
+        user = get_user_by_id(user_id)
+        user.delete()
+    else:
+        msg = 'Cannot delete admin with `id: %s`' % user_id
+        raise CannotDeleteFirstAdmin(message=msg)
