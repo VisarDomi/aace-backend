@@ -1,5 +1,5 @@
 from flask import Flask
-from .common.database import init_db, drop_db
+from .common.database import init_db
 from .common.middleware import after_request_middleware, before_request_middleware, teardown_appcontext_middleware
 from .common.middleware import response
 from .bp_auth import bp as auth_bp
@@ -12,7 +12,6 @@ from .bp_multimedia import bp as multimedia_bp
 from .bp_notification import bp as notification_bp
 from .bp_post import bp as post_bp
 from .bp_user import bp as user_bp
-from flask_cors import CORS
 import os
 from config import Config
 import logging
@@ -25,6 +24,7 @@ def create_app(config_class=Config):
 
     # config app
     app.config.from_object(config_class)
+
     # register all blueprints
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
@@ -51,10 +51,8 @@ def create_app(config_class=Config):
 
     # register custom error handler
     response.json_error_handler(app=app)
-    # cors = CORS(app)
 
     # initialize the database
-    #drop_db()
     init_db()
 
     if not app.debug and not app.testing:

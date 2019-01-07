@@ -16,13 +16,13 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 
 class CustomBase(object):
     """This overrides the default
-    `_declarative_constructor` constructor.
-    It skips the attributes that are not present
-    for the model, thus if a dict is passed with some
-    unknown attributes for the model on creation,
-    it won't complain for `unkwnown field`s.
-    """
+    `_declarative_constructor` constructor."""
     def __init__(self, **kwargs):
+        """It skips the attributes that are not present
+        for the model, thus if a dict is passed with some
+        unknown attributes for the model on creation,
+        it won't complain for `unkwnown field`s.
+        """
         cls_ = type(self)
         for k in kwargs:
             if hasattr(cls_, k):
@@ -30,42 +30,42 @@ class CustomBase(object):
             else:
                 continue
 
-    """
-    Set default tablename
-    """
     @declared_attr
     def __tablename__(cls):
+        """
+        Set default tablename
+        """
         return cls.__name__.lower()
 
-    """
-    Add and try to flush.
-    """
     def save(self):
+        """
+        Add and try to flush.
+        """
         db_session.add(self)
         self._flush()
         return self
 
-    """
-    Update and try to flush.
-    """
     def update(self, **kwargs):
+        """
+        Update and try to flush.
+        """
         for attr, value in kwargs.items():
             if hasattr(self, attr):
                 setattr(self, attr, value)
         return self.save()
 
-    """
-    Delete and try to flush.
-    """
     def delete(self):
+        """
+        Delete and try to flush.
+        """
         db_session.delete(self)
         self._flush()
 
-    """
-    Try to flush. If an error is raised,
-    the session is rollbacked.
-    """
     def _flush(self):
+        """
+        Try to flush. If an error is raised,
+        the session is rollbacked.
+        """
         try:
             db_session.flush()
         except DatabaseError:
