@@ -18,7 +18,7 @@ def create_user(user_data):
     user.set_password(user_data['password'])
     try:
         user.save()
-    except IntegrityError:
+    except IntegrityError: #doesn't work
         msg = 'Email `%s` is already in use for another account.' % user_data['email']
         raise RecordAlreadyExists(message=msg)
     if user.id == 1:
@@ -51,7 +51,7 @@ def update_user(user_data, user_id):
 
 
 def delete_user(user_id):
-    if user_id != 1:
+    if int(user_id) != 1:
         user = get_user_by_id(user_id)
         if user.email == g.current_user.email:
             user.delete()

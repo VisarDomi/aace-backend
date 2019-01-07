@@ -49,8 +49,8 @@ def get_all_users():
 
 @are_you_admin
 def update_user(user_data, user_id):
-    user = get_user_by_id(user_id)
-    if user.id != 1:
+    if int(user_id) != 1:
+        user = get_user_by_id(user_id)
         user.update(**user_data)
         return user
     else:
@@ -60,7 +60,7 @@ def update_user(user_data, user_id):
 
 @are_you_admin
 def delete_user(user_id):
-    if user_id != 1:
+    if int(user_id) != 1:
         user = get_user_by_id(user_id)
         user.delete()
     else:
