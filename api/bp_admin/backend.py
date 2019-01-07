@@ -60,7 +60,7 @@ def update_user(user_data, user_id):
 
 @are_you_admin
 def delete_user(user_id):
-    if user.id != 1:
+    if user_id != 1:
         user = get_user_by_id(user_id)
         user.delete()
     else:
