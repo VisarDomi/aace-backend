@@ -20,13 +20,14 @@ def ensure_content_type():
     if content_type == 'application/json; charset=utf-8':
         content_type = 'application/json'
 
-    if request.method == OPTIONS_METHOD or request.method == 'GET':
+    if request.method == OPTIONS_METHOD or request.method == 'GET'\
+            or request.method == 'PUT' or request.method == 'DELETE':
         content_type = 'application/json'
     
     print("api.common.middleware.request The request comes in with a type: ", content_type)
 
     if not content_type == 'application/json':
-        print('api.common.middleware.request content type rejected', content_type)
+        print('api.common.middleware.request.ensure_content_type content type rejected', content_type)
         raise InvalidContentType(
             message='Invalid content-type. Only `application-json` is allowed.'
         )
@@ -57,9 +58,9 @@ def enable_cors(response):
     will consume the API via AJAX requests.
     """
     if request.method == OPTIONS_METHOD:
-        print("api.common.middleware.request the method coming in for cors enabling is: ", request.method)
+        print("api.common.middleware.request.enable_cors the method coming in for cors enabling is: ", request.method)
         response = current_app.make_default_options_response()
-    print("api.common.middleware.request the method coming in is: ", request.method)
+    print("api.common.middleware.request.enable_cors the method coming in is: ", request.method)
     response.headers[ACL_ORIGIN] = ALLOWED_ORIGINS
     response.headers[ACL_METHODS] = ALLOWED_METHODS
     response.headers[ACL_ALLOWED_HEADERS] = ALLOWED_HEADERS

@@ -10,6 +10,24 @@
     "surname": {
       "type": "string"
     },
+    "occupation": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "about_me": {
+      "type": "string"
+    },
+    "university_name": {
+      "type": "string"
+    },
+    "degree_name": {
+      "type": "string"
+    },
+    "register_status": {
+      "type": "string"
+    },
     "phone": {
       "type": "string"
     }

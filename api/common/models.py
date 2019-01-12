@@ -68,8 +68,17 @@ class User(BaseModel, ModelSerializerMixin):
     phone = Column(String(200))
     image_file = Column(String(200))
     is_active = Column(Boolean)
-    register_status = Column(String(200), default='applying')
+    register_status = Column(String(200), default='blank')
     role = Column(String(200), default='normal_user')
+
+    occupation = Column(String)
+    company = Column(String)
+    address = Column(String)
+    about_me = Column(Text)
+    university_name = Column(String)
+    degree_name = Column(String)
+
+
 
     educations = relationship('Education', backref='user', lazy='dynamic')
     experiences = relationship('Experience', backref='user', lazy='dynamic')

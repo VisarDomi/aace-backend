@@ -40,6 +40,11 @@ def get_all_users():
     return User.query.all()
 
 
+def get_applying_users():
+    users = User.query.filter(User.register_status != 'blank').all()
+    return users
+
+
 def update_user(user_data, user_id):
     user = get_user_by_id(user_id)
     if user.email == g.current_user.email:

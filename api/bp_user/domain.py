@@ -42,6 +42,17 @@ def get_all_users():
     ]
 
 
+def get_applying_users():
+    """Get applying Users.
+    :returns: serialized User objects
+    :rtype: list
+    """
+    users = backend.get_applying_users()
+    return [
+        user.to_dict() for user in users
+    ]
+
+
 def update_user(user_data, user_id):
     """Update User.
     :param user_data: User information

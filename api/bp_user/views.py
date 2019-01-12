@@ -17,6 +17,11 @@ def get_users():
     return domain.get_all_users()
 
 
+@bp.route('/applying', methods=['GET'])
+def get_applying_users():
+    return domain.get_applying_users()
+
+
 @bp.route('/<user_id>', methods=['GET'])
 def get_user(user_id):
     return domain.get_user_by_id(user_id)
