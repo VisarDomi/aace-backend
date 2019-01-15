@@ -1,5 +1,0 @@
-SQLALCHEMY_DATABASE_URI=mysql+pymysql://aace:password@localhost:3306/aace
-FLASK_DEBUG=1
-SECRET_KEY=b'adfgweijfols'
-MAIL_SERVER=localhost
-MAIL_PORT=25
