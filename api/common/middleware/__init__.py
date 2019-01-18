@@ -1,5 +1,5 @@
 from . import request
-from . import response
+# from . import response
 
 
 def before_request_middleware(app):
@@ -15,7 +15,8 @@ def after_request_middleware(app):
         request.commit_session,
     ])
 
-def teardown_appcontext_middleware (app):
+
+def teardown_appcontext_middleware(app):
     app.teardown_appcontext_funcs = [
         request.shutdown_session,
     ]

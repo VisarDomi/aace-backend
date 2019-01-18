@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 
 from ..common.validation import schema
 from . import bp
@@ -15,11 +15,6 @@ def create_user():
 @bp.route("/all", methods=["GET"])
 def get_users():
     return domain.get_all_users()
-
-
-@bp.route("/applying", methods=["GET"])
-def get_applying_users():
-    return domain.get_applying_users()
 
 
 @bp.route("/<user_id>", methods=["GET"])
@@ -39,4 +34,14 @@ def update_user(user_id):
 @token_auth.login_required
 def delete_user(user_id):
     domain.delete_user(user_id)
-    return {"message": "User with `id: %s` has been deleted." % user_id}
+    return jsonify({"message": "User with `id: %s` has been deleted." % user_id})
+
+
+@bp.route("/<user_id>/group", methods=["POST"])
+def add_group_to_user(user_id):
+    return domain.add_group_to_user(request.json, user_id)
+
+
+@bp.route("/<user_id>/group", methods=["POST"])
+def remove_group_from_user(user_id):
+    return domain.remove_group_from_user(request.json, user_id)

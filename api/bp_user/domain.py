@@ -1,72 +1,31 @@
 from . import backend
+import json
 
 
 def create_user(user_data):
-    """Create user.
-    :param user_data: user information
-    :type user_data: dict
-    :returns: serialized user object
-    :rtype: dict
-    """
     user = backend.create_user(user_data)
-    return user.to_dict(
-        only=["id", "name", "surname", "phone", "is_active", "register_status", "role"]
-    )
+    return user.to_json(max_nesting=2)
 
 
 def get_user_by_id(user_id):
-    """Get User by id.
-    :param user_id: id of the user to be retrived
-    :type user_id: integer
-    :returns: serialized User object
-    :rtype: dict
-    """
     user = backend.get_user_by_id(user_id)
-    return user.to_dict()
+    user_json = user.to_json(max_nesting=2)
+    return user_json
 
 
 def get_all_users():
-    """Get all Users.
-    :returns: serialized User objects
-    :rtype: list
-    """
     users = backend.get_all_users()
-    return [user.to_dict() for user in users]
-
-
-def get_applying_users():
-    """Get applying Users.
-    :returns: serialized User objects
-    :rtype: list
-    """
-    users = backend.get_applying_users()
-    return [user.to_dict() for user in users]
+    list_of_users = [
+        user.to_dict(max_nesting=2) for user in users
+    ]
+    json_dump_of_list_of_users = json.dumps(list_of_users, default=str)
+    return json_dump_of_list_of_users
 
 
 def update_user(user_data, user_id):
-    """Update User.
-    :param user_data: User information
-    :type user_data: dict
-    :param user_id: id of the User to be updated
-    :type user_id: integer
-    :returns: serialized User object
-    :rtype: dict
-    """
     user = backend.update_user(user_data, user_id)
-    return user.to_dict()
+    return user.to_json(max_nesting=2)
 
 
 def delete_user(user_id):
-    """Delete User.
-    :param user_id: id of the User to be deleted
-    :type user_id: integer
-    """
     backend.delete_user(user_id)
-
-
-def get_user_object(user_id):
-    """Get user object
-    :param user_id: id of the User object to be returned
-    :type user_id: integer
-    """
-    backend.get_user_by_id(user_id)

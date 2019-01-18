@@ -1,58 +1,31 @@
 from . import backend
+import json
 
 
 def create_post(post_data):
-    """Create post.
-    :param post_data: post information
-    :type post_data: dict
-    :returns: serialized post object
-    :rtype: dict
-    """
     post = backend.create_post(post_data)
-
-    return post.to_dict()
+    return post.to_json(max_nesting=2)
 
 
 def get_post_by_id(post_id):
-    """Get Post by id.
-    :param post_id: id of the post to be retrived
-    :type post_id: integer
-    :returns: serialized Post object
-    :rtype: dict
-    """
     post = backend.get_post_by_id(post_id)
-
-    return post.to_dict()
+    post_json = post.to_json(max_nesting=2)
+    return post_json
 
 
 def get_all_posts():
-    """Get all Posts.
-    :returns: serialized Post objects
-    :rtype: list
-    """
     posts = backend.get_all_posts()
-    return [
-        post.to_dict() for post in posts
+    list_of_posts = [
+        post.to_dict(max_nesting=2) for post in posts
     ]
+    json_dump_of_list_of_posts = json.dumps(list_of_posts, default=str)
+    return json_dump_of_list_of_posts
 
 
 def update_post(post_data, post_id):
-    """Update Post.
-    :param post_data: Post information
-    :type post_data: dict
-    :param post_id: id of the Post to be updated
-    :type post_id: integer
-    :returns: serialized Post object
-    :rtype: dict
-    """
     post = backend.update_post(post_data, post_id)
-
-    return post.to_dict()
+    return post.to_json(max_nesting=2)
 
 
 def delete_post(post_id):
-    """Delete Post.
-    :param post_id: id of the Post to be deleted
-    :type post_id: integer
-    """
     backend.delete_post(post_id)

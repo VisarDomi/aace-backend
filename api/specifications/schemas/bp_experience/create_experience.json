@@ -1,0 +1,31 @@
+{
+  "title": "Create experience",
+  "description": "Create a experience object",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "required": ["title"],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "from_date": {
+      "type": "string"
+    },
+    "to_date": {
+      "type": "string"
+    },
+    "is_currently_work_here": {
+      "type": "boolean"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

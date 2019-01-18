@@ -1,13 +1,13 @@
 from flask import g
 from functools import wraps
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
-from ..common.exceptions import RecordAlreadyExists, RecordNotFound
+from ..common.exceptions import RecordNotFound
 from ..common.exceptions import (
     YouAreNotAdmin,
     CannotChangeFirstAdminProperties,
     CannotDeleteFirstAdmin,
+    InvalidURL,
 )
 
 from ..common.models import User
@@ -27,23 +27,15 @@ def are_you_admin(a_function):
 
 
 @are_you_admin
-def create_user(user_data):
-    user = User(**user_data)
-    try:
-        user.save()
-    except IntegrityError:
-        msg = "Email `%s` already has been taken" % user_data["email"]
-        raise RecordAlreadyExists(message=msg)
-    return user
-
-
-@are_you_admin
 def get_user_by_id(user_id):
     try:
         result = User.query.filter(User.id == user_id).one()
     except NoResultFound:
-        msg = "There is no User with `id: %s`" % user_id
+        msg = f"There is no User with `id: {user_id}`"
         raise RecordNotFound(message=msg)
+    except InvalidURL:
+        msg = f"This is not a valid URL: {user_id}`"
+        raise InvalidURL(message=msg)
     return result
 
 
@@ -53,10 +45,21 @@ def get_all_users():
 
 
 @are_you_admin
+def get_applying_users():
+    users = (
+        User.query.filter(User.register_status != "blank")
+        .filter(User.register_status != "accepted")
+        .all()
+    )
+    return users
+
+
+@are_you_admin
 def update_user(user_data, user_id):
     if int(user_id) != 1:
         user = get_user_by_id(user_id)
-        user.update(**user_data)
+        user.update_from_dict(user_data)
+        user.save()
         return user
     else:
         msg = "Cannot change admin with `id: %s`" % user_id

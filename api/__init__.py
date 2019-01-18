@@ -6,13 +6,14 @@ from .common.middleware import (
     teardown_appcontext_middleware,
 )
 from .common.middleware import response
-from .bp_auth import bp as auth_bp
 from .bp_admin import bp as admin_bp
-from .bp_error import bp as error_bp
+from .bp_auth import bp as auth_bp
+from .bp_comment import bp as comment_bp
 from .bp_event import bp as event_bp
+from .bp_experience import bp as experience_bp
 from .bp_group import bp as group_bp
+from .bp_media import bp as media_bp
 from .bp_message import bp as message_bp
-from .bp_multimedia import bp as multimedia_bp
 from .bp_notification import bp as notification_bp
 from .bp_post import bp as post_bp
 from .bp_user import bp as user_bp
@@ -31,13 +32,14 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     # register all blueprints
-    app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(admin_bp, url_prefix="/api/admin")
-    app.register_blueprint(error_bp, url_prefix="/api/error")
+    app.register_blueprint(auth_bp, url_prefix="/api/auth")
+    app.register_blueprint(comment_bp, url_prefix="/api/comment")
     app.register_blueprint(event_bp, url_prefix="/api/event")
+    app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
     app.register_blueprint(group_bp, url_prefix="/api/group")
+    app.register_blueprint(media_bp, url_prefix="/api/media")
     app.register_blueprint(message_bp, url_prefix="/api/message")
-    app.register_blueprint(multimedia_bp, url_prefix="/api/multimedia")
     app.register_blueprint(notification_bp, url_prefix="/api/notification")
     app.register_blueprint(post_bp, url_prefix="/api/post")
     app.register_blueprint(user_bp, url_prefix="/api/user")

@@ -1,98 +1,100 @@
-import datetime
-import uuid
-from functools import singledispatch
+# import datetime
+# import uuid
+# from functools import singledispatch
 
 
-@singledispatch
-def serialize(rv):
-    """
-    Define a generic serializable function.
-    """
-    return rv
+# @singledispatch
+# def serialize(rv):
+#     """
+#     Define a generic serializable function.
+#     """
+#     return rv
 
 
-@serialize.register(datetime.datetime)
-def serialize_dt(rv):
-    """Register the `datetime.datetime` type
-    for the generic serializable function.
+# @serialize.register(datetime.datetime)
+# def serialize_dt(rv):
+#     """Register the `datetime.datetime` type
+#     for the generic serializable function.
 
-    Serialize a `datetime` object to `string`
-    according to strict-rfc3339.
-    :param rv: object to be serialized
-    :type rv: datetetime.datetime
-    :returns: string
-    """
-    return datetime.datetime.strftime(rv, '%Y-%m-%dT%H:%M:%S.%fZ')
-
-
-@serialize.register(uuid.UUID)
-def serialize_uuid(rv):
-    """Register the `uuid.UUID` type
-    for the generic serializable function.
-    :param rv: object to be serialized
-    :type rv: uuid.UUID
-    :returns: string
-    """
-    return str(rv)
+#     Serialize a `datetime` object to `string`
+#     according to strict-rfc3339.
+#     :param rv: object to be serialized
+#     :type rv: datetetime.datetime
+#     :returns: string
+#     """
+#     return datetime.datetime.strftime(rv, "%Y-%m-%dT%H:%M:%S.%fZ")
 
 
-class ModelSerializerMixin(object):
-    """
-    Serializable Mixin for the SQLAlchemy objects.
-    """
-    def to_dict(self, exclude=None, only=None):
-        """Convert SQLAlchemy object to `dict`.
+# @serialize.register(uuid.UUID)
+# def serialize_uuid(rv):
+#     """Register the `uuid.UUID` type
+#     for the generic serializable function.
+#     :param rv: object to be serialized
+#     :type rv: uuid.UUID
+#     :returns: string
+#     """
+#     return str(rv)
 
-        :param exclude: attrs to be excluded, defaults to None
-        :type exclude: list, optional
-        :param only: attrs to be serialized, defaults to None
-        :type only: list, optional
-        :returns: serialized SQLAlchemy object
-        :rtype: dict
 
-        The method cannot receive both `exclude` and `only` arguments
-        at the same time. If this use case is reproduced, appropriate
-        ValueError is raised.
+# class ModelSerializerMixin(object):
+#     """
+#     Serializable Mixin for the SQLAlchemy objects.
+#     """
 
-        e.g. of usage
+#     def to_dict(self, exclude=None, only=None):
+#         """Convert SQLAlchemy object to `dict`.
 
-        ...
-        return sql_alchemy_obj.to_dict(exclude=['name', 'email'])
-        ...
+#         :param exclude: attrs to be excluded, defaults to None
+#         :type exclude: list, optional
+#         :param only: attrs to be serialized, defaults to None
+#         :type only: list, optional
+#         :returns: serialized SQLAlchemy object
+#         :rtype: dict
 
-        """
-        if exclude and only:
-            msg = 'ModelSerializer can receive either `exclude` or `only`, not both.'
-            raise ValueError(msg)
+#         The method cannot receive both `exclude` and `only` arguments
+#         at the same time. If this use case is reproduced, appropriate
+#         ValueError is raised.
 
-        if exclude is None:
-            exclude = []
-        if only is None:
-            only = []
+#         e.g. of usage
 
-        return self._to_dict(exclude, only)
+#         ...
+#         return sql_alchemy_obj.to_dict(exclude=['name', 'email'])
+#         ...
 
-    def _to_dict(self, exclude, only):
-        serialized_model = {}
-        _mapper = self.__mapper__.c.keys()
+#         """
+#         if exclude and only:
+#             msg = "ModelSerializer can receive either `exclude` or `only`, not both."
+#             raise ValueError(msg)
 
-        if exclude:
-            for attr in _mapper:
-                if attr not in exclude:
-                    serialized_model[attr] = self._serialize_attr(attr)
-        elif only:
-            for attr in only:
-                if attr in _mapper:
-                    serialized_model[attr] = self._serialize_attr(attr)
-                else:
-                    raise ValueError(
-                        'The `only` attribute contains an invalid key: `%s`' % attr)
-        else:
-            for attr in _mapper:
-                serialized_model[attr] = self._serialize_attr(attr)
+#         if exclude is None:
+#             exclude = []
+#         if only is None:
+#             only = []
 
-        return serialized_model
+#         return self._to_dict(exclude, only)
 
-    def _serialize_attr(self, attr):
-        _val = getattr(self, attr)
-        return serialize(_val)
+#     def _to_dict(self, exclude, only):
+#         serialized_model = {}
+#         _mapper = self.__mapper__.c.keys()
+
+#         if exclude:
+#             for attr in _mapper:
+#                 if attr not in exclude:
+#                     serialized_model[attr] = self._serialize_attr(attr)
+#         elif only:
+#             for attr in only:
+#                 if attr in _mapper:
+#                     serialized_model[attr] = self._serialize_attr(attr)
+#                 else:
+#                     raise ValueError(
+#                         "The `only` attribute contains an invalid key: `%s`" % attr
+#                     )
+#         else:
+#             for attr in _mapper:
+#                 serialized_model[attr] = self._serialize_attr(attr)
+
+#         return serialized_model
+
+#     def _serialize_attr(self, attr):
+#         _val = getattr(self, attr)
+#         return serialize(_val)

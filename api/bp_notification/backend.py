@@ -1,43 +1,40 @@
-from sqlalchemy.exc import IntegrityError
+from flask import g
+from ..common.models import Notification
 from sqlalchemy.orm.exc import NoResultFound
-
-from ..common.exceptions import RecordAlreadyExists, RecordNotFound
-
-# from .models import Foss
+from ..common.exceptions import RecordNotFound, InvalidURL
 
 
-# def create_foss(foss_data):
-#     foss = Foss(**foss_data)
-#     try:
-#         foss.save()
-#     except IntegrityError:
-#         msg = 'Email `%s` already has been taken' % foss_data['email']
-#         raise RecordAlreadyExists(message=msg)
-
-#     return foss
+def create_notification(notification_data):
+    notification = Notification.new_from_dict(notification_data)
+    notification.user = g.current_user
+    notification.save()
+    return notification
 
 
-# def get_foss_by_id(foss_id):
-#     try:
-#         result = Foss.query.filter(Foss.id == foss_id).one()
-#     except NoResultFound:
-#         msg = 'There is no Foss with `id: %s`' % foss_id
-#         raise RecordNotFound(message=msg)
-
-#     return result
-
-
-# def get_all_fosses():
-#     return Foss.query.all()
+def get_notification_by_id(notification_id):
+    try:
+        result = Notification.query.filter(Notification.id == notification_id).one()
+    except NoResultFound:
+        msg = f'There is no notification with id {notification_id}'
+        raise RecordNotFound(notification=msg)
+    except InvalidURL:
+        msg = f"This is not a valid URL: {notification_id}`"
+        raise InvalidURL(notification=msg)
+    return result
 
 
-# def update_foss(foss_data, foss_id):
-#     foss = get_foss_by_id(foss_id)
-#     foss.update(**foss_data)
-
-#     return foss
+def get_all_notifications():
+    notifications = Notification.query.all()
+    return notifications
 
 
-# def delete_foss(foss_id):
-#     foss = get_foss_by_id(foss_id)
-#     foss.delete()
+def update_notification(notification_data, notification_id):
+    notification = get_notification_by_id(notification_id)
+    notification.update_from_dict(notification_data)
+    notification.save()
+    return notification
+
+
+def delete_notification(notification_id):
+    notification = get_notification_by_id(notification_id)
+    notification.delete()

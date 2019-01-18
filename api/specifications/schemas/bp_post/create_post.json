@@ -1,14 +1,16 @@
 {
   "title": "Create post",
   "description": "Create a post object",
-  "type":"object",
+  "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
-  "required": [
-    "text"
-  ],
+  "required": ["body"],
   "properties": {
-    "text": {
+    "body": {
+      "type": "string"
+    },
+    "timestamp": {
       "type": "string"
     }
-  }
+  },
+  "additionalProperties": false
 }

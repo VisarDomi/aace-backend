@@ -4,31 +4,43 @@
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
-    "name": {
+    "register_status": {
       "type": "string"
     },
-    "surname": {
+    "profile_picture": {
       "type": "string"
     },
-    "occupation": {
+    "background_picture": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "headline": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "phone": {
       "type": "string"
     },
     "address": {
       "type": "string"
     },
-    "about_me": {
+    "birthday": {
       "type": "string"
     },
-    "university_name": {
+    "website": {
       "type": "string"
     },
-    "degree_name": {
-      "type": "string"
-    },
-    "register_status": {
-      "type": "string"
-    },
-    "phone": {
+    "email": {
       "type": "string"
     }
   },

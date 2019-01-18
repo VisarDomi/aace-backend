@@ -8,7 +8,7 @@ import jsonschema
 
 from .exceptions import InvalidAPIRequest
 
-SCHEMAS_DIR = 'api/specifications/schemas'
+SCHEMAS_DIR = "api/specifications/schemas"
 SCHEMAS_PATH = os.path.join(os.getcwd(), SCHEMAS_DIR)
 
 
@@ -17,9 +17,9 @@ def get_request_payload(method):
     request.method.
     """
     return {
-        'GET': _get_url_params_as_dict,
-        'POST': _get_request_body,
-        'PUT': _get_request_body
+        "GET": _get_url_params_as_dict,
+        "POST": _get_request_body,
+        "PUT": _get_request_body,
     }[method]
 
 
@@ -75,7 +75,7 @@ def get_schema(path):
     """
     Read a .json file and return its content.
     """
-    with open(path, 'r') as f:
+    with open(path, "r") as f:
         return json.load(f)
 
 
@@ -93,8 +93,9 @@ def validate_schema(payload, schema):
     :rtype: list
     """
     errors = []
-    validator = jsonschema.Draft4Validator(schema,
-                                           format_checker=jsonschema.FormatChecker())
+    validator = jsonschema.Draft4Validator(
+        schema, format_checker=jsonschema.FormatChecker()
+    )
     for error in sorted(validator.iter_errors(payload), key=str):
         errors.append(error.message)
 
@@ -124,10 +125,11 @@ def schema(path=None):
     def app_route():
         ...
     """
+
     def decorator(func):
         @wraps(func)
         def wrapped(*args, **kwargs):
-            _path = path.lstrip('/')
+            _path = path.lstrip("/")
             schema_path = os.path.join(SCHEMAS_PATH, request.blueprint, _path)
             payload = get_request_payload(request.method)(request)
 
@@ -136,5 +138,7 @@ def schema(path=None):
                 raise InvalidAPIRequest(message=errors)
 
             return func(*args, **kwargs)
+
         return wrapped
+
     return decorator

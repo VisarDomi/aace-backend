@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 
 from ..common.validation import schema
 from . import bp
@@ -6,17 +6,16 @@ from . import domain
 from ..bp_auth.views import token_auth
 
 
-@bp.route("/user", methods=["POST"])
-@schema("create_user.json")
-@token_auth.login_required
-def create_user():
-    return domain.create_user(request.json)
-
-
 @bp.route("/user/all", methods=["GET"])
 @token_auth.login_required
 def get_users():
     return domain.get_all_users()
+
+
+@bp.route("/user/applying", methods=["GET"])
+@token_auth.login_required
+def get_applying_users():
+    return domain.get_applying_users()
 
 
 @bp.route("/user/<user_id>", methods=["GET"])
@@ -37,4 +36,4 @@ def update_user(user_id):
 @token_auth.login_required
 def delete_user(user_id):
     domain.delete_user(user_id)
-    return {"message": "User with `id: %s` has been deleted." % user_id}
+    return jsonify({'message': 'User with `id: %s` has been deleted.' % user_id})

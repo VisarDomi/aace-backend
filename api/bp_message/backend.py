@@ -1,43 +1,40 @@
-from sqlalchemy.exc import IntegrityError
+from flask import g
+from ..common.models import Message
 from sqlalchemy.orm.exc import NoResultFound
-
-from ..common.exceptions import RecordAlreadyExists, RecordNotFound
-
-# from .models import Foss
+from ..common.exceptions import RecordNotFound, InvalidURL
 
 
-# def create_foss(foss_data):
-#     foss = Foss(**foss_data)
-#     try:
-#         foss.save()
-#     except IntegrityError:
-#         msg = 'Email `%s` already has been taken' % foss_data['email']
-#         raise RecordAlreadyExists(message=msg)
-
-#     return foss
+def create_message(message_data):
+    message = Message.new_from_dict(message_data)
+    message.user = g.current_user
+    message.save()
+    return message
 
 
-# def get_foss_by_id(foss_id):
-#     try:
-#         result = Foss.query.filter(Foss.id == foss_id).one()
-#     except NoResultFound:
-#         msg = 'There is no Foss with `id: %s`' % foss_id
-#         raise RecordNotFound(message=msg)
-
-#     return result
-
-
-# def get_all_fosses():
-#     return Foss.query.all()
+def get_message_by_id(message_id):
+    try:
+        result = Message.query.filter(Message.id == message_id).one()
+    except NoResultFound:
+        msg = f'There is no message with id {message_id}'
+        raise RecordNotFound(message=msg)
+    except InvalidURL:
+        msg = f"This is not a valid URL: {message_id}`"
+        raise InvalidURL(message=msg)
+    return result
 
 
-# def update_foss(foss_data, foss_id):
-#     foss = get_foss_by_id(foss_id)
-#     foss.update(**foss_data)
-
-#     return foss
+def get_all_messages():
+    messages = Message.query.all()
+    return messages
 
 
-# def delete_foss(foss_id):
-#     foss = get_foss_by_id(foss_id)
-#     foss.delete()
+def update_message(message_data, message_id):
+    message = get_message_by_id(message_id)
+    message.update_from_dict(message_data)
+    message.save()
+    return message
+
+
+def delete_message(message_id):
+    message = get_message_by_id(message_id)
+    message.delete()

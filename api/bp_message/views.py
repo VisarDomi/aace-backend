@@ -1,37 +1,39 @@
-from flask import request
-
-from ..common.validation import schema
-
+from flask import request, jsonify
 from . import bp
 from . import domain
+from ..common.validation import schema
+from ..bp_auth.views import token_auth
 
 
-# @bp.route('/foss', methods=['POST'])
-# @schema('create_foss.json')
-# def create_foss():
-#     return domain.create_foss(request.json)
+@bp.route("", methods=["POST"])
+@schema("create_message.json")
+@token_auth.login_required
+def create_message():
+    return domain.create_message(request.json)
 
 
-# @bp.route('/foss', methods=['GET'])
-# def get_fosses():
-#     return domain.get_all_fosses()
+@bp.route("/all", methods=["GET"])
+@token_auth.login_required
+def get_messages():
+    return domain.get_all_messages()
 
 
-# @bp.route('/foss/<foss_id>', methods=['GET'])
-# def get_foss(foss_id):
-#     return domain.get_foss_by_id(foss_id)
+@bp.route("/<message_id>", methods=["GET"])
+@token_auth.login_required
+def get_message(message_id):
+    return domain.get_message_by_id(message_id)
 
 
-# @bp.route('/foss/<foss_id>', methods=['PUT'])
-# @schema('/update_foss.json')
-# def update_foss(foss_id):
-#     return domain.update_foss(request.json, foss_id)
+@bp.route("/<message_id>", methods=["PUT"])
+@schema("/update_message.json")
+@token_auth.login_required
+def update_message(message_id):
+    return domain.update_message(request.json, message_id)
 
 
-# @bp.route('/foss/<foss_id>', methods=['DELETE'])
-# def delete_foss(foss_id):
-#     domain.delete_foss(foss_id)
+@bp.route("/<message_id>", methods=["DELETE"])
+@token_auth.login_required
+def delete_message(message_id):
+    domain.delete_message(message_id)
 
-#     return {
-#         'message': 'Foss with `id: %s` has been deleted.' % foss_id
-#     }
+    return jsonify({"message": "Post with `id: %s` has been deleted." % message_id})

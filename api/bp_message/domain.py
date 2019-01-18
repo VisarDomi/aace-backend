@@ -1,58 +1,31 @@
 from . import backend
+import json
 
 
-# def create_foss(foss_data):
-#     """Create Foss.
-#     :param foss_data: Foss information
-#     :type foss_data: dict
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.create_foss(foss_data)
-
-#     return foss.to_dict()
+def create_message(message_data):
+    message = backend.create_message(message_data)
+    return message.to_json(max_nesting=2)
 
 
-# def get_foss_by_id(foss_id):
-#     """Get Foss by id.
-#     :param foss_id: id of the foss to be retrived
-#     :type foss_id: integer
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.get_foss_by_id(foss_id)
-
-#     return foss.to_dict()
+def get_message_by_id(message_id):
+    message = backend.get_message_by_id(message_id)
+    message_json = message.to_json(max_nesting=2)
+    return message_json
 
 
-# def get_all_fosses():
-#     """Get all Fosses.
-#     :returns: serialized Foss objects
-#     :rtype: list
-#     """
-#     fosses = backend.get_all_fosses()
-#     return [
-#         foss.to_dict() for foss in fosses
-#     ]
+def get_all_messages():
+    messages = backend.get_all_messages()
+    list_of_messages = [
+        message.to_dict(max_nesting=2) for message in messages
+    ]
+    json_dump_of_list_of_messages = json.dumps(list_of_messages, default=str)
+    return json_dump_of_list_of_messages
 
 
-# def update_foss(foss_data, foss_id):
-#     """Update Foss.
-#     :param foss_data: Foss information
-#     :type foss_data: dict
-#     :param foss_id: id of the Foss to be updated
-#     :type foss_id: integer
-#     :returns: serialized Foss object
-#     :rtype: dict
-#     """
-#     foss = backend.update_foss(foss_data, foss_id)
-
-#     return foss.to_dict()
+def update_message(message_data, message_id):
+    message = backend.update_message(message_data, message_id)
+    return message.to_json(max_nesting=2)
 
 
-# def delete_foss(foss_id):
-#     """Delete Foss.
-#     :param foss_id: id of the Foss to be deleted
-#     :type foss_id: integer
-#     """
-#     backend.delete_foss(foss_id)
+def delete_message(message_id):
+    backend.delete_message(message_id)
