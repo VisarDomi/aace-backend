@@ -12,7 +12,11 @@ from .bp_comment import bp as comment_bp
 from .bp_event import bp as event_bp
 from .bp_experience import bp as experience_bp
 from .bp_group import bp as group_bp
+from .bp_media_comment import bp as media_comment_bp
+from .bp_media_event import bp as media_event_bp
 from .bp_media_experience import bp as media_experience_bp
+from .bp_media_message import bp as media_message_bp
+from .bp_media_post import bp as media_post_bp
 from .bp_message import bp as message_bp
 from .bp_notification import bp as notification_bp
 from .bp_post import bp as post_bp
@@ -39,8 +43,24 @@ def create_app(config_class=Config):
     app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
     app.register_blueprint(group_bp, url_prefix="/api/group")
     app.register_blueprint(
+        media_comment_bp,
+        url_prefix="/api/user/<user_id>/comment/<comment_id>/media",
+    )
+    app.register_blueprint(
+        media_event_bp,
+        url_prefix="/api/user/<user_id>/event/<event_id>/media",
+    )
+    app.register_blueprint(
         media_experience_bp,
         url_prefix="/api/user/<user_id>/experience/<experience_id>/media",
+    )
+    app.register_blueprint(
+        media_message_bp,
+        url_prefix="/api/user/<user_id>/message/<message_id>/media",
+    )
+    app.register_blueprint(
+        media_post_bp,
+        url_prefix="/api/user/<user_id>/post/<post_id>/media",
     )
     app.register_blueprint(message_bp, url_prefix="/api/message")
     app.register_blueprint(notification_bp, url_prefix="/api/notification")
