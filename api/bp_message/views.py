@@ -36,4 +36,4 @@ def update_message(message_id):
 def delete_message(message_id):
     domain.delete_message(message_id)
 
-    return jsonify({"message": "Post with `id: %s` has been deleted." % message_id})
+    return jsonify({"message": "Message with `id: %s` has been deleted." % message_id})

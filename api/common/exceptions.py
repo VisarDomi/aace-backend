@@ -70,6 +70,8 @@ class CannotChangeFirstAdminProperties(JSONException):
 class CannotDeleteFirstAdmin(JSONException):
     status_code = Unauthorized.code
 
+class CannotPostOnOthersProfile(JSONException):
+    status_code = Unauthorized.code
 
 class UserIsAlreadyPartOfGroup(RecordAlreadyExists):
     pass

@@ -12,7 +12,7 @@ from .bp_comment import bp as comment_bp
 from .bp_event import bp as event_bp
 from .bp_experience import bp as experience_bp
 from .bp_group import bp as group_bp
-from .bp_media import bp as media_bp
+from .bp_media_experience import bp as media_experience_bp
 from .bp_message import bp as message_bp
 from .bp_notification import bp as notification_bp
 from .bp_post import bp as post_bp
@@ -38,10 +38,13 @@ def create_app(config_class=Config):
     app.register_blueprint(event_bp, url_prefix="/api/event")
     app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
     app.register_blueprint(group_bp, url_prefix="/api/group")
-    app.register_blueprint(media_bp, url_prefix="/api/media")
+    app.register_blueprint(
+        media_experience_bp,
+        url_prefix="/api/user/<user_id>/experience/<experience_id>/media",
+    )
     app.register_blueprint(message_bp, url_prefix="/api/message")
     app.register_blueprint(notification_bp, url_prefix="/api/notification")
-    app.register_blueprint(post_bp, url_prefix="/api/post")
+    app.register_blueprint(post_bp, url_prefix="/api/user/<user_id>/post")
     app.register_blueprint(user_bp, url_prefix="/api/user")
 
     # register custom response class

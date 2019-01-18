@@ -3,7 +3,6 @@
   "description": "Create a media object",
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
-  "required": ["url"],
   "properties": {
     "title": {
       "type": "string"

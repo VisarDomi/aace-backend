@@ -36,4 +36,4 @@ def update_comment(comment_id):
 def delete_comment(comment_id):
     domain.delete_comment(comment_id)
 
-    return jsonify({"message": "Post with `id: %s` has been deleted." % comment_id})
+    return jsonify({"message": "Comment with `id: %s` has been deleted." % comment_id})

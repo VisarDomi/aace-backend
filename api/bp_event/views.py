@@ -36,4 +36,4 @@ def update_event(event_id):
 def delete_event(event_id):
     domain.delete_event(event_id)
 
-    return jsonify({"message": "Post with `id: %s` has been deleted." % event_id})
+    return jsonify({"message": "Event with `id: %s` has been deleted." % event_id})

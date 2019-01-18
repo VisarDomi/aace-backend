@@ -334,7 +334,9 @@ class Experience(BaseModel, CustomBase):
             name="to_date", supports_dict=(True, True), supports_json=(True, True)
         ),
         AttributeConfiguration(
-            name="is_currently_work_here", supports_dict=(True, True), supports_json=(True, True)
+            name="is_currently_work_here",
+            supports_dict=(True, True),
+            supports_json=(True, True),
         ),
         AttributeConfiguration(
             name="description", supports_dict=(True, True), supports_json=(True, True)
@@ -479,16 +481,16 @@ class Media(BaseModel, CustomBase):
             name="url", supports_dict=(True, True), supports_json=(True, True)
         ),
         AttributeConfiguration(
-            name="education", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="education_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
             name="experience", supports_dict=(True, True), supports_json=(True, True)
         ),
         AttributeConfiguration(
             name="experience_id", supports_dict=(True, True), supports_json=(True, True)
+        ),
+        AttributeConfiguration(
+            name="education", supports_dict=(True, True), supports_json=(True, True)
+        ),
+        AttributeConfiguration(
+            name="education_id", supports_dict=(True, True), supports_json=(True, True)
         ),
         AttributeConfiguration(
             name="accomplishment",
@@ -511,11 +513,11 @@ class Media(BaseModel, CustomBase):
     user = relationship("User", back_populates="medias")
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    education = relationship("Education", back_populates="medias")
-    education_id = Column(Integer, ForeignKey("educations.id"))
-
     experience = relationship("Experience", back_populates="medias")
     experience_id = Column(Integer, ForeignKey("experiences.id"))
+
+    education = relationship("Education", back_populates="medias")
+    education_id = Column(Integer, ForeignKey("educations.id"))
 
     accomplishment = relationship("Accomplishment", back_populates="medias")
     accomplishment_id = Column(Integer, ForeignKey("accomplishments.id"))

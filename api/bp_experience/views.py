@@ -36,4 +36,6 @@ def update_experience(user_id, experience_id):
 def delete_experience(user_id, experience_id):
     domain.delete_experience(experience_id)
 
-    return jsonify({"message": "Post with `id: %s` has been deleted." % experience_id})
+    return jsonify(
+        {"message": "Experience with `id: %s` has been deleted." % experience_id}
+    )

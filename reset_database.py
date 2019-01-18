@@ -29,3 +29,8 @@ user.set_password(user_data["password"])
 User.query.filter(User.email != "visar@forcewing.com").filter(
     User.email != "erdal@forcewing.com"
 ).all()
+
+user = User.query.filter(User.email == "visar@forcewing.com").one()
+user.experiences.filter_by(id=1).one()
+
+

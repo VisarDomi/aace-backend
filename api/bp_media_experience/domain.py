@@ -2,8 +2,8 @@ from . import backend
 import json
 
 
-def create_media(media_data):
-    media = backend.create_media(media_data)
+def create_media(media_data, user_id, experience_id):
+    media = backend.create_media(media_data, user_id, experience_id)
     return media.to_json(max_nesting=2)
 
 
@@ -22,8 +22,8 @@ def get_all_medias():
     return json_dump_of_list_of_medias
 
 
-def update_media(media_data, media_id):
-    media = backend.update_media(media_data, media_id)
+def update_media(media_data, user_id, media_id):
+    media = backend.update_media(media_data, user_id, media_id)
     return media.to_json(max_nesting=2)
 
 

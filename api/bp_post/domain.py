@@ -2,8 +2,8 @@ from . import backend
 import json
 
 
-def create_post(post_data):
-    post = backend.create_post(post_data)
+def create_post(post_data, user_id):
+    post = backend.create_post(post_data, user_id)
     return post.to_json(max_nesting=2)
 
 
@@ -22,8 +22,8 @@ def get_all_posts():
     return json_dump_of_list_of_posts
 
 
-def update_post(post_data, post_id):
-    post = backend.update_post(post_data, post_id)
+def update_post(post_data, user_id, post_id):
+    post = backend.update_post(post_data, user_id, post_id)
     return post.to_json(max_nesting=2)
 
 
