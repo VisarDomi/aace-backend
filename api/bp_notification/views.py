@@ -36,4 +36,9 @@ def update_notification(notification_id):
 def delete_notification(notification_id):
     domain.delete_notification(notification_id)
 
-    return jsonify({"notification": "Notification with `id: %s` has been deleted." % notification_id})
+    return jsonify(
+        {
+            "notification": "Notification with `id: %s` has been deleted."
+            % notification_id
+        }
+    )

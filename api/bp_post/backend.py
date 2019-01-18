@@ -10,7 +10,7 @@ from ..common.exceptions import (
 
 
 def create_post(post_data, user_id):
-    if user_id != g.current_user.id:
+    if int(user_id) == g.current_user.id:
         post = Post.new_from_dict(post_data)
         post.user = g.current_user
         post.save()
@@ -38,7 +38,7 @@ def get_all_posts():
 
 
 def update_post(post_data, user_id, post_id):
-    if int(user_id) != g.current_user.id:
+    if int(user_id) == g.current_user.id:
         post = get_post_by_id(post_id)
         post.update_from_dict(post_data)
         post.save()

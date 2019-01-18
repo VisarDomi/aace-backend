@@ -5,7 +5,7 @@ from ..common.exceptions import RecordNotFound, InvalidURL, CannotChangeOthersPr
 
 
 def create_experience(experience_data, user_id):
-    if user_id != g.current_user.id:
+    if int(user_id) == g.current_user.id:
         experience = Experience.new_from_dict(experience_data)
         experience.user = g.current_user
         experience.save()
@@ -33,7 +33,7 @@ def get_all_experiences(user_id):
 
 
 def update_experience(experience_data, user_id, experience_id):
-    if int(user_id) != g.current_user.id:
+    if int(user_id) == g.current_user.id:
         experience = get_experience_by_id(experience_id)
         experience.update_from_dict(experience_data)
         experience.save()
