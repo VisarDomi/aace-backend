@@ -9,10 +9,6 @@
     },
     "description": {
       "type": "string"
-    },
-    "url": {
-      "type": "string"
     }
-  },
-  "additionalProperties": false
+  }
 }

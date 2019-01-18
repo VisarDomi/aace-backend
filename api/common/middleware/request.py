@@ -8,38 +8,34 @@ from ..exceptions import InvalidContentType, InvalidPermissions
 
 
 def ensure_content_type():
-    print(
-        f"api.common.middleware.request.ensure_content_type "
-        f"Ensuring content type of type: {request.method}"
-    )
     """
     Ensures that the Content-Type for all requests
     is `application/json`, otherwise appropriate error
     is raised.
-    :raises: InvalidContentType if Content-Type is not `application/json`
+    :raises: InvalidContentType if Content-Type is not 
+    `application/json` or `multipart/form-data
     """
     content_type = request.headers.get("Content-type")
-    allowed_content_type = "application/json"
+    allowed_content_type = ["application/json", "multipart/form-data"]
     if content_type == "application/json; charset=utf-8":
         content_type = allowed_content_type
+    try:
+        if len(content_type) > 30:
+            content_type = content_type.split()[0].strip(';')
+    except:
+        pass
 
     # the following if is a big if
     if (
         request.method == OPTIONS_METHOD
         or request.method == "GET"
-        or request.method == "PUT"
         or request.method == "DELETE"
     ):
         content_type = "application/json"
 
-    print(
-        f"api.common.middleware.request.ensure_content_type "
-        f"The request comes in with a type: {content_type}"
-    )
-
-    if not content_type == allowed_content_type:
+    if content_type not in allowed_content_type:
         msg = (
-            f"Invalid content-type {content_type}. "
+            f"Invalid content-type `{content_type}`. "
             f"Only `{allowed_content_type}` is allowed."
         )
         raise InvalidContentType(message=msg)
@@ -72,15 +68,8 @@ def enable_cors(response):
     will consume the API via AJAX requests.
     """
     if request.method == OPTIONS_METHOD:
-        print(
-            f"api.common.middleware.request.enable_cors the method "
-            f"coming in for cors enabling is: {request.method}"
-        )
         response = current_app.make_default_options_response()
-    print(
-        f"api.common.middleware.request.enable_cors the method coming "
-        f"in for cors enabling is: {request.method}"
-    )
+
     response.headers[ACL_ORIGIN] = ALLOWED_ORIGINS
     response.headers[ACL_METHODS] = ALLOWED_METHODS
     response.headers[ACL_ALLOWED_HEADERS] = ALLOWED_HEADERS

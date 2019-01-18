@@ -1,6 +1,6 @@
 from api.common.models import User, Group, Post, Media
 from api.common.database import db_session
-
+import os
 # from api.common.database import drop_db
 
 
@@ -35,3 +35,19 @@ user.experiences.filter_by(id=1).one()
 
 posts = Post.query.filter(Post.user_id == '1').all()
 medias = Media.query.filter(Media.experience_id == '1').all()
+
+
+os.path.abspath(os.path.join(os.getcwd(), 'static'))
+
+# enctype of the form to multipart/form-data
+
+content_type = 'multipart/form-data; boundary=--------------------------164197961074994606111231'
+content_type.split()[0].strip(';')
+len(content_type.split()[0].strip(';'))
+len(content_type)
+
+
+
+
+
+

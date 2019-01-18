@@ -10,13 +10,19 @@ from ..bp_auth.views import token_auth
 @bp.route("/experience/<experience_id>/media", methods=["POST"])
 @bp.route("/message/<message_id>/media", methods=["POST"])
 @bp.route("/post/<post_id>/media", methods=["POST"])
-@schema("create_media.json")
+# @schema("create_media.json")
 @token_auth.login_required
 def create_media(
     user_id, comment_id=0, event_id=0, experience_id=0, message_id=0, post_id=0
 ):
     return domain.create_media(
-        request.json, comment_id, event_id, experience_id, message_id, post_id
+        request.files.getlist("file"),
+        user_id,
+        comment_id,
+        event_id,
+        experience_id,
+        message_id,
+        post_id,
     )
 
 

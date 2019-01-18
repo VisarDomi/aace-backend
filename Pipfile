@@ -12,6 +12,7 @@ sqlalchemy-utils = "*"
 psycopg2 = "*"
 flask-httpauth = "*"
 sqlathanor = "*"
+flask-uploads = "*"
 
 [requires]
 python_version = "3.7"

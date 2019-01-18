@@ -478,7 +478,12 @@ class Media(BaseModel, CustomBase):
             name="description", supports_dict=(True, True), supports_json=(True, True)
         ),
         AttributeConfiguration(
-            name="url", supports_dict=(True, True), supports_json=(True, True)
+            name="media_filename",
+            supports_dict=(True, True),
+            supports_json=(True, True),
+        ),
+        AttributeConfiguration(
+            name="media_url", supports_dict=(True, True), supports_json=(True, True)
         ),
         AttributeConfiguration(
             name="experience", supports_dict=(True, True), supports_json=(True, True)
@@ -507,7 +512,8 @@ class Media(BaseModel, CustomBase):
 
     title = Column(String)
     description = Column(Text)
-    url = Column(String)
+    media_filename = Column(String)
+    media_url = Column(String)
 
     # user profile
     user = relationship("User", back_populates="medias")
@@ -536,7 +542,7 @@ class Media(BaseModel, CustomBase):
     message_id = Column(Integer, ForeignKey("messages.id"))
 
     def __repr__(self):
-        return f"Media({self.id} {self.title})"
+        return f"Media({self.id} {self.media_filename})"
 
 
 class Group(BaseModel, CustomBase):

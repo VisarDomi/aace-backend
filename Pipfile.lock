@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "281cb167a3cf6f2ec6c15e26d34b4dfe961302fca7b3468a7c9b1f5184d8d095"
+            "sha256": "8123e67a367f65328e6f11d9bf546f0a47b183f56bc35b2808aaffd4bc1a4b0d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -45,6 +45,13 @@
             "index": "pypi",
             "version": "==3.2.4"
         },
+        "flask-uploads": {
+            "hashes": [
+                "sha256:53ecbd6033667d50ae02b63adebbaa33c7fc56c09e5293025810cf9d841ecb02"
+            ],
+            "index": "pypi",
+            "version": "==0.2.1"
+        },
         "itsdangerous": {
             "hashes": [
                 "sha256:321b033d07f2a4136d3ec762eac9f16a10ccd60f53c0c91af90217ace7ba1f19",
@@ -64,7 +71,6 @@
                 "sha256:000e68abd33c972a5248544925a0cae7d1125f9bf6c58280d37546b946769a08",
                 "sha256:6ff5f3180870836cae40f06fa10419f557208175f13ad7bc26caa77beb1f6e02"
             ],
-            "index": "pypi",
             "version": "==2.6.0"
         },
         "mako": {
