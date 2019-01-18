@@ -13,8 +13,8 @@ def get_post_by_id(post_id):
     return post_json
 
 
-def get_all_posts():
-    posts = backend.get_all_posts()
+def get_all_posts(user_id):
+    posts = backend.get_all_posts(user_id)
     list_of_posts = [
         post.to_dict(max_nesting=2) for post in posts
     ]

@@ -32,8 +32,8 @@ def get_post_by_id(post_id):
     return result
 
 
-def get_all_posts():
-    posts = Post.query.all()
+def get_all_posts(user_id):
+    posts = Post.query.filter(Post.user_id == int(user_id)).all()
     return posts
 
 

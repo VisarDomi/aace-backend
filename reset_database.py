@@ -1,4 +1,4 @@
-from api.common.models import User, Group
+from api.common.models import User, Group, Post, Media
 from api.common.database import db_session
 
 # from api.common.database import drop_db
@@ -33,4 +33,5 @@ User.query.filter(User.email != "visar@forcewing.com").filter(
 user = User.query.filter(User.email == "visar@forcewing.com").one()
 user.experiences.filter_by(id=1).one()
 
-
+posts = Post.query.filter(Post.user_id == '1').all()
+medias = Media.query.filter(Media.experience_id == '1').all()

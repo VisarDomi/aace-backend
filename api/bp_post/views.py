@@ -15,7 +15,7 @@ def create_post(user_id):
 @bp.route("/all", methods=["GET"])
 @token_auth.login_required
 def get_posts(user_id):
-    return domain.get_all_posts()
+    return domain.get_all_posts(user_id)
 
 
 @bp.route("/<post_id>", methods=["GET"])
