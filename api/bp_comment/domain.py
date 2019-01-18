@@ -2,8 +2,8 @@ from . import backend
 import json
 
 
-def create_comment(comment_data):
-    comment = backend.create_comment(comment_data)
+def create_comment(comment_data, user_id):
+    comment = backend.create_comment(comment_data, user_id)
     return comment.to_json(max_nesting=2)
 
 
@@ -13,8 +13,8 @@ def get_comment_by_id(comment_id):
     return comment_json
 
 
-def get_all_comments():
-    comments = backend.get_all_comments()
+def get_all_comments(user_id):
+    comments = backend.get_all_comments(user_id)
     list_of_comments = [
         comment.to_dict(max_nesting=2) for comment in comments
     ]
@@ -22,8 +22,8 @@ def get_all_comments():
     return json_dump_of_list_of_comments
 
 
-def update_comment(comment_data, comment_id):
-    comment = backend.update_comment(comment_data, comment_id)
+def update_comment(comment_data, user_id, comment_id):
+    comment = backend.update_comment(comment_data, user_id, comment_id)
     return comment.to_json(max_nesting=2)
 
 

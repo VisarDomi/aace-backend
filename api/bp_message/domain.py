@@ -2,8 +2,8 @@ from . import backend
 import json
 
 
-def create_message(message_data):
-    message = backend.create_message(message_data)
+def create_message(message_data, user_id):
+    message = backend.create_message(message_data, user_id)
     return message.to_json(max_nesting=2)
 
 
@@ -13,8 +13,8 @@ def get_message_by_id(message_id):
     return message_json
 
 
-def get_all_messages():
-    messages = backend.get_all_messages()
+def get_all_messages(user_id):
+    messages = backend.get_all_messages(user_id)
     list_of_messages = [
         message.to_dict(max_nesting=2) for message in messages
     ]
@@ -22,8 +22,8 @@ def get_all_messages():
     return json_dump_of_list_of_messages
 
 
-def update_message(message_data, message_id):
-    message = backend.update_message(message_data, message_id)
+def update_message(message_data, user_id, message_id):
+    message = backend.update_message(message_data, user_id, message_id)
     return message.to_json(max_nesting=2)
 
 

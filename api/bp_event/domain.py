@@ -2,8 +2,8 @@ from . import backend
 import json
 
 
-def create_event(event_data):
-    event = backend.create_event(event_data)
+def create_event(event_data, user_id):
+    event = backend.create_event(event_data, user_id)
     return event.to_json(max_nesting=2)
 
 
@@ -13,8 +13,8 @@ def get_event_by_id(event_id):
     return event_json
 
 
-def get_all_events():
-    events = backend.get_all_events()
+def get_all_events(user_id):
+    events = backend.get_all_events(user_id)
     list_of_events = [
         event.to_dict(max_nesting=2) for event in events
     ]
@@ -22,8 +22,8 @@ def get_all_events():
     return json_dump_of_list_of_events
 
 
-def update_event(event_data, event_id):
-    event = backend.update_event(event_data, event_id)
+def update_event(event_data, user_id, event_id):
+    event = backend.update_event(event_data, user_id, event_id)
     return event.to_json(max_nesting=2)
 
 

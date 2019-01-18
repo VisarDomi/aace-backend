@@ -71,10 +71,6 @@ class CannotDeleteFirstAdmin(JSONException):
     status_code = Unauthorized.code
 
 
-class CannotPostOnOthersProfile(JSONException):
-    status_code = Unauthorized.code
-
-
 class UserIsAlreadyPartOfGroup(RecordAlreadyExists):
     pass
 
@@ -89,3 +85,23 @@ class NoUserByThatID(RecordNotFound):
 
 class InvalidURL(InvalidAPIRequest):
     pass
+
+
+class CannotPostOnOthersProfile(JSONException):
+    status_code = Unauthorized.code
+
+
+class CannotNotificationOnOthersProfile(JSONException):
+    status_code = Unauthorized.code
+
+
+class CannotMessageOnOthersProfile(JSONException):
+    status_code = Unauthorized.code
+
+
+class CannotEventOnOthersProfile(JSONException):
+    status_code = Unauthorized.code
+
+
+class CannotCommentOnOthersProfile(JSONException):
+    status_code = Unauthorized.code

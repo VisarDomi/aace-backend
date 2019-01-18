@@ -34,13 +34,15 @@ def create_app(config_class=Config):
     # register all blueprints
     app.register_blueprint(admin_bp, url_prefix="/api/admin")
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
-    app.register_blueprint(comment_bp, url_prefix="/api/comment")
-    app.register_blueprint(event_bp, url_prefix="/api/event")
+    app.register_blueprint(comment_bp, url_prefix="/api/user/<user_id>/comment")
+    app.register_blueprint(event_bp, url_prefix="/api/user/<user_id>/event")
     app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
     app.register_blueprint(group_bp, url_prefix="/api/group")
     app.register_blueprint(media_bp, url_prefix="/api/user/<user_id>")
-    app.register_blueprint(message_bp, url_prefix="/api/message")
-    app.register_blueprint(notification_bp, url_prefix="/api/notification")
+    app.register_blueprint(message_bp, url_prefix="/api/user/<user_id>/message")
+    app.register_blueprint(
+        notification_bp, url_prefix="/api/user/<user_id>/notification"
+    )
     app.register_blueprint(post_bp, url_prefix="/api/user/<user_id>/post")
     app.register_blueprint(user_bp, url_prefix="/api/user")
 
