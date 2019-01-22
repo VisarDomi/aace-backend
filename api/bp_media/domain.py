@@ -3,7 +3,15 @@ import json
 
 
 def create_media(
-    media_data, user_id, comment_id, event_id, experience_id, message_id, post_id
+    media_data,
+    user_id,
+    accomplishment_id,
+    comment_id,
+    event_id,
+    education_id,
+    experience_id,
+    message_id,
+    post_id,
 ):
     medias = backend.create_media(
         media_data, user_id, comment_id, event_id, experience_id, message_id, post_id
