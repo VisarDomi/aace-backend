@@ -1,8 +1,8 @@
-"""creating database by hand, and tables with this scripts
+"""generating first database structure
 
-Revision ID: 105407457aed
+Revision ID: 7f30d70f05de
 Revises: 
-Create Date: 2019-01-18 04:55:26.112383
+Create Date: 2019-01-22 23:08:30.776983
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '105407457aed'
+revision = '7f30d70f05de'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -64,6 +64,7 @@ def upgrade():
     sa.Column('birthday', sa.Date(), nullable=True),
     sa.Column('website', sa.String(), nullable=True),
     sa.Column('email', sa.String(), nullable=True),
+    sa.Column('comment_from_administrator', sa.Text(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('token')
@@ -170,7 +171,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('title', sa.String(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('url', sa.String(), nullable=True),
+    sa.Column('media_filename', sa.String(), nullable=True),
+    sa.Column('media_url', sa.String(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('experience_id', sa.Integer(), nullable=True),
     sa.Column('education_id', sa.Integer(), nullable=True),
