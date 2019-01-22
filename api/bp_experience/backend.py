@@ -1,7 +1,13 @@
 from flask import g
 from ..common.models import Experience
 from sqlalchemy.orm.exc import NoResultFound
-from ..common.exceptions import RecordNotFound, InvalidURL, CannotChangeOthersProfile
+from ..common.exceptions import (
+    RecordNotFound,
+    InvalidURL,
+    CannotChangeOthersProfile,
+    CannotDeleteOthersExperience,
+)
+from ..bp_user.backend import get_user_by_id
 
 
 def create_experience(experience_data, user_id):
@@ -43,6 +49,11 @@ def update_experience(experience_data, user_id, experience_id):
     return experience
 
 
-def delete_experience(experience_id):
+def delete_experience(user_id, experience_id):
+    user = get_user_by_id(user_id)
     experience = get_experience_by_id(experience_id)
-    experience.delete()
+    if user.email == g.current_user.email:
+        experience.delete()
+    else:
+        msg = "You can't delete other people's profile."
+        raise CannotDeleteOthersExperience(message=msg)

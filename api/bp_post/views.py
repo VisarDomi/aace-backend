@@ -34,6 +34,6 @@ def update_post(user_id, post_id):
 @bp.route("/<post_id>", methods=["DELETE"])
 @token_auth.login_required
 def delete_post(user_id, post_id):
-    domain.delete_post(post_id)
+    domain.delete_post(user_id, post_id)
 
     return jsonify({"message": "Post with `id: %s` has been deleted." % post_id})

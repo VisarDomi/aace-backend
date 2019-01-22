@@ -34,6 +34,6 @@ def update_comment(user_id, comment_id):
 @bp.route("/<comment_id>", methods=["DELETE"])
 @token_auth.login_required
 def delete_comment(user_id, comment_id):
-    domain.delete_comment(comment_id)
+    domain.delete_comment(user_id, comment_id)
 
     return jsonify({"message": "Comment with `id: %s` has been deleted." % comment_id})

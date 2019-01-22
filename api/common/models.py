@@ -166,6 +166,11 @@ class User(BaseModel, CustomBase):
             name="email", supports_dict=(True, True), supports_json=(True, True)
         ),
         AttributeConfiguration(
+            name="comment_from_administrator",
+            supports_dict=(True, True),
+            supports_json=(True, True),
+        ),
+        AttributeConfiguration(
             name="experiences", supports_dict=(True, True), supports_json=(True, True)
         ),
         AttributeConfiguration(
@@ -237,6 +242,9 @@ class User(BaseModel, CustomBase):
     # contact info - should be one to many
     website = Column(String)
     email = Column(String, unique=True)
+
+    # comment nga administratori
+    comment_from_administrator = Column(Text)
 
     # experiences
     experiences = relationship("Experience", back_populates="user", lazy="dynamic")
@@ -341,9 +349,9 @@ class Experience(BaseModel, CustomBase):
         AttributeConfiguration(
             name="description", supports_dict=(True, True), supports_json=(True, True)
         ),
-        AttributeConfiguration(
-            name="user", supports_dict=(True, True), supports_json=(True, True)
-        ),
+        # AttributeConfiguration(
+        #     name="user", supports_dict=(True, True), supports_json=(True, True)
+        # ),
         AttributeConfiguration(
             name="user_id", supports_dict=(True, True), supports_json=(True, True)
         ),
@@ -400,9 +408,9 @@ class Education(BaseModel, CustomBase):
         AttributeConfiguration(
             name="description", supports_dict=(True, True), supports_json=(True, True)
         ),
-        AttributeConfiguration(
-            name="user", supports_dict=(True, True), supports_json=(True, True)
-        ),
+        # AttributeConfiguration(
+        #     name="user", supports_dict=(True, True), supports_json=(True, True)
+        # ),
         AttributeConfiguration(
             name="user_id", supports_dict=(True, True), supports_json=(True, True)
         ),
@@ -441,9 +449,9 @@ class Accomplishment(BaseModel, CustomBase):
         AttributeConfiguration(
             name="description", supports_dict=(True, True), supports_json=(True, True)
         ),
-        AttributeConfiguration(
-            name="user", supports_dict=(True, True), supports_json=(True, True)
-        ),
+        # AttributeConfiguration(
+        #     name="user", supports_dict=(True, True), supports_json=(True, True)
+        # ),
         AttributeConfiguration(
             name="user_id", supports_dict=(True, True), supports_json=(True, True)
         ),
@@ -610,7 +618,7 @@ class Event(BaseModel, CustomBase):
     )
 
     def __repr__(self):
-        return f"Event({self.id}"
+        return f"Event({self.id})"
 
 
 class Post(BaseModel, CustomBase):
@@ -625,9 +633,9 @@ class Post(BaseModel, CustomBase):
         AttributeConfiguration(
             name="timestamp", supports_dict=(True, True), supports_json=(True, True)
         ),
-        AttributeConfiguration(
-            name="user", supports_dict=(True, True), supports_json=(True, True)
-        ),
+        # AttributeConfiguration(
+        #     name="user", supports_dict=(True, True), supports_json=(True, True)
+        # ),
         AttributeConfiguration(
             name="user_id", supports_dict=(True, True), supports_json=(True, True)
         ),
@@ -674,9 +682,9 @@ class Comment(BaseModel, CustomBase):
         AttributeConfiguration(
             name="timestamp", supports_dict=(True, True), supports_json=(True, True)
         ),
-        AttributeConfiguration(
-            name="user", supports_dict=(True, True), supports_json=(True, True)
-        ),
+        # AttributeConfiguration(
+        #     name="user", supports_dict=(True, True), supports_json=(True, True)
+        # ),
         AttributeConfiguration(
             name="user_id", supports_dict=(True, True), supports_json=(True, True)
         ),

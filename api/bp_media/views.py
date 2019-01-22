@@ -92,6 +92,6 @@ def delete_media(
     message_id=0,
     post_id=0,
 ):
-    domain.delete_media(media_id)
+    domain.delete_media(user_id, media_id)
 
     return jsonify({"message": "Media with `id: %s` has been deleted." % media_id})

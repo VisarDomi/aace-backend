@@ -51,24 +51,24 @@ class MissingArguments(Exception):
     status_code = BadRequest.code
 
 
-class CannotChangeOthersProfile(JSONException):
-    status_code = Unauthorized.code
+class CannotChangeOthersProfile(InvalidPermissions):
+    pass
 
 
-class CannotDeleteOthersProfile(JSONException):
-    status_code = Unauthorized.code
+class CannotDeleteOthersProfile(InvalidPermissions):
+    pass
 
 
-class YouAreNotAdmin(JSONException):
-    status_code = Unauthorized.code
+class YouAreNotAdmin(InvalidPermissions):
+    pass
 
 
-class CannotChangeFirstAdminProperties(JSONException):
-    status_code = Unauthorized.code
+class CannotChangeFirstAdminProperties(InvalidPermissions):
+    pass
 
 
-class CannotDeleteFirstAdmin(JSONException):
-    status_code = Unauthorized.code
+class CannotDeleteFirstAdmin(InvalidPermissions):
+    pass
 
 
 class UserIsAlreadyPartOfGroup(RecordAlreadyExists):
@@ -83,25 +83,48 @@ class NoUserByThatID(RecordNotFound):
     pass
 
 
+class NoPostByThatID(RecordNotFound):
+    pass
+
+
 class InvalidURL(InvalidAPIRequest):
     pass
 
 
-class CannotPostOnOthersProfile(JSONException):
-    status_code = Unauthorized.code
+class CannotPostOnOthersProfile(InvalidPermissions):
+    pass
 
 
-class CannotNotificationOnOthersProfile(JSONException):
-    status_code = Unauthorized.code
+class CannotDeleteOthersPost(InvalidPermissions):
+    pass
 
 
-class CannotMessageOnOthersProfile(JSONException):
-    status_code = Unauthorized.code
+class CannotNotificationOnOthersProfile(InvalidPermissions):
+    pass
 
 
-class CannotEventOnOthersProfile(JSONException):
-    status_code = Unauthorized.code
+class CannotMessageOnOthersProfile(InvalidPermissions):
+    pass
 
 
-class CannotCommentOnOthersProfile(JSONException):
-    status_code = Unauthorized.code
+class CannotEventOnOthersProfile(InvalidPermissions):
+    pass
+
+
+class CannotCommentOnOthersProfile(InvalidPermissions):
+    pass
+
+
+class PostIsAlreadyPartOfEvent(RecordAlreadyExists):
+    pass
+
+
+class CannotDeleteOthersExperience(InvalidPermissions):
+    pass
+
+
+class CannotDeleteOthersEducation(InvalidPermissions):
+    pass
+
+class CannotDeleteOthersAccomplishment(InvalidPermissions):
+    pass

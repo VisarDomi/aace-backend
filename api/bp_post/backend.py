@@ -6,7 +6,9 @@ from ..common.exceptions import (
     InvalidURL,
     CannotChangeOthersProfile,
     CannotPostOnOthersProfile,
+    CannotDeleteOthersPost
 )
+from ..bp_user.backend import get_user_by_id
 
 
 def create_post(post_data, user_id):
@@ -48,6 +50,11 @@ def update_post(post_data, user_id, post_id):
     return post
 
 
-def delete_post(post_id):
+def delete_post(user_id, post_id):
+    user = get_user_by_id(user_id)
     post = get_post_by_id(post_id)
-    post.delete()
+    if user.email == g.current_user.email:
+        post.delete()
+    else:
+        msg = "You can't delete other people's profile."
+        raise CannotDeleteOthersPost(message=msg)

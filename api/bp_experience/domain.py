@@ -27,5 +27,5 @@ def update_experience(experience_data, user_id, experience_id):
     return experience.to_json(max_nesting=2)
 
 
-def delete_experience(experience_id):
-    backend.delete_experience(experience_id)
+def delete_experience(user_id, experience_id):
+    backend.delete_experience(user_id, experience_id)

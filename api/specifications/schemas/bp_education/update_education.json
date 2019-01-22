@@ -1,0 +1,27 @@
+{
+  "title": "Update experience",
+  "description": "Update a experience object",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "school": {
+      "type": "string"
+    },
+    "degree": {
+      "type": "string"
+    },
+    "field_of_study": {
+      "type": "string"
+    },
+    "from_year": {
+      "type": "string"
+    },
+    "to_year": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

@@ -27,5 +27,5 @@ def update_post(post_data, user_id, post_id):
     return post.to_json(max_nesting=2)
 
 
-def delete_post(post_id):
-    backend.delete_post(post_id)
+def delete_post(user_id, post_id):
+    backend.delete_post(user_id, post_id)

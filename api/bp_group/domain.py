@@ -41,4 +41,4 @@ def add_user_to_group(group_id, user_id):
 
 
 def remove_user_from_group(group_id, user_id):
-    group = backend.remove_user_from_group(group_id, user_id)
+    backend.remove_user_from_group(group_id, user_id)

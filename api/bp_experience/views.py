@@ -34,7 +34,7 @@ def update_experience(user_id, experience_id):
 @bp.route("/<experience_id>", methods=["DELETE"])
 @token_auth.login_required
 def delete_experience(user_id, experience_id):
-    domain.delete_experience(experience_id)
+    domain.delete_experience(user_id, experience_id)
 
     return jsonify(
         {"message": "Experience with `id: %s` has been deleted." % experience_id}

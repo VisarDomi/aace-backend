@@ -2,12 +2,7 @@ from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
 from ..common.models import Media
 from sqlalchemy.orm.exc import NoResultFound
-from ..common.exceptions import (
-    RecordNotFound,
-    CannotDeleteOthersPost,
-    InvalidURL,
-    CannotChangeOthersProfile,
-)
+from ..common.exceptions import RecordNotFound,CannotDeleteOthersPost, InvalidURL, CannotChangeOthersProfile
 import os
 from ..bp_user.backend import get_user_by_id
 

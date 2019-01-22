@@ -27,5 +27,5 @@ def update_comment(comment_data, user_id, comment_id):
     return comment.to_json(max_nesting=2)
 
 
-def delete_comment(comment_id):
-    backend.delete_comment(comment_id)
+def delete_comment(user_id, comment_id):
+    backend.delete_comment(user_id, comment_id)

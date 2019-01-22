@@ -6,7 +6,9 @@ from ..common.exceptions import (
     InvalidURL,
     CannotChangeOthersProfile,
     CannotNotificationOnOthersProfile,
+    CannotDeleteOthersPost,
 )
+from ..bp_user.backend import get_user_by_id
 
 
 def create_notification(notification_data, user_id):
@@ -50,6 +52,11 @@ def update_notification(notification_data, user_id, notification_id):
     return notification
 
 
-def delete_notification(notification_id):
+def delete_notification(user_id, notification_id):
+    user = get_user_by_id(user_id)
     notification = get_notification_by_id(notification_id)
-    notification.delete()
+    if user.email == g.current_user.email:
+        notification.delete()
+    else:
+        msg = "You can't delete other people's profile."
+        raise CannotDeleteOthersPost(message=msg)

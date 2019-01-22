@@ -9,7 +9,7 @@ def create_user(user_data):
 
 def get_user_by_id(user_id):
     user = backend.get_user_by_id(user_id)
-    user_json = user.to_json(max_nesting=2)
+    user_json = user.to_json(max_nesting=4)
     return user_json
 
 
