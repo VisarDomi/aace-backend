@@ -14,7 +14,15 @@ def create_media(
     post_id,
 ):
     medias = backend.create_media(
-        media_data, user_id, comment_id, event_id, experience_id, message_id, post_id
+        media_data,
+        user_id,
+        accomplishment_id,
+        comment_id,
+        event_id,
+        education_id,
+        experience_id,
+        message_id,
+        post_id,
     )
     list_of_medias = [media.to_dict(max_nesting=2) for media in medias]
     json_dump_of_list_of_medias = json.dumps(list_of_medias, default=str)
@@ -27,9 +35,23 @@ def get_media_by_id(media_id):
     return media_json
 
 
-def get_all_medias(comment_id, event_id, experience_id, message_id, post_id):
+def get_all_medias(
+    accomplishment_id,
+    comment_id,
+    education_id,
+    event_id,
+    experience_id,
+    message_id,
+    post_id,
+):
     medias = backend.get_all_medias(
-        comment_id, event_id, experience_id, message_id, post_id
+        accomplishment_id,
+        comment_id,
+        education_id,
+        event_id,
+        experience_id,
+        message_id,
+        post_id,
     )
     list_of_medias = [media.to_dict(max_nesting=2) for media in medias]
     json_dump_of_list_of_medias = json.dumps(list_of_medias, default=str)

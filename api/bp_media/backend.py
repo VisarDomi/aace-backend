@@ -31,9 +31,17 @@ def create_media(
             media_filename = files.save(file)
             media_url = files.url(media_filename)
             media = Media(media_filename=media_filename, media_url=media_url)
-            if comment_id:
+            if accomplishment_id:
+                media.accomplishment = g.current_user.accomplishments.filter_by(
+                    id=int(accomplishment_id)
+                ).one()
+            elif comment_id:
                 media.comment = g.current_user.comments.filter_by(
                     id=int(comment_id)
+                ).one()
+            elif education_id:
+                media.education = g.current_user.educations.filter_by(
+                    id=int(education_id)
                 ).one()
             elif event_id:
                 media.event = g.current_user.events.filter_by(id=int(event_id)).one()
@@ -67,11 +75,23 @@ def get_media_by_id(media_id):
     return result
 
 
-def get_all_medias(comment_id, event_id, experience_id, message_id, post_id):
+def get_all_medias(
+    accomplishment_id,
+    comment_id,
+    education_id,
+    event_id,
+    experience_id,
+    message_id,
+    post_id,
+):
+    if accomplishment_id:
+        medias = Media.query.filter(Media.accomplishment_id == int(accomplishment_id)).all()
     if comment_id:
         medias = Media.query.filter(Media.comment_id == int(comment_id)).all()
     if event_id:
         medias = Media.query.filter(Media.event_id == int(event_id)).all()
+    if education_id:
+        medias = Media.query.filter(Media.education_id == int(education_id)).all()
     if experience_id:
         medias = Media.query.filter(Media.experience_id == int(experience_id)).all()
     if message_id:
