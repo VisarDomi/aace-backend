@@ -4,8 +4,12 @@ from dotenv import load_dotenv
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
 
-# if os.environ.get("FLASK_DEBUG"):
-    
+FLASK_DEBUG = os.environ.get("FLASK_DEBUG")
+if FLASK_DEBUG:
+    WEBSITE_URL = "localhost:5000"
+else:
+    WEBSITE_URL = "aace.ml"
+
 
 class Config(object):
     SECRET_KEY = os.environ.get("SECRET_KEY") or "you-will-never-guess1"
@@ -20,4 +24,4 @@ class Config(object):
     ADMINS = ["visardomi4@gmail.com"]
 
     UPLOADED_FILES_DEST = basedir + "/api/static/files/"
-    UPLOADED_FILES_URL = "http://localhost:5000/api/static/files/"
+    UPLOADED_FILES_URL = f"https://{WEBSITE_URL}/api/static/files/"
