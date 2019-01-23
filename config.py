@@ -5,10 +5,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
 
 FLASK_DEBUG = os.environ.get("FLASK_DEBUG")
-if FLASK_DEBUG:
-    WEBSITE_URL = "localhost:5000"
-else:
+
+if int(FLASK_DEBUG) == 0:
     WEBSITE_URL = "aace.ml"
+else:
+    WEBSITE_URL = "localhost:5000"
 
 
 class Config(object):
