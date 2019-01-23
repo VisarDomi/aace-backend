@@ -1,3 +1,6 @@
+# static files
+api/static/files/
+
 #from vue cli generated .gitignore
 .DS_Store
 node_modules

@@ -85,7 +85,9 @@ def get_all_medias(
     post_id,
 ):
     if accomplishment_id:
-        medias = Media.query.filter(Media.accomplishment_id == int(accomplishment_id)).all()
+        medias = Media.query.filter(
+            Media.accomplishment_id == int(accomplishment_id)
+        ).all()
     if comment_id:
         medias = Media.query.filter(Media.comment_id == int(comment_id)).all()
     if event_id:

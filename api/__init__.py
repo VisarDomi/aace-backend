@@ -42,7 +42,9 @@ def create_app(config_class=Config):
     app.register_blueprint(admin_bp, url_prefix="/api/admin")
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(comment_bp, url_prefix="/api/user/<user_id>/comment")
-    app.register_blueprint(accomplishment_bp, url_prefix="/api/user/<user_id>/accomplishment")
+    app.register_blueprint(
+        accomplishment_bp, url_prefix="/api/user/<user_id>/accomplishment"
+    )
     app.register_blueprint(education_bp, url_prefix="/api/user/<user_id>/education")
     app.register_blueprint(event_bp, url_prefix="/api/user/<user_id>/event")
     app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
