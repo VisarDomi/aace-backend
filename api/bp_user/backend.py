@@ -48,6 +48,7 @@ def update_user(user_data, user_id):
     user = get_user_by_id(user_id)
     if user.email == g.current_user.email:
         user.update_from_dict(user_data)
+        user.register_status = 'applying'
         user.save()
         return user
     else:
