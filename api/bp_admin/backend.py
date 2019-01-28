@@ -1,4 +1,4 @@
-from flask import g
+from flask import g, send_from_directory, send_file
 from functools import wraps
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -11,7 +11,8 @@ from ..common.exceptions import (
 )
 
 from ..common.models import User
-
+from ..bp_media.backend import get_media_by_id
+from config import Config
 
 # create a custom decorator, so only admins can use the following functions
 def are_you_admin(a_function):
@@ -74,3 +75,11 @@ def delete_user(user_id):
     else:
         msg = "Cannot delete admin with `id: %s`" % user_id
         raise CannotDeleteFirstAdmin(message=msg)
+
+
+def download(media_id):
+    media = get_media_by_id(media_id)
+    directory = Config.UPLOADED_FILES_DEST
+    filename = media.media_filename
+    download_file = send_from_directory(directory, filename, as_attachment=True)
+    return download_file

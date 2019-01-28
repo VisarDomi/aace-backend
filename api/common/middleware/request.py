@@ -17,8 +17,10 @@ def ensure_content_type():
     """
     content_type = request.headers.get("Content-type")
     allowed_content_type = ["application/json", "multipart/form-data"]
+
     if content_type == "application/json; charset=utf-8":
         content_type = allowed_content_type
+
     try:
         if len(content_type) > 30:
             content_type = content_type.split()[0].strip(';')
