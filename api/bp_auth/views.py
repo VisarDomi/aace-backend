@@ -27,8 +27,8 @@ def basic_auth_error():
 @bp.route("/login", methods=["POST"])
 @basic_auth.login_required
 def get_token():
-    token = g.current_user.get_token()
-    return jsonify({"token": token})
+    user = g.current_user
+    return user.to_json(max_nesting=1)
 
 
 @token_auth.verify_token

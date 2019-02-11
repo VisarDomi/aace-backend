@@ -4,27 +4,29 @@ import json
 
 def create_notification(notification_data, user_id):
     notification = backend.create_notification(notification_data, user_id)
-    return notification.to_json(max_nesting=2)
+    return notification.to_json(max_nesting=1)
 
 
 def get_notification_by_id(notification_id):
     notification = backend.get_notification_by_id(notification_id)
-    notification_json = notification.to_json(max_nesting=2)
+    notification_json = notification.to_json(max_nesting=1)
     return notification_json
 
 
 def get_all_notifications(user_id):
     notifications = backend.get_all_notifications(user_id)
     list_of_notifications = [
-        notification.to_dict(max_nesting=2) for notification in notifications
+        notification.to_dict(max_nesting=1) for notification in notifications
     ]
     json_dump_of_list_of_notifications = json.dumps(list_of_notifications, default=str)
     return json_dump_of_list_of_notifications
 
 
 def update_notification(notification_data, user_id, notification_id):
-    notification = backend.update_notification(notification_data, user_id, notification_id)
-    return notification.to_json(max_nesting=2)
+    notification = backend.update_notification(
+        notification_data, user_id, notification_id
+    )
+    return notification.to_json(max_nesting=1)
 
 
 def delete_notification(notification_id):
