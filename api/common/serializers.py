@@ -41,7 +41,7 @@
 #     Serializable Mixin for the SQLAlchemy objects.
 #     """
 
-#     def to_dict(self, exclude=None, only=None):
+#     def to_dict_flusk(self, exclude=None, only=None):
 #         """Convert SQLAlchemy object to `dict`.
 
 #         :param exclude: attrs to be excluded, defaults to None
@@ -58,7 +58,7 @@
 #         e.g. of usage
 
 #         ...
-#         return sql_alchemy_obj.to_dict(exclude=['name', 'email'])
+#         return sql_alchemy_obj.to_dict_flusk(exclude=['name', 'email'])
 #         ...
 
 #         """
@@ -71,30 +71,30 @@
 #         if only is None:
 #             only = []
 
-#         return self._to_dict(exclude, only)
+#         return self._to_dict_flusk(exclude, only)
 
-#     def _to_dict(self, exclude, only):
+#     def _to_dict_flusk(self, exclude, only):
 #         serialized_model = {}
 #         _mapper = self.__mapper__.c.keys()
 
 #         if exclude:
 #             for attr in _mapper:
 #                 if attr not in exclude:
-#                     serialized_model[attr] = self._serialize_attr(attr)
+#                     serialized_model[attr] = self._serialize_attr_flusk(attr)
 #         elif only:
 #             for attr in only:
 #                 if attr in _mapper:
-#                     serialized_model[attr] = self._serialize_attr(attr)
+#                     serialized_model[attr] = self._serialize_attr_flusk(attr)
 #                 else:
 #                     raise ValueError(
 #                         "The `only` attribute contains an invalid key: `%s`" % attr
 #                     )
 #         else:
 #             for attr in _mapper:
-#                 serialized_model[attr] = self._serialize_attr(attr)
+#                 serialized_model[attr] = self._serialize_attr_flusk(attr)
 
 #         return serialized_model
 
-#     def _serialize_attr(self, attr):
+#     def _serialize_attr_flusk(self, attr):
 #         _val = getattr(self, attr)
 #         return serialize(_val)

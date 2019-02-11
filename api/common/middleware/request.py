@@ -17,7 +17,10 @@ def ensure_content_type():
     `application/json` or `multipart/form-data
     """
     content_type = request.headers.get("Content-type")
+    print('ensure_content_type request.headers.get("Content-type") :', content_type)
+
     allowed_content_type = "application/json"
+    print('ensure_content_type allowed_content_type :', allowed_content_type)
 
     # if content_type == "application/json; charset=utf-8":
     #     content_type = allowed_content_type
@@ -31,7 +34,7 @@ def ensure_content_type():
     #     content_type = "application/json"
 
     if content_type:
-        if content_type != allowed_content_type:
+        if allowed_content_type not in content_type:
             msg = (
                 f"Invalid content-type `{content_type}`. "
                 f"Only `{allowed_content_type}` is allowed."
@@ -40,17 +43,17 @@ def ensure_content_type():
 
 
 def ensure_public_unavailability():
-    print("request.headers :", request.headers)
-    print("request.headers['Secure-Api-Key'] :", request.headers["Secure-Api-Key"])
+    print("ensure_public_unavailability request.headers :", request.headers)
+    #print("request.headers['Secure-Api-Key'] :", request.headers["Secure-Api-Key"])
     print(
-        'request.headers.get("Secure-Api-Key", "") :',
+        'ensure_public_unavailability request.headers.get("Secure-Api-Key", "") :',
         request.headers.get("Secure-Api-Key", ""),
     )
-    print('os.environ.get("SECURE_API_KEY") :', os.environ.get("SECURE_API_KEY"))
+    print('ensure_public_unavailability os.environ.get("SECURE_API_KEY") :', os.environ.get("SECURE_API_KEY"))
     if request.headers["Secure-Api-Key"] != Config.SECURE_API_KEY:
         raise InvalidPermissions(
             message="You don't have enough permissions to perform this action."
-        )
+    )
 
 
 ACL_ORIGIN = "Access-Control-Allow-Origin"
@@ -62,7 +65,7 @@ ALLOWED_ORIGINS = "*"
 ALLOWED_METHODS = "GET, POST, PUT, DELETE, OPTIONS"
 ALLOWED_HEADERS = (
     "Authorization, DNT, X-CustomHeader, Keep-Alive, User-Agent, "
-    "X-Requested-With, If-Modified-Since, Cache-Control, Content-Type"
+    "X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Secure-Api-Key"
 )
 
 
@@ -74,10 +77,11 @@ def enable_cors(response):
     """
     if request.method == OPTIONS_METHOD:
         response = current_app.make_default_options_response()
-
+    print("enable_cors 1 response.headers :", response.headers)
     response.headers[ACL_ORIGIN] = ALLOWED_ORIGINS
     response.headers[ACL_METHODS] = ALLOWED_METHODS
     response.headers[ACL_ALLOWED_HEADERS] = ALLOWED_HEADERS
+    print("enable_cors 2 response.headers :", response.headers)
 
     return response
 
@@ -88,6 +92,8 @@ def commit_session(response):
     of a successful request with status_code
     under 400.
     """
+    print("commit_session entered")
+    print("commit_session response.status_code :", response.status_code)
     if response.status_code >= 400:
         return response
     try:
