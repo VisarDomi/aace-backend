@@ -40,12 +40,14 @@ def ensure_content_type():
 
 
 def ensure_public_unavailability():
+    print("request.headers :", request.headers)
+    print("request.headers['Secure-Api-Key'] :", request.headers["Secure-Api-Key"])
     print(
-        'request.headers.get("SECURE_API_KEY", "") :',
-        request.headers.get("SECURE_API_KEY", ""),
+        'request.headers.get("Secure-Api-Key", "") :',
+        request.headers.get("Secure-Api-Key", ""),
     )
     print('os.environ.get("SECURE_API_KEY") :', os.environ.get("SECURE_API_KEY"))
-    if not request.headers.get("SECURE_API_KEY", "") == Config.SECURE_API_KEY:
+    if request.headers["Secure-Api-Key"] != Config.SECURE_API_KEY:
         raise InvalidPermissions(
             message="You don't have enough permissions to perform this action."
         )
