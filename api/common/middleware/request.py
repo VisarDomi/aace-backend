@@ -30,12 +30,13 @@ def ensure_content_type():
     # ):
     #     content_type = "application/json"
 
-    if content_type != allowed_content_type:
-        msg = (
-            f"Invalid content-type `{content_type}`. "
-            f"Only `{allowed_content_type}` is allowed."
-        )
-        raise InvalidContentType(message=msg)
+    if content_type:
+        if content_type != allowed_content_type:
+            msg = (
+                f"Invalid content-type `{content_type}`. "
+                f"Only `{allowed_content_type}` is allowed."
+            )
+            raise InvalidContentType(message=msg)
 
 
 def ensure_public_unavailability():
