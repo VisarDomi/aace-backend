@@ -5,6 +5,7 @@ from sqlalchemy.exc import DatabaseError
 
 from ..database import db_session
 from ..exceptions import InvalidContentType, InvalidPermissions
+from config import Config
 
 
 def ensure_content_type():
@@ -12,30 +13,24 @@ def ensure_content_type():
     Ensures that the Content-Type for all requests
     is `application/json`, otherwise appropriate error
     is raised.
-    :raises: InvalidContentType if Content-Type is not 
+    :raises: InvalidContentType if Content-Type is not
     `application/json` or `multipart/form-data
     """
     content_type = request.headers.get("Content-type")
-    allowed_content_type = ["application/json", "multipart/form-data"]
+    allowed_content_type = "application/json"
 
-    if content_type == "application/json; charset=utf-8":
-        content_type = allowed_content_type
-
-    try:
-        if len(content_type) > 30:
-            content_type = content_type.split()[0].strip(';')
-    except:
-        pass
+    # if content_type == "application/json; charset=utf-8":
+    #     content_type = allowed_content_type
 
     # the following if is a big if
-    if (
-        request.method == OPTIONS_METHOD
-        or request.method == "GET"
-        or request.method == "DELETE"
-    ):
-        content_type = "application/json"
+    # if (
+    #     request.method == OPTIONS_METHOD
+    #     or request.method == "GET"
+    #     or request.method == "DELETE"
+    # ):
+    #     content_type = "application/json"
 
-    if content_type not in allowed_content_type:
+    if content_type != allowed_content_type:
         msg = (
             f"Invalid content-type `{content_type}`. "
             f"Only `{allowed_content_type}` is allowed."
@@ -44,7 +39,12 @@ def ensure_content_type():
 
 
 def ensure_public_unavailability():
-    if not request.headers.get("_secure_key", "") == os.environ.get("SECURE_API_KEY"):
+    print(
+        'request.headers.get("_secure_key", "") :',
+        request.headers.get("_secure_key", ""),
+    )
+    print('os.environ.get("SECURE_API_KEY") :', os.environ.get("SECURE_API_KEY"))
+    if not request.headers.get("_secure_key", "") == Config.SECURE_API_KEY:
         raise InvalidPermissions(
             message="You don't have enough permissions to perform this action."
         )

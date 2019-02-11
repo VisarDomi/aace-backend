@@ -7,3 +7,4 @@ MAIL_PORT=587
 MAIL_USE_TLS=1
 MAIL_USERNAME=forcewingtest@gmail.com
 MAIL_PASSWORD=forcewing1234
+SECURE_API_KEY='asdfasdfetye'

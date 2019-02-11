@@ -14,6 +14,7 @@ else:
 
 class Config(object):
     SECRET_KEY = os.environ.get("SECRET_KEY") or "you-will-never-guess1"
+    SECURE_API_KEY = os.environ.get("SECURE_API_KEY") or "key-never-guess1"
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI"
     ) or "sqlite:///" + os.path.join(basedir, "aace.db")
