@@ -41,11 +41,11 @@ def ensure_content_type():
 
 def ensure_public_unavailability():
     print(
-        'request.headers.get("_secure_key", "") :',
-        request.headers.get("_secure_key", ""),
+        'request.headers.get("SECURE_API_KEY", "") :',
+        request.headers.get("SECURE_API_KEY", ""),
     )
     print('os.environ.get("SECURE_API_KEY") :', os.environ.get("SECURE_API_KEY"))
-    if not request.headers.get("_secure_key", "") == Config.SECURE_API_KEY:
+    if not request.headers.get("SECURE_API_KEY", "") == Config.SECURE_API_KEY:
         raise InvalidPermissions(
             message="You don't have enough permissions to perform this action."
         )
