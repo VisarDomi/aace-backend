@@ -10,7 +10,7 @@ def create_group(group_data):
 
 def get_group_by_id(group_id):
     group = backend.get_group_by_id(group_id)
-    group_json = group.to_json(max_nesting=1)
+    group_json = group.to_json(max_nesting=2)
 
     return group_json
 

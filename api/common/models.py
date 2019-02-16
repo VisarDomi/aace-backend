@@ -1,6 +1,7 @@
 from sqlathanor import AttributeConfiguration, relationship, Column, Table
 from sqlalchemy import Integer, String, Boolean, DateTime, Text, ForeignKey, Date
 from ..common.database import BaseModel, CustomBase
+from ..common.serializers import ModelSerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 import base64
@@ -90,7 +91,7 @@ user_messagegroup = Table(
 )
 
 
-class User(BaseModel, CustomBase):
+class User(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "users"
     __serialization__ = [
         AttributeConfiguration(
@@ -320,7 +321,7 @@ class User(BaseModel, CustomBase):
         return f"User({self.id} {self.email})"
 
 
-class Experience(BaseModel, CustomBase):
+class Experience(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "experiences"
     __serialization__ = [
         AttributeConfiguration(
@@ -379,7 +380,7 @@ class Experience(BaseModel, CustomBase):
         return f"Experience({self.id} {self.title})"
 
 
-class Education(BaseModel, CustomBase):
+class Education(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "educations"
     __serialization__ = [
         AttributeConfiguration(
@@ -437,7 +438,7 @@ class Education(BaseModel, CustomBase):
         return f"Education({self.id} {self.school})"
 
 
-class Accomplishment(BaseModel, CustomBase):
+class Accomplishment(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "accomplishments"
     __serialization__ = [
         AttributeConfiguration(
@@ -473,7 +474,7 @@ class Accomplishment(BaseModel, CustomBase):
         return f"Accomplishment({self.id} {self.name})"
 
 
-class Media(BaseModel, CustomBase):
+class Media(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "medias"
     __serialization__ = [
         AttributeConfiguration(
@@ -553,7 +554,7 @@ class Media(BaseModel, CustomBase):
         return f"Media({self.id} {self.media_filename})"
 
 
-class Group(BaseModel, CustomBase):
+class Group(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "groups"
     __serialization__ = [
         AttributeConfiguration(
@@ -586,7 +587,7 @@ class Group(BaseModel, CustomBase):
         return f"Group({self.id} {self.name})"
 
 
-class Event(BaseModel, CustomBase):
+class Event(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "events"
     __serialization__ = [
         AttributeConfiguration(
@@ -621,7 +622,7 @@ class Event(BaseModel, CustomBase):
         return f"Event({self.id})"
 
 
-class Post(BaseModel, CustomBase):
+class Post(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "posts"
     __serialization__ = [
         AttributeConfiguration(
@@ -670,7 +671,7 @@ class Post(BaseModel, CustomBase):
         return f"Post({self.id})"
 
 
-class Comment(BaseModel, CustomBase):
+class Comment(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "comments"
     __serialization__ = [
         AttributeConfiguration(
@@ -715,7 +716,7 @@ class Comment(BaseModel, CustomBase):
         return f"Comment({self.id})"
 
 
-class Message(BaseModel, CustomBase):
+class Message(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "messages"
     __serialization__ = [
         AttributeConfiguration(
@@ -760,7 +761,7 @@ class Message(BaseModel, CustomBase):
         return f"Message({self.id})"
 
 
-class MessageRecipient(BaseModel, CustomBase):
+class MessageRecipient(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "messagerecipients"
     __serialization__ = [
         AttributeConfiguration(
@@ -806,7 +807,7 @@ class MessageRecipient(BaseModel, CustomBase):
         return f"MessageRecipient({self.id})"
 
 
-class MessageGroup(BaseModel, CustomBase):
+class MessageGroup(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "messagegroups"
     __serialization__ = [
         AttributeConfiguration(
@@ -843,7 +844,7 @@ class MessageGroup(BaseModel, CustomBase):
         return f"MessageGroup({self.id} {self.name})"
 
 
-class Notification(BaseModel, CustomBase):
+class Notification(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "notifications"
     __serialization__ = [
         AttributeConfiguration(

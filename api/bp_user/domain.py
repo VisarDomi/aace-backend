@@ -15,10 +15,15 @@ def get_user_by_id(user_id):
 
 def get_all_users():
     users = backend.get_all_users()
-    list_of_users = [
-        user.to_dict(max_nesting=1) for user in users
+
+    # list_of_users = [
+    #     user.to_dict() for user in users
+    # ]
+    # json_dump_of_list_of_users = json.dumps(list_of_users, default=str)
+    list_of_users_flusk = [
+        user.to_dict_flusk(only=["id", "first_name", "last_name"]) for user in users
     ]
-    json_dump_of_list_of_users = json.dumps(list_of_users, default=str)
+    json_dump_of_list_of_users = json.dumps(list_of_users_flusk, default=str)
     return json_dump_of_list_of_users
 
 
