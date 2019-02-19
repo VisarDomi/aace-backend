@@ -76,6 +76,7 @@ def get_media_by_id(media_id):
 
 
 def get_all_medias(
+    user_id,
     accomplishment_id,
     comment_id,
     education_id,
@@ -84,6 +85,7 @@ def get_all_medias(
     message_id,
     post_id,
 ):
+    medias = Media.query.filter(Media.user_id == int(user_id)).all()
     if accomplishment_id:
         medias = Media.query.filter(
             Media.accomplishment_id == int(accomplishment_id)
