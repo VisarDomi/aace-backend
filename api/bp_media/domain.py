@@ -36,6 +36,7 @@ def get_media_by_id(media_id):
 
 
 def get_all_medias(
+    user_id,
     accomplishment_id,
     comment_id,
     education_id,
@@ -45,6 +46,7 @@ def get_all_medias(
     post_id,
 ):
     medias = backend.get_all_medias(
+        user_id,
         accomplishment_id,
         comment_id,
         education_id,

@@ -28,6 +28,9 @@
     "country": {
       "type": "string"
     },
+    "industry": {
+      "type": "string"
+    },
     "phone": {
       "type": "string"
     },

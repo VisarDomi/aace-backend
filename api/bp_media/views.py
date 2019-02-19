@@ -12,6 +12,7 @@ from ..bp_auth.views import token_auth
 @bp.route("/experience/<experience_id>/media", methods=["POST"])
 @bp.route("/message/<message_id>/media", methods=["POST"])
 @bp.route("/post/<post_id>/media", methods=["POST"])
+@bp.route("/application_profile_picture", methods=["POST"])
 # @schema("create_media.json")
 @token_auth.login_required
 def create_media(
@@ -44,6 +45,8 @@ def create_media(
 @bp.route("/experience/<experience_id>/media/all", methods=["GET"])
 @bp.route("/message/<message_id>/media/all", methods=["GET"])
 @bp.route("/post/<post_id>/media/all", methods=["GET"])
+@bp.route("/application_profile_picture", methods=["GET"])
+
 @token_auth.login_required
 def get_medias(
     user_id,
@@ -56,6 +59,7 @@ def get_medias(
     post_id=0,
 ):
     return domain.get_all_medias(
+        user_id,
         accomplishment_id,
         comment_id,
         education_id,
@@ -73,6 +77,8 @@ def get_medias(
 @bp.route("/experience/<experience_id>/media/<media_id>", methods=["GET"])
 @bp.route("/message/<message_id>/media/<media_id>", methods=["GET"])
 @bp.route("/post/<post_id>/media/<media_id>", methods=["GET"])
+@bp.route("/application_profile_picture", methods=["GET"])
+
 @token_auth.login_required
 def get_media(
     user_id,
@@ -95,6 +101,8 @@ def get_media(
 @bp.route("/experience/<experience_id>/media/<media_id>", methods=["PUT"])
 @bp.route("/message/<message_id>/media/<media_id>", methods=["PUT"])
 @bp.route("/post/<post_id>/media/<media_id>", methods=["PUT"])
+@bp.route("/application_profile_picture", methods=["PUT"])
+
 @schema("/update_media.json")
 @token_auth.login_required
 def update_media(
@@ -118,6 +126,8 @@ def update_media(
 @bp.route("/experience/<experience_id>/media/<media_id>", methods=["DELETE"])
 @bp.route("/message/<message_id>/media/<media_id>", methods=["DELETE"])
 @bp.route("/post/<post_id>/media/<media_id>", methods=["DELETE"])
+@bp.route("/application_profile_picture", methods=["DELETE"])
+
 @token_auth.login_required
 def delete_media(
     user_id,
