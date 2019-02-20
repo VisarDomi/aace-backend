@@ -55,6 +55,9 @@ def create_media(
                 ).one()
             elif post_id:
                 media.post = g.current_user.posts.filter_by(id=int(post_id)).one()
+            else:
+                media.user = g.current_user
+                g.current_user.profile_picture = media_filename
             media.save()
             medias.append(media)
     else:
@@ -85,23 +88,24 @@ def get_all_medias(
     message_id,
     post_id,
 ):
-    medias = Media.query.filter(Media.user_id == int(user_id)).all()
     if accomplishment_id:
         medias = Media.query.filter(
             Media.accomplishment_id == int(accomplishment_id)
         ).all()
-    if comment_id:
+    elif comment_id:
         medias = Media.query.filter(Media.comment_id == int(comment_id)).all()
-    if event_id:
+    elif event_id:
         medias = Media.query.filter(Media.event_id == int(event_id)).all()
-    if education_id:
+    elif education_id:
         medias = Media.query.filter(Media.education_id == int(education_id)).all()
-    if experience_id:
+    elif experience_id:
         medias = Media.query.filter(Media.experience_id == int(experience_id)).all()
-    if message_id:
+    elif message_id:
         medias = Media.query.filter(Media.message_id == int(message_id)).all()
-    if post_id:
+    elif post_id:
         medias = Media.query.filter(Media.post_id == int(post_id)).all()
+    else:
+        medias = Media.query.filter(Media.user_id == int(user_id)).all()
 
     return medias
 

@@ -27,7 +27,7 @@ def are_you_admin(a_function):
     return decorated_function
 
 
-# @are_you_admin
+@are_you_admin
 def get_user_by_id(user_id):
     try:
         result = User.query.filter(User.id == int(user_id)).one()
@@ -45,7 +45,7 @@ def get_all_users():
     return User.query.all()
 
 
-# @are_you_admin
+@are_you_admin
 def get_applying_users():
     users = (
         User.query.filter(User.register_status != "blank")
