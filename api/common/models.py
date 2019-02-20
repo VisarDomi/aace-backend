@@ -91,6 +91,17 @@ user_messagegroup = Table(
 )
 
 
+class Test(BaseModel, CustomBase, ModelSerializerMixin):
+    __tablename__ = "tests"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, unique=True)
+    description = Column(String)
+
+    def __repr__(self):
+        return f"Experience({self.id} {self.title})"
+
+
 class User(BaseModel, CustomBase, ModelSerializerMixin):
     __tablename__ = "users"
     __serialization__ = [
@@ -298,9 +309,9 @@ class User(BaseModel, CustomBase, ModelSerializerMixin):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def get_token(self, expires_in=36_000_000):
+    def get_token(self, expires_in=3600):
         now = datetime.utcnow()
-        if self.token and self.token_expiration > now + timedelta(seconds=3_600_000):
+        if self.token and self.token_expiration > now + timedelta(seconds=60):
             return self.token
         self.token = base64.b64encode(os.urandom(24)).decode("utf-8")
         self.token_expiration = now + timedelta(seconds=expires_in)

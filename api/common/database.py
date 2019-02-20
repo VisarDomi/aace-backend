@@ -46,14 +46,27 @@ class CustomBase(object):
         self._flush()
         return self
 
-    # def update(self, **kwargs):
-    #     """
-    #     Update and try to flush.
-    #     """
-    #     for attr, value in kwargs.items():
-    #         if hasattr(self, attr):
-    #             setattr(self, attr, value)
-    #     return self.save()
+    def create_flusk(self, **kwargs):
+        """It skips the attributes that are not present
+        for the model, thus if a dict is passed with some
+        unknown attributes for the model on creation,
+        it won't complain for `unkwnown field`s.
+        """
+        cls_ = type(self)
+        for k in kwargs:
+            if hasattr(cls_, k):
+                setattr(self, k, kwargs[k])
+            else:
+                continue
+
+    def update_flusk(self, **kwargs):
+        """
+        Update and try to flush.
+        """
+        for attr, value in kwargs.items():
+            if hasattr(self, attr):
+                setattr(self, attr, value)
+        return self.save()
 
     def delete(self):
         """
