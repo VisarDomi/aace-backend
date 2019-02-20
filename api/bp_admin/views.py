@@ -13,7 +13,7 @@ def get_users():
 
 
 @bp.route("/user/applying", methods=["GET"])
-# @token_auth.login_required
+@token_auth.login_required
 def get_applying_users():
     return domain.get_applying_users()
 
