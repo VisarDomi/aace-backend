@@ -31,6 +31,9 @@ def create_user(user_data):
 def get_user_by_id(user_id):
     try:
         result = User.query.filter(User.id == user_id).one()
+        # if result.
+        # result.educations.
+        # years_of_experience
     except NoResultFound:
         msg = f"There is no User with `id: {user_id}`"
         raise RecordNotFound(message=msg)

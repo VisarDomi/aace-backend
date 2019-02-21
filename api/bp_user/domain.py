@@ -19,6 +19,7 @@ def get_user_by_id(user_id):
     # return user_json
 
     ONLY = [
+        "profile_picture",
         "token",
         "id",
         "first_name",
@@ -43,13 +44,14 @@ def get_user_by_id(user_id):
             user_documents.append(edu_media.id)
 
     user_dict_flusk["document_ids"] = user_documents
+    user_dict_flusk["years_of_experience"] = '5'
     print("user_dict_flusk['document_ids'] :", user_dict_flusk["document_ids"])
     return jsonify(user_dict_flusk)
 
 
 def get_all_users():
     users = backend.get_all_users()
-
+    
     ####-------SQLAthanor-----------####
     # list_of_users = [
     #     user.to_dict(max_nesting=3) for user in users
@@ -57,12 +59,34 @@ def get_all_users():
     # json_dump_of_list_of_users = json.dumps(list_of_users, default=str)
 
     ####-------Flusk-----------####
-    list_of_users_flusk = [
-        user.to_dict_flusk(
-            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
-        )
-        for user in users
+    ONLY = [
+        "profile_picture",
+        "id",
+        "first_name",
+        "last_name",
+        "headline",
+        "summary",
+        "country",
+        "industry",
+        "email",
+        "phone",
+        "address",
+        "birthday",
+        "website",
+        "comment_from_administrator",
     ]
+
+    # list_of_users_flusk = [
+    #     user_dict_flusk = user.to_dict_flusk(only=ONLY)
+    #     for user in users
+    # ]
+    list_of_users_flusk = []
+    for user in users:
+        user_dict_flusk = user.to_dict_flusk(only=ONLY)
+        user_dict_flusk["years_of_experience"] = '6'
+        list_of_users_flusk.append(user_dict_flusk)
+
+
     json_dump_of_list_of_users_flusk = json.dumps(list_of_users_flusk, default=str)
     return json_dump_of_list_of_users_flusk
 
