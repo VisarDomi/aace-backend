@@ -11,9 +11,19 @@ def get_user_by_id(user_id):
 
 def get_applying_users():
     users = backend.get_applying_users()
-    list_of_users = [user.to_dict(max_nesting=1) for user in users]
-    json_dump_of_list_of_users = json.dumps(list_of_users, default=str)
-    return json_dump_of_list_of_users
+
+    # list_of_users = [user.to_dict(max_nesting=1) for user in users]
+    # json_dump_of_list_of_users = json.dumps(list_of_users, default=str)
+    # return json_dump_of_list_of_users
+
+    list_of_users_flusk = [
+        user.to_dict_flusk(
+            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
+        )
+        for user in users
+    ]
+    json_dump_of_list_of_users_flusk = json.dumps(list_of_users_flusk, default=str)
+    return json_dump_of_list_of_users_flusk
 
 
 def update_user(user_data, user_id):
@@ -30,6 +40,3 @@ def delete_user(user_id):
 
 def download(media_id):
     return backend.download(media_id)
-    
-def download_documents(user_id):
-    return backend.download_documents(user_id)

@@ -14,7 +14,7 @@ def create_user(user_data):
 
 def get_user_by_id(user_id):
     user = backend.get_user_by_id(user_id)
-    
+
     # user_json = user.to_json(max_nesting=3)
     # return user_json
 
@@ -36,15 +36,14 @@ def get_user_by_id(user_id):
     ]
     user_dict_flusk = user.to_dict_flusk(only=ONLY)
 
-
     user_documents = []
     user_educations = user.educations.all()
     for education in user_educations:
         for edu_media in education.medias:
             user_documents.append(edu_media.id)
 
-    user_dict_flusk['document_ids'] = user_documents
-    print("user_dict_flusk['document_ids'] :", user_dict_flusk['document_ids'])
+    user_dict_flusk["document_ids"] = user_documents
+    print("user_dict_flusk['document_ids'] :", user_dict_flusk["document_ids"])
     return jsonify(user_dict_flusk)
 
 

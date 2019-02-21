@@ -37,9 +37,3 @@ def delete_user(user_id):
 @token_auth.login_required
 def download(media_id):
     return domain.download(media_id)
-
-
-@bp.route("user/<user_id>/documents", methods=["GET"])
-@token_auth.login_required
-def download_documents(user_id):
-    return domain.download_documents(user_id)
