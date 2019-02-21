@@ -1,6 +1,6 @@
-from ...common.models import Group, User
+from ..common.models import Group, User
 from sqlalchemy.orm.exc import NoResultFound
-from ...common.exceptions import (
+from ..common.exceptions import (
     RecordNotFound,
     UserIsAlreadyPartOfGroup,
     ThereIsAlreadyAGroupByThatName,

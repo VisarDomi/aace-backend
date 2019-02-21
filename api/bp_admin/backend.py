@@ -2,15 +2,15 @@ from flask import g, send_from_directory, send_file
 from functools import wraps
 from sqlalchemy.orm.exc import NoResultFound
 
-from ...common.exceptions import RecordNotFound
-from ...common.exceptions import (
+from ..common.exceptions import RecordNotFound
+from ..common.exceptions import (
     YouAreNotAdmin,
     CannotChangeFirstAdminProperties,
     CannotDeleteFirstAdmin,
     InvalidURL,
 )
 
-from ...common.models import User
+from ..common.models import User
 from ..bp_media.backend import get_media_by_id
 from config import Config
 

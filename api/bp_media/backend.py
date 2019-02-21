@@ -1,8 +1,8 @@
 from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ...common.models import Media
+from ..common.models import Media
 from sqlalchemy.orm.exc import NoResultFound
-from ...common.exceptions import (
+from ..common.exceptions import (
     RecordNotFound,
     CannotDeleteOthersPost,
     InvalidURL,

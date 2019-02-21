@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_uploads import configure_uploads
-from .blueprints.bp_media.backend import files
+from .bp_media.backend import files
 from .common.database import init_db
 from .common.middleware import (
     after_request_middleware,
@@ -8,19 +8,19 @@ from .common.middleware import (
     teardown_appcontext_middleware,
 )
 from .common.middleware import response
-from .blueprints.bp_admin import bp as admin_bp
-from .blueprints.bp_auth import bp as auth_bp
-from .blueprints.bp_comment import bp as comment_bp
-from .blueprints.bp_education import bp as education_bp
-from .blueprints.bp_event import bp as event_bp
-from .blueprints.bp_accomplishment import bp as accomplishment_bp
-from .blueprints.bp_experience import bp as experience_bp
-from .blueprints.bp_group import bp as group_bp
-from .blueprints.bp_media import bp as media_bp
-from .blueprints.bp_message import bp as message_bp
-from .blueprints.bp_notification import bp as notification_bp
-from .blueprints.bp_post import bp as post_bp
-from .blueprints.bp_user import bp as user_bp
+from .bp_admin import bp as admin_bp
+from .bp_auth import bp as auth_bp
+from .bp_comment import bp as comment_bp
+from .bp_education import bp as education_bp
+from .bp_event import bp as event_bp
+from .bp_accomplishment import bp as accomplishment_bp
+from .bp_experience import bp as experience_bp
+from .bp_group import bp as group_bp
+from .bp_media import bp as media_bp
+from .bp_message import bp as message_bp
+from .bp_notification import bp as notification_bp
+from .bp_post import bp as post_bp
+from .bp_user import bp as user_bp
 import os
 from config import Config
 import logging

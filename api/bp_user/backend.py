@@ -1,11 +1,11 @@
 from flask import g
 from sqlalchemy.orm.exc import NoResultFound
 
-from ...common.exceptions import RecordAlreadyExists, RecordNotFound, MissingArguments
-from ...common.exceptions import CannotChangeOthersProfile, CannotDeleteOthersProfile
-from ...common.exceptions import CannotDeleteFirstAdmin, InvalidURL
+from ..common.exceptions import RecordAlreadyExists, RecordNotFound, MissingArguments
+from ..common.exceptions import CannotChangeOthersProfile, CannotDeleteOthersProfile
+from ..common.exceptions import CannotDeleteFirstAdmin, InvalidURL
 
-from ...common.models import User
+from ..common.models import User
 
 
 def create_user(user_data):

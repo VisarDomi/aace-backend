@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from . import bp
 from . import domain
-from ...common.validation import schema
+from ..common.validation import schema
 from ..bp_auth.views import token_auth
 
 

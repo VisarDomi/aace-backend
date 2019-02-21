@@ -1,6 +1,6 @@
 from flask import request, jsonify
 
-from ...common.validation import schema
+from ..common.validation import schema
 
 from . import bp
 from . import domain

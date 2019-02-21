@@ -1,7 +1,7 @@
 from flask import jsonify, g
 
 from . import bp
-from ...common.models import User
+from ..common.models import User
 
 from flask_httpauth import HTTPBasicAuth
 from flask_httpauth import HTTPTokenAuth

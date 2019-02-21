@@ -1,7 +1,7 @@
 from flask import g
-from ...common.models import Notification
+from ..common.models import Notification
 from sqlalchemy.orm.exc import NoResultFound
-from ...common.exceptions import (
+from ..common.exceptions import (
     RecordNotFound,
     InvalidURL,
     CannotChangeOthersProfile,
