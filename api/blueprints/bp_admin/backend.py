@@ -83,3 +83,25 @@ def download(media_id):
     filename = media.media_filename
     download_file = send_from_directory(directory, filename, as_attachment=True)
     return download_file
+
+def download_documents(user_id):
+    
+    
+    user_documents = []
+    user_educations = get_user_by_id(user_id).educations.all()
+    for education in user_educations:
+        for edu_media in education.medias:
+            user_documents.append(edu_media.id)
+            
+    return user_documents
+    # all_media = []
+    #for each exp_media in user.experiences.media
+        #all_media.push(exp_media)
+    #for each skill_media in user.skills.media
+
+    # media = get_media_by_id(media_id)
+
+    # directory = Config.UPLOADED_FILES_DEST
+    # filename = media.media_filename
+    # download_file = send_from_directory(directory, filename, as_attachment=True)
+    # return download_file
