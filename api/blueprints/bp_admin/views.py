@@ -6,12 +6,6 @@ from . import domain
 from ..bp_auth.views import token_auth
 
 
-@bp.route("/user/all", methods=["GET"])
-@token_auth.login_required
-def get_users():
-    return domain.get_all_users()
-
-
 @bp.route("/user/applying", methods=["GET"])
 @token_auth.login_required
 def get_applying_users():
