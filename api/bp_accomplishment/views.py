@@ -7,7 +7,7 @@ from ..bp_auth.views import token_auth
 
 @bp.route("", methods=["POST"])
 @schema("create_accomplishment.json")
-# @token_auth.login_required
+@token_auth.login_required
 def create_accomplishment(user_id):
     return domain.create_accomplishment(request.json, user_id)
 
@@ -26,13 +26,13 @@ def get_accomplishment(user_id, accomplishment_id):
 
 @bp.route("/<accomplishment_id>", methods=["PUT"])
 @schema("/update_accomplishment.json")
-# @token_auth.login_required
+@token_auth.login_required
 def update_accomplishment(user_id, accomplishment_id):
     return domain.update_accomplishment(request.json, user_id, accomplishment_id)
 
 
 @bp.route("/<accomplishment_id>", methods=["DELETE"])
-# @token_auth.login_required
+@token_auth.login_required
 def delete_accomplishment(user_id, accomplishment_id):
     domain.delete_accomplishment(user_id, accomplishment_id)
 
