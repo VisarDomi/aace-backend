@@ -57,15 +57,23 @@ def update_user(user_data, user_id):
     # user.update_flusk(**user_data)
     # user.save()
     # return user
-    if int(user_id) != 1:
+
+    secure = False
+    if secure:
+        if int(user_id) != 1:
+            user = get_user_by_id(user_id)
+            user.update_from_dict(user_data)
+            user.save()
+            return user
+        else:
+            msg = "Cannot change admin with `id: %s`" % user_id
+            raise CannotChangeFirstAdminProperties(message=msg)
+    else:
         user = get_user_by_id(user_id)
         user.update_from_dict(user_data)
         user.save()
         return user
-    else:
-        msg = "Cannot change admin with `id: %s`" % user_id
-        raise CannotChangeFirstAdminProperties(message=msg)
-
+        
 
 @are_you_admin
 def delete_user(user_id):
