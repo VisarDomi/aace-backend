@@ -18,13 +18,13 @@ def ensure_content_type():
     ALLOWED_FIRST_CONTENT_TYPE = "application/json"
     ALLOWED_SECOND_CONTENT_TYPE = "multipart/form-data"
     content_type = request.headers.get("Content-type")
-    
+
     if content_type:
         is_not_first_content = ALLOWED_FIRST_CONTENT_TYPE not in content_type
         is_not_second_content = ALLOWED_SECOND_CONTENT_TYPE not in content_type
     else:
-        content_type = ''
-    
+        content_type = ""
+
     if content_type:
         if is_not_first_content and is_not_second_content:
             msg = (
