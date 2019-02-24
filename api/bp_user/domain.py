@@ -20,6 +20,7 @@ def get_user_by_id(user_id):
 
     ONLY = [
         "profile_picture",
+        "register_status",
         "token",
         "id",
         "first_name",
