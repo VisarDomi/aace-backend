@@ -25,5 +25,5 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     ADMINS = ["visardomi4@gmail.com"]
 
-    UPLOADED_FILES_DEST = basedir + "/api/static/files/"
-    UPLOADED_FILES_URL = f"https://{WEBSITE_URL}/api/static/files/"
+    UPLOADED_FILES_DEST = basedir + "/static/files/"
+    UPLOADED_FILES_URL = f"https://{WEBSITE_URL}/static/files/"

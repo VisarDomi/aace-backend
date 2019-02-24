@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_uploads import configure_uploads
-from .bp_media.backend import files
+from .bp_media.backend import FILES
 from .common.database import init_db
 from .common.middleware import (
     after_request_middleware,
@@ -36,7 +36,7 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     # Configure the image uploading via Flask-Uploads
-    configure_uploads(app, files)
+    configure_uploads(app, FILES)
 
     # register all blueprints
     app.register_blueprint(admin_bp, url_prefix="/api/admin")

@@ -1,5 +1,5 @@
 # static files
-api/static/files/
+static/files/
 
 #from vue cli generated .gitignore
 .DS_Store

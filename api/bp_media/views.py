@@ -1,7 +1,8 @@
 from flask import request, jsonify
 from . import bp
 from . import domain
-from ..common.validation import schema
+
+# from ..common.validation import schema
 from ..bp_auth.views import token_auth
 
 
@@ -45,7 +46,7 @@ def create_media(
 @bp.route("/experience/<experience_id>/media/all", methods=["GET"])
 @bp.route("/message/<message_id>/media/all", methods=["GET"])
 @bp.route("/post/<post_id>/media/all", methods=["GET"])
-@bp.route("/media/<media_id>", methods=["GET"])
+@bp.route("/media/all", methods=["GET"])
 @token_auth.login_required
 def get_medias(
     user_id,
@@ -100,7 +101,7 @@ def get_media(
 @bp.route("/message/<message_id>/media/<media_id>", methods=["PUT"])
 @bp.route("/post/<post_id>/media/<media_id>", methods=["PUT"])
 @bp.route("/media/<media_id>", methods=["PUT"])
-@schema("/update_media.json")
+# @schema("/update_media.json")
 @token_auth.login_required
 def update_media(
     user_id,
@@ -113,7 +114,18 @@ def update_media(
     message_id=0,
     post_id=0,
 ):
-    return domain.update_media(request.json, user_id, media_id)
+    return domain.update_media(
+        request.files.getlist("file"),
+        user_id,
+        media_id,
+        accomplishment_id,
+        comment_id,
+        event_id,
+        education_id,
+        experience_id,
+        message_id,
+        post_id,
+    )
 
 
 @bp.route("/accomplishment/<accomplishment_id>/media/<media_id>", methods=["DELETE"])
