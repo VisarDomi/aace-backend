@@ -1,25 +1,20 @@
 from flask import Flask
 from flask_uploads import configure_uploads
 from .bp_media.backend import FILES
-from .common.database import init_db
 from .common.middleware import (
     after_request_middleware,
     before_request_middleware,
     teardown_appcontext_middleware,
 )
+from .common.database import init_db
 from .common.middleware import response
 from .bp_admin import bp as admin_bp
 from .bp_auth import bp as auth_bp
-from .bp_comment import bp as comment_bp
 from .bp_education import bp as education_bp
-from .bp_event import bp as event_bp
-from .bp_accomplishment import bp as accomplishment_bp
 from .bp_experience import bp as experience_bp
 from .bp_group import bp as group_bp
 from .bp_media import bp as media_bp
-from .bp_message import bp as message_bp
-from .bp_notification import bp as notification_bp
-from .bp_post import bp as post_bp
+from .bp_skill import bp as skill_bp
 from .bp_user import bp as user_bp
 import os
 from config import Config
@@ -41,20 +36,11 @@ def create_app(config_class=Config):
     # register all blueprints
     app.register_blueprint(admin_bp, url_prefix="/api/admin")
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
-    app.register_blueprint(comment_bp, url_prefix="/api/user/<user_id>/comment")
-    app.register_blueprint(
-        accomplishment_bp, url_prefix="/api/user/<user_id>/accomplishment"
-    )
+    app.register_blueprint(skill_bp, url_prefix="/api/user/<user_id>/skill")
     app.register_blueprint(education_bp, url_prefix="/api/user/<user_id>/education")
-    app.register_blueprint(event_bp, url_prefix="/api/user/<user_id>/event")
     app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
     app.register_blueprint(group_bp, url_prefix="/api/group")
     app.register_blueprint(media_bp, url_prefix="/api/user/<user_id>")
-    app.register_blueprint(message_bp, url_prefix="/api/user/<user_id>/message")
-    app.register_blueprint(
-        notification_bp, url_prefix="/api/user/<user_id>/notification"
-    )
-    app.register_blueprint(post_bp, url_prefix="/api/user/<user_id>/post")
     app.register_blueprint(user_bp, url_prefix="/api/user")
 
     # register custom response class
@@ -72,12 +58,8 @@ def create_app(config_class=Config):
     # register custom error handler
     response.json_error_handler(app=app)
 
-    # initialize the database
+    # Initialize database
     init_db()
-
-    # drop the database -testing
-    # from .common.database import drop_db
-    # drop_db()
 
     if not app.debug and not app.testing:
         if app.config["MAIL_SERVER"]:

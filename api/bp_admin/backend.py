@@ -31,21 +31,27 @@ def are_you_admin(a_function):
 @are_you_admin
 def get_user_by_id(user_id):
     try:
-        result = User.query.filter(User.id == int(user_id)).one()
+        user = User.query.filter(User.id == int(user_id)).one()
     except NoResultFound:
         msg = f"There is no User with `id: {user_id}`"
         raise RecordNotFound(message=msg)
     except InvalidURL:
         msg = f"This is not a valid URL: {user_id}`"
         raise InvalidURL(message=msg)
-    return result
+    return user
+
+
+@are_you_admin
+def get_applying_users():
+    users = User.query.filter(User.register_status == "approved").all()
+    return users
 
 
 @are_you_admin
 def get_applying_users():
     users = (
         User.query.filter(User.register_status != "blank")
-        # .filter(User.register_status != "approved")
+        .filter(User.register_status != "approved")
         .all()
     )
     return users
@@ -73,7 +79,7 @@ def update_user(user_data, user_id):
         user.update_from_dict(user_data)
         user.save()
         return user
-        
+
 
 @are_you_admin
 def delete_user(user_id):

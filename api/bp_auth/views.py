@@ -1,4 +1,4 @@
-from flask import jsonify, g
+from flask import g
 
 from . import bp
 from ..common.models import User
@@ -21,7 +21,7 @@ def verify_password(email, password):
 
 @basic_auth.error_handler
 def basic_auth_error():
-    return jsonify({"error message": "@basic_auth.error_handler basic_auth_error"})
+    return {"error message": "@basic_auth.error_handler basic_auth_error"}
 
 
 @bp.route("/login", methods=["POST"])
@@ -29,11 +29,8 @@ def basic_auth_error():
 def login():
     g.current_user.get_token(expires_in=36_000_000)
     user = g.current_user
-    print("user.token_expiration :", user.token_expiration)
-    # user_json = user.to_json(max_nesting=1)
-    # return user_json
-    user_dict_flusk = user.to_dict_flusk(exclude=["password_hash"])
-    return jsonify(user_dict_flusk)
+    user_dict = user.to_dict(exclude=["password_hash"])
+    return user_dict
 
 
 @token_auth.verify_token
@@ -44,4 +41,4 @@ def verify_token(token):
 
 @token_auth.error_handler
 def token_auth_error():
-    return jsonify({"error message": "@token_auth.error_handler token_auth_error"})
+    return {"error message": "@token_auth.error_handler token_auth_error"}

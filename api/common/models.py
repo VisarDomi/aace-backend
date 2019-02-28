@@ -1,6 +1,17 @@
-from sqlathanor import AttributeConfiguration, relationship, Column, Table
-from sqlalchemy import Integer, String, Boolean, DateTime, Text, ForeignKey, Date
-from ..common.database import BaseModel, CustomBase
+from sqlalchemy import (
+    Integer,
+    String,
+    Boolean,
+    DateTime,
+    Text,
+    ForeignKey,
+    Date,
+    Table,
+    Column,
+)
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.functions import current_date
+from ..common.database import BaseModel
 from ..common.serializers import ModelSerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
@@ -11,212 +22,46 @@ import os
 user_group = Table(
     "user_group",
     BaseModel.metadata,
-    Column(
-        "user_id",
-        Integer,
-        ForeignKey("users.id"),
-        supports_dict=(True, True),
-        supports_json=(True, True),
-    ),
-    Column(
-        "group_id",
-        Integer,
-        ForeignKey("groups.id"),
-        supports_dict=(True, True),
-        supports_json=(True, True),
-    ),
+    Column("user_id", Integer, ForeignKey("users.id")),
+    Column("group_id", Integer, ForeignKey("groups.id")),
 )
 
 user_notification = Table(
     "user_notification",
     BaseModel.metadata,
-    Column(
-        "user_id",
-        Integer,
-        ForeignKey("users.id"),
-        supports_dict=(True, True),
-        supports_json=(True, True),
-    ),
-    Column(
-        "notification_id",
-        Integer,
-        ForeignKey("notifications.id"),
-        supports_dict=(True, True),
-        supports_json=(True, True),
-    ),
+    Column("user_id", Integer, ForeignKey("users.id")),
+    Column("notification_id", Integer, ForeignKey("notifications.id")),
 )
 
 user_event = Table(
     "user_event",
     BaseModel.metadata,
-    Column(
-        "user_id",
-        Integer,
-        ForeignKey("users.id"),
-        supports_dict=(True, True),
-        supports_json=(True, True),
-    ),
-    Column(
-        "event_id",
-        Integer,
-        ForeignKey("events.id"),
-        supports_dict=(True, True),
-        supports_json=(True, True),
-    ),
-    Column(
-        "type_of_engagement",
-        String,
-        supports_dict=(True, True),
-        supports_json=(True, True),
-    ),
+    Column("user_id", Integer, ForeignKey("users.id")),
+    Column("event_id", Integer, ForeignKey("events.id")),
+    Column("type_of_engagement", String),
 )
 
 user_messagegroup = Table(
     "user_messagegroup",
     BaseModel.metadata,
-    Column(
-        "user_id",
-        Integer,
-        ForeignKey("users.id"),
-        supports_dict=(True, True),
-        supports_json=(True, True),
-    ),
-    Column(
-        "messagegroup_id",
-        Integer,
-        ForeignKey("messagegroups.id"),
-        supports_dict=(True, True),
-        supports_json=(True, True),
-    ),
+    Column("user_id", Integer, ForeignKey("users.id")),
+    Column("messagegroup_id", Integer, ForeignKey("messagegroups.id")),
 )
 
 
-class Test(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "tests"
+class Test(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, unique=True)
+    name = Column(String)
+    email = Column(String, unique=True)
     description = Column(String)
 
     def __repr__(self):
-        return f"Experience({self.id} {self.title})"
+        return f"{self.__class__.__name__}({self.name}, id = {self.id})"
 
 
-class User(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "users"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        #                                          put=false, get=true
-        AttributeConfiguration(
-            name="token", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="is_active", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="register_date",
-            supports_dict=(False, True),
-            supports_json=(False, True),
-        ),
-        AttributeConfiguration(
-            name="register_status",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="role", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="privilege", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="profile_picture",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="background_picture",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="first_name", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="last_name", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="headline", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="summary", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="country", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="industry", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="medias", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="phone", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="address", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="birthday", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="website", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="email", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="comment_from_administrator",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="experiences", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="educations", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="accomplishments",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="posts", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="comments", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="messages", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="messagerecipients",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="groups", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="events", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="messagegroups", supports_dict=(True, True), supports_json=(True, True)
-        ),
-    ]
+class User(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     # database only
@@ -235,16 +80,13 @@ class User(BaseModel, CustomBase, ModelSerializerMixin):
     profile_picture = Column(String)
     background_picture = Column(String)
     first_name = Column(String)
-    last_name = Column(String)
+    last_name = Column(String, default="no_name")
     headline = Column(String)
     summary = Column(Text)
 
     # intro - should be many to one
     country = Column(String)
     industry = Column(String)
-
-    # intro - one to many
-    medias = relationship("Media", back_populates="user", lazy="dynamic")
 
     # contact info
     phone = Column(String)
@@ -258,15 +100,18 @@ class User(BaseModel, CustomBase, ModelSerializerMixin):
     # comment nga administratori
     comment_from_administrator = Column(Text)
 
+    # intro - one to many
+    medias = relationship("Media", back_populates="user", lazy="dynamic")
+
     # experiences
     experiences = relationship("Experience", back_populates="user", lazy="dynamic")
 
     # educations
     educations = relationship("Education", back_populates="user", lazy="dynamic")
 
-    # accomplishments
-    accomplishments = relationship(
-        "Accomplishment", back_populates="user", lazy="dynamic"
+    # skills
+    skills = relationship(
+        "Skill", back_populates="user", lazy="dynamic"
     )
 
     # database related one to many
@@ -329,52 +174,14 @@ class User(BaseModel, CustomBase, ModelSerializerMixin):
         return user
 
     def __repr__(self):
-        return f"User({self.id} {self.email})"
+        return f"{self.__class__.__name__}({self.last_name}, id = {self.id})"
 
 
-class Experience(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "experiences"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="title", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="company", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="location", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="from_date", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="to_date", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="is_currently_work_here",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="description", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        # AttributeConfiguration(
-        #     name="user", supports_dict=(True, True), supports_json=(True, True)
-        # ),
-        AttributeConfiguration(
-            name="user_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="medias", supports_dict=(True, True), supports_json=(True, True)
-        ),
-    ]
+class Experience(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    title = Column(String)
+    title = Column(String, default="no_title")
     company = Column(String)
     location = Column(String)
     from_date = Column(Date)
@@ -388,53 +195,16 @@ class Experience(BaseModel, CustomBase, ModelSerializerMixin):
     medias = relationship("Media", back_populates="experience", lazy="dynamic")
 
     def __repr__(self):
-        return f"Experience({self.id} {self.title})"
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
 
 
-class Education(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "educations"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="school", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="degree", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="field_of_study",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="from_year", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="to_year", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="grade", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="description", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        # AttributeConfiguration(
-        #     name="user", supports_dict=(True, True), supports_json=(True, True)
-        # ),
-        AttributeConfiguration(
-            name="user_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="medias", supports_dict=(True, True), supports_json=(True, True)
-        ),
-    ]
+class Education(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    school = Column(String)
     degree = Column(String)
-    field_of_study = Column(String)
+    field_of_study = Column(String, default="no_field_of_study")
+    school = Column(String)
     from_year = Column(Date)
     to_year = Column(Date)
     grade = Column(String)
@@ -446,91 +216,29 @@ class Education(BaseModel, CustomBase, ModelSerializerMixin):
     medias = relationship("Media", back_populates="education", lazy="dynamic")
 
     def __repr__(self):
-        return f"Education({self.id} {self.school})"
+        return f"{self.__class__.__name__}({self.field_of_study}, id = {self.id})"
 
 
-class Accomplishment(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "accomplishments"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="name", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="description", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        # AttributeConfiguration(
-        #     name="user", supports_dict=(True, True), supports_json=(True, True)
-        # ),
-        AttributeConfiguration(
-            name="user_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="medias", supports_dict=(True, True), supports_json=(True, True)
-        ),
-    ]
+class Skill(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    name = Column(String)
+    name = Column(String, default="no_name")
     description = Column(Text)
 
-    user = relationship("User", back_populates="accomplishments")
+    user = relationship("User", back_populates="skills")
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    medias = relationship("Media", back_populates="accomplishment", lazy="dynamic")
+    medias = relationship("Media", back_populates="skill", lazy="dynamic")
 
     def __repr__(self):
-        return f"Accomplishment({self.id} {self.name})"
+        return f"{self.__class__.__name__}({self.name}, id = {self.id})"
 
 
-class Media(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "medias"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="title", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="description", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="media_filename",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="media_url", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="experience", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="experience_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="education", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="education_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="accomplishment",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="accomplishment_id",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-    ]
+class Media(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    title = Column(String)
+    title = Column(String, default="no_title")
     description = Column(Text)
     media_filename = Column(String)
     media_url = Column(String)
@@ -545,8 +253,8 @@ class Media(BaseModel, CustomBase, ModelSerializerMixin):
     education = relationship("Education", back_populates="medias")
     education_id = Column(Integer, ForeignKey("educations.id"))
 
-    accomplishment = relationship("Accomplishment", back_populates="medias")
-    accomplishment_id = Column(Integer, ForeignKey("accomplishments.id"))
+    skill = relationship("Skill", back_populates="medias")
+    skill_id = Column(Integer, ForeignKey("skills.id"))
 
     # events, posts, comments
     event = relationship("Event", back_populates="medias")
@@ -562,32 +270,15 @@ class Media(BaseModel, CustomBase, ModelSerializerMixin):
     message_id = Column(Integer, ForeignKey("messages.id"))
 
     def __repr__(self):
-        return f"Media({self.id} {self.media_filename})"
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
 
 
-class Group(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "groups"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="group_picture", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="name", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="description", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="users", supports_dict=(True, True), supports_json=(True, True)
-        ),
-    ]
+class Group(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     group_picture = Column(String)
-    name = Column(String, unique=True)
+    name = Column(String, default="no_name")
     description = Column(Text)
 
     users = relationship(
@@ -595,32 +286,18 @@ class Group(BaseModel, CustomBase, ModelSerializerMixin):
     )
 
     def __repr__(self):
-        return f"Group({self.id} {self.name})"
+        return f"{self.__class__.__name__}({self.name}, id = {self.id})"
 
 
-class Event(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "events"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="body", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="timestamp", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="posts", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="medias", supports_dict=(True, True), supports_json=(True, True)
-        ),
-    ]
+class Event(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
+    title = Column(String, default="no_title")
     body = Column(Text)
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    time_start = Column(DateTime, default=datetime.utcnow)
+    time_end = Column(DateTime, default=datetime.utcnow)
+    location = Column(Text)
 
     posts = relationship("Post", back_populates="event", lazy="dynamic")
     medias = relationship("Media", back_populates="event", lazy="dynamic")
@@ -630,44 +307,15 @@ class Event(BaseModel, CustomBase, ModelSerializerMixin):
     )
 
     def __repr__(self):
-        return f"Event({self.id})"
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
 
 
-class Post(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "posts"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="body", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="timestamp", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        # AttributeConfiguration(
-        #     name="user", supports_dict=(True, True), supports_json=(True, True)
-        # ),
-        AttributeConfiguration(
-            name="user_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="event", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="event_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="comments", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="medias", supports_dict=(True, True), supports_json=(True, True)
-        ),
-    ]
+class Post(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     body = Column(Text)
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    time = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="posts")
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -679,41 +327,15 @@ class Post(BaseModel, CustomBase, ModelSerializerMixin):
     medias = relationship("Media", back_populates="post", lazy="dynamic")
 
     def __repr__(self):
-        return f"Post({self.id})"
+        return f"{self.__class__.__name__}(id = {self.id})"
 
 
-class Comment(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "comments"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="body", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="timestamp", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        # AttributeConfiguration(
-        #     name="user", supports_dict=(True, True), supports_json=(True, True)
-        # ),
-        AttributeConfiguration(
-            name="user_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="post", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="post_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="medias", supports_dict=(True, True), supports_json=(True, True)
-        ),
-    ]
+class Comment(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     body = Column(Text)
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    time = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="comments")
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -724,40 +346,15 @@ class Comment(BaseModel, CustomBase, ModelSerializerMixin):
     medias = relationship("Media", back_populates="comment", lazy="dynamic")
 
     def __repr__(self):
-        return f"Comment({self.id})"
+        return f"{self.__class__.__name__}(id = {self.id})"
 
 
-class Message(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "messages"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="body", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="timestamp", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="sender", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="sender_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="medias", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="messagerecipients",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-    ]
+class Message(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     body = Column(Text)
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    time = Column(DateTime, default=datetime.utcnow)
 
     sender = relationship("User", back_populates="messages")
     sender_id = Column(Integer, ForeignKey("users.id"))
@@ -769,39 +366,11 @@ class Message(BaseModel, CustomBase, ModelSerializerMixin):
     )
 
     def __repr__(self):
-        return f"Message({self.id})"
+        return f"{self.__class__.__name__}(id = {self.id})"
 
 
-class MessageRecipient(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "messagerecipients"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="is_read", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="message", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="message_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="recipient", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="recipient_id", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="messagegroup", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="messagegroup_id",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-    ]
+class MessageRecipient(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     is_read = Column(Boolean)
 
@@ -815,27 +384,11 @@ class MessageRecipient(BaseModel, CustomBase, ModelSerializerMixin):
     messagegroup_id = Column(Integer, ForeignKey("messagegroups.id"))
 
     def __repr__(self):
-        return f"MessageRecipient({self.id})"
+        return f"{self.__class__.__name__}(id = {self.id})"
 
 
-class MessageGroup(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "messagegroups"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="name", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="messagerecipients",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="users", supports_dict=(True, True), supports_json=(True, True)
-        ),
-    ]
+class MessageGroup(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     name = Column(String)
@@ -852,27 +405,11 @@ class MessageGroup(BaseModel, CustomBase, ModelSerializerMixin):
     )
 
     def __repr__(self):
-        return f"MessageGroup({self.id} {self.name})"
+        return f"{self.__class__.__name__}({self.name}, id = {self.id})"
 
 
-class Notification(BaseModel, CustomBase, ModelSerializerMixin):
-    __tablename__ = "notifications"
-    __serialization__ = [
-        AttributeConfiguration(
-            name="id", supports_dict=(False, True), supports_json=(False, True)
-        ),
-        AttributeConfiguration(
-            name="name", supports_dict=(True, True), supports_json=(True, True)
-        ),
-        AttributeConfiguration(
-            name="messagerecipients",
-            supports_dict=(True, True),
-            supports_json=(True, True),
-        ),
-        AttributeConfiguration(
-            name="users", supports_dict=(True, True), supports_json=(True, True)
-        ),
-    ]
+class Notification(BaseModel, ModelSerializerMixin):
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     name = Column(String)
@@ -885,4 +422,4 @@ class Notification(BaseModel, CustomBase, ModelSerializerMixin):
     )
 
     def __repr__(self):
-        return f"Notification({self.id} {self.name})"
+        return f"{self.__class__.__name__}({self.name}, id = {self.id})"

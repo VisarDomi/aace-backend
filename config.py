@@ -4,12 +4,12 @@ from dotenv import load_dotenv
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
 
-FLASK_DEBUG = os.environ.get("FLASK_DEBUG")
+FLASK_ENV = os.environ.get("FLASK_ENV")
 
-if int(FLASK_DEBUG) == 0:
-    WEBSITE_URL = "aace.ml"
-else:
+if str(FLASK_ENV) == 'development':
     WEBSITE_URL = "localhost:5000"
+else:
+    WEBSITE_URL = "aace.ml"
 
 
 class Config(object):

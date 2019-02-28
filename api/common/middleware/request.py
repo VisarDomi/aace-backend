@@ -50,7 +50,8 @@ ALLOWED_ORIGINS = "*"
 ALLOWED_METHODS = "GET, POST, PUT, DELETE, OPTIONS"
 ALLOWED_HEADERS = (
     "Authorization, DNT, X-CustomHeader, Keep-Alive, User-Agent, "
-    "X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Secure-Api-Key"
+    "X-Requested-With, If-Modified-Since, Cache-Control, "
+    "Content-Type, Secure-Api-Key"
 )
 
 

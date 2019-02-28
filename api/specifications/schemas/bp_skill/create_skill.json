@@ -1,14 +1,14 @@
 {
-  "title": "Create event",
-  "description": "Create a event object",
+  "title": "Create skill",
+  "description": "Create a skill object",
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
-  "required": ["body"],
+  "required": ["name"],
   "properties": {
-    "body": {
+    "name": {
       "type": "string"
     },
-    "timestamp": {
+    "description": {
       "type": "string"
     }
   },

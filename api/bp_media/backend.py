@@ -68,14 +68,14 @@ def create_media(
 
 def get_media_by_id(media_id):
     try:
-        result = Media.query.filter(Media.id == media_id).one()
+        media = Media.query.filter(Media.id == media_id).one()
     except NoResultFound:
         msg = f"There is no media with id {media_id}"
         raise RecordNotFound(message=msg)
     except InvalidURL:
         msg = f"This is not a valid URL: {media_id}`"
         raise InvalidURL(message=msg)
-    return result
+    return media
 
 
 def get_all_medias(

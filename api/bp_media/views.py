@@ -1,8 +1,7 @@
-from flask import request, jsonify
+from flask import request
 from . import bp
 from . import domain
 
-# from ..common.validation import schema
 from ..bp_auth.views import token_auth
 
 
@@ -14,7 +13,6 @@ from ..bp_auth.views import token_auth
 @bp.route("/message/<message_id>/media", methods=["POST"])
 @bp.route("/post/<post_id>/media", methods=["POST"])
 @bp.route("/media", methods=["POST"])
-# @schema("create_media.json")
 @token_auth.login_required
 def create_media(
     user_id,
@@ -101,7 +99,6 @@ def get_media(
 @bp.route("/message/<message_id>/media/<media_id>", methods=["PUT"])
 @bp.route("/post/<post_id>/media/<media_id>", methods=["PUT"])
 @bp.route("/media/<media_id>", methods=["PUT"])
-# @schema("/update_media.json")
 @token_auth.login_required
 def update_media(
     user_id,
@@ -150,4 +147,4 @@ def delete_media(
 ):
     domain.delete_media(user_id, media_id)
 
-    return jsonify({"message": "Media with `id: %s` has been deleted." % media_id})
+    return {"message": "Media with `id: %s` has been deleted." % media_id}

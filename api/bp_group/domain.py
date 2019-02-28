@@ -1,33 +1,32 @@
 from . import backend
-import json
 
 
 def create_group(group_data):
     group = backend.create_group(group_data)
+    group_dict = group.to_dict()
 
-    return group.to_json(max_nesting=1)
+    return group_dict
 
 
 def get_group_by_id(group_id):
     group = backend.get_group_by_id(group_id)
-    group_json = group.to_json(max_nesting=2)
+    group_dict = group.to_dict()
 
-    return group_json
+    return group_dict
 
 
 def get_all_groups():
     groups = backend.get_all_groups()
-    list_of_groups = [
-        group.to_dict(max_nesting=1) for group in groups
-    ]
+    groups_list = [group.to_dict() for group in groups]
 
-    return json.dumps(list_of_groups, default=str)
+    return groups_list
 
 
 def update_group(group_data, group_id):
     group = backend.update_group(group_data, group_id)
+    group_dict = group.to_dict()
 
-    return group.to_json(max_nesting=1)
+    return group_dict
 
 
 def delete_group(group_id):
@@ -36,8 +35,9 @@ def delete_group(group_id):
 
 def add_user_to_group(group_id, user_id):
     group = backend.add_user_to_group(group_id, user_id)
+    group_dict = group.to_dict()
 
-    return group.to_json(max_nesting=1)
+    return group_dict
 
 
 def remove_user_from_group(group_id, user_id):

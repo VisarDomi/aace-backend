@@ -1,5 +1,4 @@
 from . import backend
-import json
 
 
 def create_media(
@@ -24,15 +23,14 @@ def create_media(
         message_id,
         post_id,
     )
-    list_of_medias = [media.to_dict(max_nesting=1) for media in medias]
-    json_dump_of_list_of_medias = json.dumps(list_of_medias, default=str)
-    return json_dump_of_list_of_medias
+    medias_list = [media.to_dict() for media in medias]
+    return medias_list
 
 
 def get_media_by_id(media_id):
     media = backend.get_media_by_id(media_id)
-    media_json = media.to_json(max_nesting=1)
-    return media_json
+    media_dict = media.to_dict()
+    return media_dict
 
 
 def get_all_medias(
@@ -55,9 +53,8 @@ def get_all_medias(
         message_id,
         post_id,
     )
-    list_of_medias = [media.to_dict(max_nesting=1) for media in medias]
-    json_dump_of_list_of_medias = json.dumps(list_of_medias, default=str)
-    return json_dump_of_list_of_medias
+    medias_list = [media.to_dict() for media in medias]
+    return medias_list
 
 
 def update_media(
@@ -84,9 +81,8 @@ def update_media(
         message_id,
         post_id,
     )
-    list_of_medias = [media.to_dict(max_nesting=1) for media in medias]
-    json_dump_of_list_of_medias = json.dumps(list_of_medias, default=str)
-    return json_dump_of_list_of_medias
+    medias_list = [media.to_dict() for media in medias]
+    return medias_list
 
 
 def delete_media(user_id, media_id):

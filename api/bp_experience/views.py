@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request
 from . import bp
 from . import domain
 from ..common.validation import schema
@@ -13,13 +13,11 @@ def create_experience(user_id):
 
 
 @bp.route("/all", methods=["GET"])
-# @token_auth.login_required
 def get_experiences(user_id):
     return domain.get_all_experiences(user_id)
 
 
 @bp.route("/<experience_id>", methods=["GET"])
-# @token_auth.login_required
 def get_experience(user_id, experience_id):
     return domain.get_experience_by_id(experience_id)
 
@@ -36,6 +34,4 @@ def update_experience(user_id, experience_id):
 def delete_experience(user_id, experience_id):
     domain.delete_experience(user_id, experience_id)
 
-    return jsonify(
-        {"message": "Experience with `id: %s` has been deleted." % experience_id}
-    )
+    return {"message": "Experience with `id: %s` has been deleted." % experience_id}

@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request
 
 from ..common.validation import schema
 
@@ -35,7 +35,7 @@ def update_group(group_id):
 @token_auth.login_required
 def delete_group(group_id):
     domain.delete_group(group_id)
-    return jsonify({"message": "Group with `id: %s` has been deleted." % group_id})
+    return {"message": "Group with `id: %s` has been deleted." % group_id}
 
 
 @bp.route("/<group_id>/user/<user_id>", methods=["PUT"])
@@ -48,9 +48,7 @@ def add_user_to_group(group_id, user_id):
 @token_auth.login_required
 def remove_user_from_group(group_id, user_id):
     domain.remove_user_from_group(group_id, user_id)
-    return jsonify(
-        {
-            "message": "User with `id: %s` has been removed from group with `id: %s`."
-            % (user_id, group_id)
-        }
-    )
+    return {
+        "message": "User with `id: %s` has been removed from group with `id: %s`."
+        % (user_id, group_id)
+    }

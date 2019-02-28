@@ -1,5 +1,5 @@
-# import json
-# from functools import singledispatch
+import json
+from functools import singledispatch
 
 from flask import jsonify, Response, request
 from werkzeug.exceptions import NotFound
@@ -7,34 +7,37 @@ from werkzeug.exceptions import NotFound
 from ..exceptions import JSONException, InvalidAPIRequest
 
 
-# @singledispatch
-# def to_serializable(rv):
-#     """
-#     Define a generic serializable function.
-#     """
-#     pass
+@singledispatch
+def to_serializable(rv):
+    """
+    Define a generic serializable function.
+    """
+    pass
 
 
-# @to_serializable.register(dict)
-# def ts_dict(rv):
-#     """Register the `dict` type
-#     for the generic serializable function.
-#     :param rv: object to be serialized
-#     :type rv: dict
-#     :returns: flask Response object
-#     """
-#     return jsonify(rv)
+@to_serializable.register(dict)
+def to_serializable_dict(rv):
+    """Register the `dict` type
+    for the generic serializable function.
+    :param rv: object to be serialized
+    :type rv: dict
+    :returns: flask Response object
+    """
+    return jsonify(rv)
 
 
-# @to_serializable.register(list)
-# def ts_list(rv):
-#     """Register the `list` type
-#     for the generic serializable function.
-#     :param rv: objects to be serialized
-#     :type rv: list
-#     :returns: flask Response object
-#     """
-#     return Response(json.dumps(rv, indent=4, sort_keys=True))
+@to_serializable.register(list)
+def to_serializable_list(rv):
+    """Register the `list` type
+    for the generic serializable function.
+    :param rv: objects to be serialized
+    :type rv: list
+    :returns: flask Response object
+    """
+    return Response(
+        json.dumps(rv, indent=4, sort_keys=True, default=str),
+        content_type="application/json",
+    )
 
 
 class JSONResponse(Response):
@@ -44,13 +47,15 @@ class JSONResponse(Response):
     All responses will be of type
     `application-json`.
     """
-    charset = 'utf-8'
-    default_status = 200
-    default_mimetype = 'application/json'
-    # @classmethod
-    # def force_type(cls, rv, environ=None):
-    #     rv = to_serializable(rv)
-    #     return super(JSONResponse, cls).force_type(rv, environ)
+
+    # charset = "utf-8"
+    # default_status = 200
+    # default_mimetype = "application/json"
+
+    @classmethod
+    def force_type(cls, rv, environ=None):
+        rv = to_serializable(rv)
+        return super(JSONResponse, cls).force_type(rv, environ)
 
 
 def json_error_handler(app):

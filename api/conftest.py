@@ -4,11 +4,9 @@ import pytest
 
 from api import create_app
 from api.common.database import db_session, init_db, drop_db
+from config import Config
 
-HEADERS = {
-    "content-type": "application/json",
-    "_secure_key": os.environ.get("SECURE_API_KEY"),
-}
+HEADERS = {"content-type": "application/json", "secure-api-key": Config.SECURE_API_KEY}
 
 
 @pytest.fixture(scope="session")

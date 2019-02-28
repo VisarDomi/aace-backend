@@ -17,7 +17,7 @@ def create_group(group_data):
         msg = "There is already a group with the name '% s'" % is_group.name
         raise ThereIsAlreadyAGroupByThatName(message=msg)
     else:
-        group = Group.new_from_dict(group_data)
+        group = Group(**group_data)
         group.save()
 
     return group
@@ -25,14 +25,14 @@ def create_group(group_data):
 
 def get_group_by_id(group_id):
     try:
-        result = Group.query.filter(Group.id == group_id).one()
+        group = Group.query.filter(Group.id == group_id).one()
     except NoResultFound:
         msg = f"There is no group with id {group_id}"
         raise RecordNotFound(message=msg)
     except InvalidURL:
         msg = f"This is not a valid URL: {group_id}`"
         raise InvalidURL(message=msg)
-    return result
+    return group
 
 
 def get_all_groups():
@@ -49,7 +49,7 @@ def update_group(group_data, group_id):
         raise ThereIsAlreadyAGroupByThatName(message=msg)
     else:
         group = get_group_by_id(group_id)
-        group.update_from_dict(group_data)
+        group(**group_data)
         group.save()
 
     return group

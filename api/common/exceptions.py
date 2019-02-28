@@ -126,5 +126,6 @@ class CannotDeleteOthersExperience(InvalidPermissions):
 class CannotDeleteOthersEducation(InvalidPermissions):
     pass
 
-class CannotDeleteOthersAccomplishment(InvalidPermissions):
+
+class CannotDeleteOthersSkill(InvalidPermissions):
     pass

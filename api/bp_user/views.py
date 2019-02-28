@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request
 
 from ..common.validation import schema
 from . import bp
@@ -34,4 +34,4 @@ def update_user(user_id):
 @token_auth.login_required
 def delete_user(user_id):
     domain.delete_user(user_id)
-    return jsonify({"message": "User with `id: %s` has been deleted." % user_id})
+    return {"message": "User with `id: %s` has been deleted." % user_id}

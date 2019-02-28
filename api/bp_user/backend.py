@@ -13,9 +13,7 @@ def create_user(user_data):
         msg = "Please provide an email and a password."
         raise MissingArguments(message=msg)
     if not User.query.filter(User.email == user_data["email"]).one_or_none():
-        user = User.new_from_dict(
-            user_data, error_on_extra_keys=False, drop_extra_keys=True
-        )
+        user = User(**user_data)
         user.set_password(user_data["password"])
         user.save()
     else:
@@ -30,9 +28,9 @@ def create_user(user_data):
 
 def get_user_by_id(user_id):
     try:
-        result = User.query.filter(User.id == user_id).one()
-        # if result.
-        # result.educations.
+        user = User.query.filter(User.id == user_id).one()
+        # if user.
+        # user.educations.
         # years_of_experience
     except NoResultFound:
         msg = f"There is no User with `id: {user_id}`"
@@ -40,7 +38,7 @@ def get_user_by_id(user_id):
     except InvalidURL:
         msg = f"This is not a valid URL: {user_id}`"
         raise InvalidURL(message=msg)
-    return result
+    return user
 
 
 def get_all_users():
@@ -50,9 +48,9 @@ def get_all_users():
 def update_user(user_data, user_id):
     user = get_user_by_id(user_id)
     if user.email == g.current_user.email:
-        user.update_from_dict(user_data)
+        user.update(**user_data)
         # user.register_status = 'applying'
-        user.save()
+        # user.save()
         return user
     else:
         msg = "You can't change other people's profile."

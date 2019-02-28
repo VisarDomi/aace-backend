@@ -1,30 +1,28 @@
 from . import backend
-import json
 
 
 def create_experience(experience_data, user_id):
     experience = backend.create_experience(experience_data, user_id)
-    return experience.to_json(max_nesting=1)
+    experience_dict = experience.to_dict()
+    return experience_dict
 
 
 def get_experience_by_id(experience_id):
     experience = backend.get_experience_by_id(experience_id)
-    experience_json = experience.to_json(max_nesting=1)
-    return experience_json
+    experience_dict = experience.to_dict()
+    return experience_dict
 
 
 def get_all_experiences(user_id):
     experiences = backend.get_all_experiences(user_id)
-    list_of_experiences = [
-        experience.to_dict(max_nesting=1) for experience in experiences
-    ]
-    json_dump_of_list_of_experiences = json.dumps(list_of_experiences, default=str)
-    return json_dump_of_list_of_experiences
+    experiences_list = [experience.to_dict() for experience in experiences]
+    return experiences_list
 
 
 def update_experience(experience_data, user_id, experience_id):
     experience = backend.update_experience(experience_data, user_id, experience_id)
-    return experience.to_json(max_nesting=1)
+    experience_dict = experience.to_dict()
+    return experience_dict
 
 
 def delete_experience(user_id, experience_id):

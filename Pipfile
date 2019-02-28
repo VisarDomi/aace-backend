@@ -11,8 +11,13 @@ python-dotenv = "*"
 sqlalchemy-utils = "*"
 psycopg2 = "*"
 flask-httpauth = "*"
-sqlathanor = "*"
 flask-uploads = "*"
+black = "*"
+flake8 = "*"
+jsonschema = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
