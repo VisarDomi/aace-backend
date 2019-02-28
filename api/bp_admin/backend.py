@@ -42,7 +42,7 @@ def get_user_by_id(user_id):
 
 
 @are_you_admin
-def get_applying_users():
+def get_approved_users():
     users = User.query.filter(User.register_status == "approved").all()
     return users
 
@@ -54,6 +54,12 @@ def get_applying_users():
         .filter(User.register_status != "approved")
         .all()
     )
+    return users
+
+
+@are_you_admin
+def get_registered_users():
+    users = User.query.filter(User.register_status == "blank").all()
     return users
 
 

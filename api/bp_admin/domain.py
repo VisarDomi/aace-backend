@@ -58,6 +58,18 @@ def get_applying_users():
     return users_list
 
 
+def get_blank_users():
+    users = backend.get_blank_users()
+
+    users_list = [
+        user.to_dict(
+            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
+        )
+        for user in users
+    ]
+    return users_list
+
+
 def update_user(user_data, user_id):
     user = backend.update_user(user_data, user_id)
     user_dict = user.to_dict()

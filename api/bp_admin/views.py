@@ -18,6 +18,12 @@ def get_applying_users():
     return domain.get_applying_users()
 
 
+@bp.route("/user/blank", methods=["GET"])
+@token_auth.login_required
+def get_blank_users():
+    return domain.get_blank_users()
+
+
 @bp.route("/user/<user_id>", methods=["GET"])
 @token_auth.login_required
 def get_user(user_id):

@@ -10,7 +10,6 @@ from sqlalchemy import (
     Column,
 )
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.functions import current_date
 from ..common.database import BaseModel
 from ..common.serializers import ModelSerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -110,9 +109,7 @@ class User(BaseModel, ModelSerializerMixin):
     educations = relationship("Education", back_populates="user", lazy="dynamic")
 
     # skills
-    skills = relationship(
-        "Skill", back_populates="user", lazy="dynamic"
-    )
+    skills = relationship("Skill", back_populates="user", lazy="dynamic")
 
     # database related one to many
     posts = relationship("Post", back_populates="user", lazy="dynamic")
