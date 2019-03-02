@@ -129,3 +129,11 @@ class CannotDeleteOthersEducation(InvalidPermissions):
 
 class CannotDeleteOthersSkill(InvalidPermissions):
     pass
+
+
+class CannotDeleteOthersMedia(InvalidPermissions):
+    pass
+
+
+class CannotGetOthersMedia(InvalidPermissions):
+    pass

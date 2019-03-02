@@ -116,5 +116,5 @@ def delete_user(user_id):
     backend.delete_user(user_id)
 
 
-def download(media_id):
-    return backend.download(media_id)
+def download_education(media_education_id):
+    return backend.download_education(media_education_id)

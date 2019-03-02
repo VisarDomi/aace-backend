@@ -63,7 +63,7 @@ def delete_user(user_id):
     return {"message": "User with `id: %s` has been deleted." % user_id}
 
 
-@bp.route("/media/<media_id>", methods=["GET"])
+@bp.route("/media/<media_education_id>", methods=["GET"])
 @token_auth.login_required
-def download(media_id):
-    return domain.download(media_id)
+def download_education(media_education_id):
+    return domain.download_education(media_education_id)

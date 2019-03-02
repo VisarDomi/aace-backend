@@ -1,5 +1,5 @@
 from flask import g
-from ..common.models import Education, Media
+from ..common.models import Education
 from sqlalchemy.orm.exc import NoResultFound
 from ..common.exceptions import (
     RecordNotFound,
@@ -7,7 +7,7 @@ from ..common.exceptions import (
     CannotChangeOthersProfile,
     CannotDeleteOthersEducation,
 )
-from ..bp_media.backend import delete_media_education
+from ..bp_media_education.backend import delete_media, get_all_medias
 
 
 def create_education(education_data, user_id):
@@ -18,6 +18,7 @@ def create_education(education_data, user_id):
     else:
         msg = f"You can't change other people's profile."
         raise CannotChangeOthersProfile(message=msg)
+
     return education
 
 
@@ -30,11 +31,13 @@ def get_education_by_id(education_id):
     except InvalidURL:
         msg = f"This is not a valid URL: {education_id}`"
         raise InvalidURL(message=msg)
+
     return education
 
 
 def get_all_educations(user_id):
     educations = Education.query.filter(Education.user_id == user_id).all()
+
     return educations
 
 
@@ -46,6 +49,7 @@ def update_education(education_data, user_id, education_id):
     else:
         msg = f"You can't change other people's profile."
         raise CannotChangeOthersProfile(message=msg)
+
     return education
 
 
@@ -53,16 +57,10 @@ def delete_education(user_id, education_id):
 
     if int(user_id) == g.current_user.id:
 
-        print("user_id :", user_id)
-        print("education_id :", education_id)
-        medias = Media.query.filter(Media.education_id == int(education_id)).all()
-        print("medias :", medias)
+        medias = get_all_medias(user_id, education_id)
         for media in medias:
-            print("user_id :", user_id)
-            print("media.id :", media.id)
-            delete_media_education(user_id, education_id, media.id)
+            delete_media(user_id, media.id)
         education = get_education_by_id(education_id)
-        print("education.delete() :", education)
         education.delete()
     else:
         msg = "You can't delete other people's profile."

@@ -7,9 +7,9 @@ from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 
 
-# PARENT_DIR = os.path.abspath(os.path.join(os.getcwd(), ".."))
-PARENT_DIR = os.path.abspath(os.getcwd())
-sys.path.append(PARENT_DIR)
+# parent_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
+parent_dir = os.path.abspath(os.getcwd())
+sys.path.append(parent_dir)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

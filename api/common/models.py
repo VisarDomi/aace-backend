@@ -100,7 +100,7 @@ class User(BaseModel, ModelSerializerMixin):
     comment_from_administrator = Column(Text)
 
     # intro - one to many
-    medias = relationship("Media", back_populates="user", lazy="dynamic")
+    medias = relationship("MediaUser", back_populates="user", lazy="dynamic")
 
     # experiences
     experiences = relationship("Experience", back_populates="user", lazy="dynamic")
@@ -189,7 +189,7 @@ class Experience(BaseModel, ModelSerializerMixin):
     user = relationship("User", back_populates="experiences")
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    medias = relationship("Media", back_populates="experience", lazy="dynamic")
+    # medias = relationship("Media", back_populates="experience", lazy="dynamic")
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"
@@ -210,7 +210,7 @@ class Education(BaseModel, ModelSerializerMixin):
     user = relationship("User", back_populates="educations")
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    medias = relationship("Media", back_populates="education", lazy="dynamic")
+    medias = relationship("MediaEducation", back_populates="education", lazy="dynamic")
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.field_of_study}, id = {self.id})"
@@ -225,13 +225,13 @@ class Skill(BaseModel, ModelSerializerMixin):
     user = relationship("User", back_populates="skills")
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    medias = relationship("Media", back_populates="skill", lazy="dynamic")
+    # medias = relationship("Media", back_populates="skill", lazy="dynamic")
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.name}, id = {self.id})"
 
 
-class Media(BaseModel, ModelSerializerMixin):
+class MediaUser(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -240,31 +240,24 @@ class Media(BaseModel, ModelSerializerMixin):
     media_filename = Column(String)
     media_url = Column(String)
 
-    # user profile
     user = relationship("User", back_populates="medias")
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    experience = relationship("Experience", back_populates="medias")
-    experience_id = Column(Integer, ForeignKey("experiences.id"))
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+
+
+class MediaEducation(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    media_filename = Column(String)
+    media_url = Column(String)
 
     education = relationship("Education", back_populates="medias")
     education_id = Column(Integer, ForeignKey("educations.id"))
-
-    skill = relationship("Skill", back_populates="medias")
-    skill_id = Column(Integer, ForeignKey("skills.id"))
-
-    # events, posts, comments
-    event = relationship("Event", back_populates="medias")
-    event_id = Column(Integer, ForeignKey("events.id"))
-
-    post = relationship("Post", back_populates="medias")
-    post_id = Column(Integer, ForeignKey("posts.id"))
-
-    comment = relationship("Comment", back_populates="medias")
-    comment_id = Column(Integer, ForeignKey("comments.id"))
-
-    message = relationship("Message", back_populates="medias")
-    message_id = Column(Integer, ForeignKey("messages.id"))
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"
@@ -297,7 +290,7 @@ class Event(BaseModel, ModelSerializerMixin):
     location = Column(Text)
 
     posts = relationship("Post", back_populates="event", lazy="dynamic")
-    medias = relationship("Media", back_populates="event", lazy="dynamic")
+    # medias = relationship("Media", back_populates="event", lazy="dynamic")
 
     users = relationship(
         "User", secondary="user_event", back_populates="events", lazy="dynamic"
@@ -321,7 +314,7 @@ class Post(BaseModel, ModelSerializerMixin):
     event_id = Column(Integer, ForeignKey("events.id"))
 
     comments = relationship("Comment", back_populates="post", lazy="dynamic")
-    medias = relationship("Media", back_populates="post", lazy="dynamic")
+    # medias = relationship("Media", back_populates="post", lazy="dynamic")
 
     def __repr__(self):
         return f"{self.__class__.__name__}(id = {self.id})"
@@ -340,7 +333,7 @@ class Comment(BaseModel, ModelSerializerMixin):
     post = relationship("Post", back_populates="comments")
     post_id = Column(Integer, ForeignKey("posts.id"))
 
-    medias = relationship("Media", back_populates="comment", lazy="dynamic")
+    # medias = relationship("Media", back_populates="comment", lazy="dynamic")
 
     def __repr__(self):
         return f"{self.__class__.__name__}(id = {self.id})"
@@ -356,7 +349,7 @@ class Message(BaseModel, ModelSerializerMixin):
     sender = relationship("User", back_populates="messages")
     sender_id = Column(Integer, ForeignKey("users.id"))
 
-    medias = relationship("Media", back_populates="message", lazy="dynamic")
+    # medias = relationship("Media", back_populates="message", lazy="dynamic")
 
     messagerecipients = relationship(
         "MessageRecipient", back_populates="message", lazy="dynamic"

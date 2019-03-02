@@ -5,6 +5,7 @@ def create_user(user_data):
     user = backend.create_user(user_data)
     EXCLUDE = ["password_hash"]
     user_dict = user.to_dict(exclude=EXCLUDE)
+
     return user_dict
 
 
@@ -38,6 +39,7 @@ def get_user_by_id(user_id):
 
     user_dict["document_ids"] = user_documents
     user_dict["years_of_experience"] = "5"
+
     return user_dict
 
 
@@ -92,6 +94,7 @@ def update_user(user_data, user_id):
         "comment_from_administrator",
     ]
     user_dict = user.to_dict(only=ONLY)
+
     return user_dict
 
 

@@ -5,7 +5,15 @@ from werkzeug.contrib.fixers import ProxyFix
 from api import create_app
 
 from api.common.database import db_session, drop_db, init_db
-from api.common.models import Education, Experience, Group, Media, Skill, User
+from api.common.models import (
+    Education,
+    Experience,
+    Group,
+    MediaUser,
+    MediaEducation,
+    Skill,
+    User,
+)
 
 app = create_app()
 
@@ -19,7 +27,8 @@ def make_shell_context():
         "Education": Education,
         "Experience": Experience,
         "Group": Group,
-        "Media": Media,
+        "MediaUser": MediaUser,
+        "MediaEducation": MediaEducation,
         "Skill": Skill,
         "User": User,
     }

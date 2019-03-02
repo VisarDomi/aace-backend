@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_uploads import configure_uploads
-from .bp_media.backend import FILES
+from .bp_media_user.backend import files_user
+from .bp_media_education.backend import files_education
+
 from .common.middleware import (
     after_request_middleware,
     before_request_middleware,
@@ -12,10 +14,9 @@ from .common.middleware import response
 from .bp_admin import bp as admin_bp
 from .bp_auth import bp as auth_bp
 from .bp_education import bp as education_bp
-from .bp_experience import bp as experience_bp
 from .bp_group import bp as group_bp
-from .bp_media import bp as media_bp
-from .bp_skill import bp as skill_bp
+from .bp_media_user import bp as media_user_bp
+from .bp_media_education import bp as media_education_bp
 from .bp_user import bp as user_bp
 import os
 from config import Config
@@ -32,16 +33,18 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     # Configure the image uploading via Flask-Uploads
-    configure_uploads(app, FILES)
+    configure_uploads(app, files_user)
+    configure_uploads(app, files_education)
 
     # register all blueprints
     app.register_blueprint(admin_bp, url_prefix="/api/admin")
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
-    app.register_blueprint(skill_bp, url_prefix="/api/user/<user_id>/skill")
     app.register_blueprint(education_bp, url_prefix="/api/user/<user_id>/education")
-    app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
     app.register_blueprint(group_bp, url_prefix="/api/group")
-    app.register_blueprint(media_bp, url_prefix="/api/user/<user_id>")
+    app.register_blueprint(media_user_bp, url_prefix="/api/user/<user_id>")
+    app.register_blueprint(
+        media_education_bp, url_prefix="/api/user/<user_id>/education/<education_id>"
+    )
     app.register_blueprint(user_bp, url_prefix="/api/user")
 
     # register custom response class

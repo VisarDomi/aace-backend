@@ -1,4 +1,4 @@
-from flask import g, send_from_directory, send_file
+from flask import g, send_from_directory  # , send_file
 from functools import wraps
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -6,12 +6,11 @@ from ..common.exceptions import RecordNotFound
 from ..common.exceptions import (
     YouAreNotAdmin,
     CannotChangeFirstAdminProperties,
-    CannotDeleteFirstAdmin,
     InvalidURL,
 )
 
 from ..common.models import User
-from ..bp_media.backend import get_media_by_id
+from ..bp_media_education.backend import get_media_by_id
 from config import Config
 
 
@@ -98,8 +97,8 @@ def update_user(user_data, user_id):
 
 
 @are_you_admin
-def download(media_id):
-    media = get_media_by_id(media_id)
+def download_education(media_education_id):
+    media = get_media_by_id(media_education_id)
     directory = Config.UPLOADED_FILES_DEST
     filename = media.media_filename
     download_file = send_from_directory(directory, filename, as_attachment=True)
