@@ -7,9 +7,9 @@ load_dotenv(os.path.join(basedir, ".env"))
 FLASK_ENV = os.environ.get("FLASK_ENV")
 
 if str(FLASK_ENV) == 'development':
-    WEBSITE_URL = "localhost:5000"
+    WEBSITE_URL = "http://localhost:5000"
 else:
-    WEBSITE_URL = "aace.ml"
+    WEBSITE_URL = "https://aace.ml"
 
 
 class Config(object):
@@ -26,6 +26,6 @@ class Config(object):
     ADMINS = ["visardomi4@gmail.com"]
 
     UPLOADED_USERFILES_DEST = basedir + "/static/files/user/"
-    UPLOADED_USERFILES_URL = f"https://{WEBSITE_URL}/static/files/user/"
+    UPLOADED_USERFILES_URL = f"{WEBSITE_URL}/static/files/user/"
     UPLOADED_EDUCATIONFILES_DEST = basedir + "/static/files/education/"
-    UPLOADED_EDUCATIONFILES_URL = f"https://{WEBSITE_URL}/static/files/education/"
+    UPLOADED_EDUCATIONFILES_URL = f"{WEBSITE_URL}/static/files/education/"
