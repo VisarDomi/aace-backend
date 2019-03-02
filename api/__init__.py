@@ -6,7 +6,8 @@ from .common.middleware import (
     before_request_middleware,
     teardown_appcontext_middleware,
 )
-from .common.database import init_db
+
+# from .common.database import init_db
 from .common.middleware import response
 from .bp_admin import bp as admin_bp
 from .bp_auth import bp as auth_bp
@@ -59,7 +60,7 @@ def create_app(config_class=Config):
     response.json_error_handler(app=app)
 
     # Initialize database
-    init_db()
+    # init_db()
 
     if not app.debug and not app.testing:
         if app.config["MAIL_SERVER"]:

@@ -5,7 +5,7 @@ from . import domain
 from ..bp_auth.views import token_auth
 
 
-@bp.route("/accomplishment/<accomplishment_id>/media", methods=["POST"])
+@bp.route("/skill/<skill_id>/media", methods=["POST"])
 @bp.route("/comment/<comment_id>/media", methods=["POST"])
 @bp.route("/education/<education_id>/media", methods=["POST"])
 @bp.route("/event/<event_id>/media", methods=["POST"])
@@ -16,7 +16,7 @@ from ..bp_auth.views import token_auth
 @token_auth.login_required
 def create_media(
     user_id,
-    accomplishment_id=0,
+    skill_id=0,
     comment_id=0,
     event_id=0,
     education_id=0,
@@ -27,7 +27,7 @@ def create_media(
     return domain.create_media(
         request.files.getlist("file"),
         user_id,
-        accomplishment_id,
+        skill_id,
         comment_id,
         event_id,
         education_id,
@@ -37,7 +37,7 @@ def create_media(
     )
 
 
-@bp.route("/accomplishment/<accomplishment_id>/media/all", methods=["GET"])
+@bp.route("/skill/<skill_id>/media/all", methods=["GET"])
 @bp.route("/comment/<comment_id>/media/all", methods=["GET"])
 @bp.route("/education/<education_id>/media/all", methods=["GET"])
 @bp.route("/event/<event_id>/media/all", methods=["GET"])
@@ -47,8 +47,8 @@ def create_media(
 @bp.route("/media/all", methods=["GET"])
 @token_auth.login_required
 def get_medias(
-    user_id,
-    accomplishment_id=0,
+    user_id=0,
+    skill_id=0,
     comment_id=0,
     event_id=0,
     education_id=0,
@@ -58,7 +58,7 @@ def get_medias(
 ):
     return domain.get_all_medias(
         user_id,
-        accomplishment_id,
+        skill_id,
         comment_id,
         education_id,
         event_id,
@@ -68,7 +68,7 @@ def get_medias(
     )
 
 
-@bp.route("/accomplishment/<accomplishment_id>/media/<media_id>", methods=["GET"])
+@bp.route("/skill/<skill_id>/media/<media_id>", methods=["GET"])
 @bp.route("/comment/<comment_id>/media/<media_id>", methods=["GET"])
 @bp.route("/education/<education_id>/media/<media_id>", methods=["GET"])
 @bp.route("/event/<event_id>/media/<media_id>", methods=["GET"])
@@ -80,7 +80,7 @@ def get_medias(
 def get_media(
     user_id,
     media_id,
-    accomplishment_id=0,
+    skill_id=0,
     comment_id=0,
     event_id=0,
     education_id=0,
@@ -91,7 +91,7 @@ def get_media(
     return domain.get_media_by_id(media_id)
 
 
-@bp.route("/accomplishment/<accomplishment_id>/media/<media_id>", methods=["PUT"])
+@bp.route("/skill/<skill_id>/media/<media_id>", methods=["PUT"])
 @bp.route("/comment/<comment_id>/media/<media_id>", methods=["PUT"])
 @bp.route("/education/<education_id>/media/<media_id>", methods=["PUT"])
 @bp.route("/event/<event_id>/media/<media_id>", methods=["PUT"])
@@ -103,7 +103,7 @@ def get_media(
 def update_media(
     user_id,
     media_id,
-    accomplishment_id=0,
+    skill_id=0,
     comment_id=0,
     event_id=0,
     education_id=0,
@@ -115,7 +115,7 @@ def update_media(
         request.files.getlist("file"),
         user_id,
         media_id,
-        accomplishment_id,
+        skill_id,
         comment_id,
         event_id,
         education_id,
@@ -125,26 +125,17 @@ def update_media(
     )
 
 
-@bp.route("/accomplishment/<accomplishment_id>/media/<media_id>", methods=["DELETE"])
-@bp.route("/comment/<comment_id>/media/<media_id>", methods=["DELETE"])
-@bp.route("/education/<education_id>/media/<media_id>", methods=["DELETE"])
-@bp.route("/event/<event_id>/media/<media_id>", methods=["DELETE"])
-@bp.route("/experience/<experience_id>/media/<media_id>", methods=["DELETE"])
-@bp.route("/message/<message_id>/media/<media_id>", methods=["DELETE"])
-@bp.route("/post/<post_id>/media/<media_id>", methods=["DELETE"])
 @bp.route("/media/<media_id>", methods=["DELETE"])
 @token_auth.login_required
-def delete_media(
-    user_id,
-    media_id,
-    accomplishment_id=0,
-    comment_id=0,
-    event_id=0,
-    education_id=0,
-    experience_id=0,
-    message_id=0,
-    post_id=0,
-):
-    domain.delete_media(user_id, media_id)
+def delete_media_user(user_id, media_id):
+    domain.delete_media_user(user_id, media_id)
+
+    return {"message": "Media with `id: %s` has been deleted." % media_id}
+
+
+@bp.route("education/<education_id>/media/<media_id>", methods=["DELETE"])
+@token_auth.login_required
+def delete_media_education(user_id, education_id, media_id):
+    domain.delete_media_education(education_id, media_id)
 
     return {"message": "Media with `id: %s` has been deleted." % media_id}

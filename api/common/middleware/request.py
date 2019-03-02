@@ -37,7 +37,7 @@ def ensure_content_type():
 
 def ensure_public_unavailability():
     if request.headers.get("Secure-Api-Key", "") != Config.SECURE_API_KEY:
-        msg = "You don't have enough permissions to perform this action."
+        msg = "You have the wrong api key."
         raise InvalidPermissions(message=msg)
 
 

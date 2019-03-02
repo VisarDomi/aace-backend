@@ -49,32 +49,42 @@ def get_approved_users():
 
 @are_you_admin
 def get_applying_users():
-    users = (
-        User.query.filter(User.register_status != "blank")
-        .filter(User.register_status != "approved")
-        .all()
-    )
+    users = User.query.filter(User.register_status == "applying").all()
     return users
 
 
 @are_you_admin
-def get_registered_users():
+def get_rejected_users():
+    users = User.query.filter(User.register_status == "rejected").all()
+    return users
+
+
+@are_you_admin
+def get_rebutted_users():
+    users = User.query.filter(User.register_status == "rebutted").all()
+    return users
+
+
+@are_you_admin
+def get_reapplying_users():
+    users = User.query.filter(User.register_status == "reapplying").all()
+    return users
+
+
+@are_you_admin
+def get_blank_users():
     users = User.query.filter(User.register_status == "blank").all()
     return users
 
 
 @are_you_admin
 def update_user(user_data, user_id):
-    # user = get_user_by_id(user_id)
-    # user.update_flusk(**user_data)
-    # user.save()
-    # return user
 
-    secure = False
+    secure = True
     if secure:
         if int(user_id) != 1:
             user = get_user_by_id(user_id)
-            user.update_from_dict(user_data)
+            user.update(**user_data)
             user.save()
             return user
         else:
@@ -82,21 +92,12 @@ def update_user(user_data, user_id):
             raise CannotChangeFirstAdminProperties(message=msg)
     else:
         user = get_user_by_id(user_id)
-        user.update_from_dict(user_data)
+        user.update(**user_data)
         user.save()
         return user
 
 
 @are_you_admin
-def delete_user(user_id):
-    if int(user_id) != 1:
-        user = get_user_by_id(user_id)
-        user.delete()
-    else:
-        msg = "Cannot delete admin with `id: %s`" % user_id
-        raise CannotDeleteFirstAdmin(message=msg)
-
-
 def download(media_id):
     media = get_media_by_id(media_id)
     directory = Config.UPLOADED_FILES_DEST

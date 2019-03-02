@@ -9,7 +9,6 @@ from ..common.exceptions import (
     CannotChangeOthersProfile,
 )
 import os
-from ..bp_user.backend import get_user_by_id
 
 FILES = UploadSet("files", AllExcept(SCRIPTS + EXECUTABLES))
 
@@ -17,7 +16,7 @@ FILES = UploadSet("files", AllExcept(SCRIPTS + EXECUTABLES))
 def create_media(
     media_data,
     user_id,
-    accomplishment_id,
+    skill_id,
     comment_id,
     event_id,
     education_id,
@@ -31,10 +30,8 @@ def create_media(
             media_filename = FILES.save(file)
             media_url = FILES.url(media_filename)
             media = Media(media_filename=media_filename, media_url=media_url)
-            if accomplishment_id:
-                media.accomplishment = g.current_user.accomplishments.filter_by(
-                    id=int(accomplishment_id)
-                ).one()
+            if skill_id:
+                media.skill = g.current_user.skills.filter_by(id=int(skill_id)).one()
             elif comment_id:
                 media.comment = g.current_user.comments.filter_by(
                     id=int(comment_id)
@@ -57,7 +54,6 @@ def create_media(
                 media.post = g.current_user.posts.filter_by(id=int(post_id)).one()
             else:
                 media.user = g.current_user
-                g.current_user.profile_picture = media_filename
             media.save()
             medias.append(media)
     else:
@@ -80,7 +76,7 @@ def get_media_by_id(media_id):
 
 def get_all_medias(
     user_id,
-    accomplishment_id,
+    skill_id,
     comment_id,
     education_id,
     event_id,
@@ -88,10 +84,8 @@ def get_all_medias(
     message_id,
     post_id,
 ):
-    if accomplishment_id:
-        medias = Media.query.filter(
-            Media.accomplishment_id == int(accomplishment_id)
-        ).all()
+    if skill_id:
+        medias = Media.query.filter(Media.skill_id == int(skill_id)).all()
     elif comment_id:
         medias = Media.query.filter(Media.comment_id == int(comment_id)).all()
     elif event_id:
@@ -114,7 +108,7 @@ def update_media(
     media_data,
     user_id,
     media_id,
-    accomplishment_id,
+    skill_id,
     comment_id,
     event_id,
     education_id,
@@ -128,15 +122,15 @@ def update_media(
 
         for file in media_data:
             if file and media:
-                delete_media(user_id, media_id)
+                delete_media_user(user_id, media_id)
 
                 media_filename = FILES.save(file)
                 media_url = FILES.url(media_filename)
                 media = Media(media_filename=media_filename, media_url=media_url)
 
-                if accomplishment_id:
-                    media.accomplishment = g.current_user.accomplishments.filter_by(
-                        id=int(accomplishment_id)
+                if skill_id:
+                    media.skill = g.current_user.skills.filter_by(
+                        id=int(skill_id)
                     ).one()
                 elif comment_id:
                     media.comment = g.current_user.comments.filter_by(
@@ -162,7 +156,6 @@ def update_media(
                     media.post = g.current_user.posts.filter_by(id=int(post_id)).one()
                 else:
                     media.user = g.current_user
-                    g.current_user.profile_picture = media_filename
 
                 media.save()
                 medias.append(media)
@@ -185,16 +178,30 @@ def is_file(file_name):
     return os.path.exists(THIS_FILE_PATH)
 
 
-def delete_media(user_id, media_id):
-    user = get_user_by_id(user_id)
+def delete_media_user(user_id, media_id):
     media = get_media_by_id(media_id)
-    if user.email == g.current_user.email:
+    if int(user_id) == g.current_user.id:
         file_name = FILES.path(media.media_filename)
 
         if is_file(media.media_filename):
+            print("os.remove(get_file_path(file_name)) :", file_name)
             os.remove(get_file_path(file_name))
-        if user.profile_picture == media.media_filename:
-            user.profile_picture = ""
+        print("media.delete() :", media)
+        media.delete()
+    else:
+        msg = "You can't delete other people's profile."
+        raise CannotDeleteOthersPost(message=msg)
+
+
+def delete_media_education(user_id, education_id, media_id):
+    media = get_media_by_id(media_id)
+    if int(user_id) == g.current_user.id:
+        file_name = FILES.path(media.media_filename)
+
+        if is_file(media.media_filename):
+            print("os.remove(get_file_path(file_name)) :", file_name)
+            os.remove(get_file_path(file_name))
+        print("media.delete() :", media)
         media.delete()
     else:
         msg = "You can't delete other people's profile."

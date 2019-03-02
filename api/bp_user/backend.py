@@ -6,6 +6,7 @@ from ..common.exceptions import CannotChangeOthersProfile, CannotDeleteOthersPro
 from ..common.exceptions import CannotDeleteFirstAdmin, InvalidURL
 
 from ..common.models import User
+from ..bp_education.backend import get_all_educations, delete_education
 
 
 def create_user(user_data):
@@ -29,9 +30,6 @@ def create_user(user_data):
 def get_user_by_id(user_id):
     try:
         user = User.query.filter(User.id == user_id).one()
-        # if user.
-        # user.educations.
-        # years_of_experience
     except NoResultFound:
         msg = f"There is no User with `id: {user_id}`"
         raise RecordNotFound(message=msg)
@@ -42,15 +40,16 @@ def get_user_by_id(user_id):
 
 
 def get_all_users():
-    return User.query.all()
+    users = User.query.all()
+    return users
 
 
 def update_user(user_data, user_id):
-    user = get_user_by_id(user_id)
-    if user.email == g.current_user.email:
+    if int(user_id) == g.current_user.id:
+        user = get_user_by_id(user_id)
         user.update(**user_data)
-        # user.register_status = 'applying'
-        # user.save()
+        user.register_status = "reapplying"
+        user.save()
         return user
     else:
         msg = "You can't change other people's profile."
@@ -59,8 +58,11 @@ def update_user(user_data, user_id):
 
 def delete_user(user_id):
     if int(user_id) != 1:
-        user = get_user_by_id(user_id)
-        if user.email == g.current_user.email:
+        if int(user_id) == g.current_user.id:
+            for education in get_all_educations(user_id):
+                delete_education(user_id, education.id)
+            user = get_user_by_id(user_id)
+            print("user.delete() :", user)
             user.delete()
         else:
             msg = "You can't delete other people's profile."

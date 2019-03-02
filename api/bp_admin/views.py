@@ -18,6 +18,24 @@ def get_applying_users():
     return domain.get_applying_users()
 
 
+@bp.route("/user/rejected", methods=["GET"])
+@token_auth.login_required
+def get_rejected_users():
+    return domain.get_rejected_users()
+
+
+@bp.route("/user/rebutted", methods=["GET"])
+@token_auth.login_required
+def get_rebutted_users():
+    return domain.get_rebutted_users()
+
+
+@bp.route("/user/reapplying", methods=["GET"])
+@token_auth.login_required
+def get_reapplying_users():
+    return domain.get_reapplying_users()
+
+
 @bp.route("/user/blank", methods=["GET"])
 @token_auth.login_required
 def get_blank_users():

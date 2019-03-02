@@ -1,5 +1,5 @@
 from flask import g
-from ..common.models import Education
+from ..common.models import Education, Media
 from sqlalchemy.orm.exc import NoResultFound
 from ..common.exceptions import (
     RecordNotFound,
@@ -7,7 +7,7 @@ from ..common.exceptions import (
     CannotChangeOthersProfile,
     CannotDeleteOthersEducation,
 )
-from ..bp_user.backend import get_user_by_id
+from ..bp_media.backend import delete_media_education
 
 
 def create_education(education_data, user_id):
@@ -50,9 +50,19 @@ def update_education(education_data, user_id, education_id):
 
 
 def delete_education(user_id, education_id):
-    user = get_user_by_id(user_id)
-    education = get_education_by_id(education_id)
-    if user.email == g.current_user.email:
+
+    if int(user_id) == g.current_user.id:
+
+        print("user_id :", user_id)
+        print("education_id :", education_id)
+        medias = Media.query.filter(Media.education_id == int(education_id)).all()
+        print("medias :", medias)
+        for media in medias:
+            print("user_id :", user_id)
+            print("media.id :", media.id)
+            delete_media_education(user_id, education_id, media.id)
+        education = get_education_by_id(education_id)
+        print("education.delete() :", education)
         education.delete()
     else:
         msg = "You can't delete other people's profile."

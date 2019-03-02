@@ -4,7 +4,7 @@ from . import backend
 def create_media(
     media_data,
     user_id,
-    accomplishment_id,
+    skill_id,
     comment_id,
     event_id,
     education_id,
@@ -15,7 +15,7 @@ def create_media(
     medias = backend.create_media(
         media_data,
         user_id,
-        accomplishment_id,
+        skill_id,
         comment_id,
         event_id,
         education_id,
@@ -35,7 +35,7 @@ def get_media_by_id(media_id):
 
 def get_all_medias(
     user_id,
-    accomplishment_id,
+    skill_id,
     comment_id,
     education_id,
     event_id,
@@ -45,7 +45,7 @@ def get_all_medias(
 ):
     medias = backend.get_all_medias(
         user_id,
-        accomplishment_id,
+        skill_id,
         comment_id,
         education_id,
         event_id,
@@ -61,7 +61,7 @@ def update_media(
     media_data,
     user_id,
     media_id,
-    accomplishment_id,
+    skill_id,
     comment_id,
     event_id,
     education_id,
@@ -73,7 +73,7 @@ def update_media(
         media_data,
         user_id,
         media_id,
-        accomplishment_id,
+        skill_id,
         comment_id,
         event_id,
         education_id,
@@ -85,5 +85,9 @@ def update_media(
     return medias_list
 
 
-def delete_media(user_id, media_id):
-    backend.delete_media(user_id, media_id)
+def delete_media_user(user_id, media_id):
+    backend.delete_media_user(user_id, media_id)
+
+
+def delete_media_education(user_id, education_id, media_id):
+    backend.delete_media_education(user_id, education_id, media_id)
