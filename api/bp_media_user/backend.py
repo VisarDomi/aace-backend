@@ -1,6 +1,6 @@
 from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ..common.models import MediaUser, User
+from ..common.models import MediaUser
 from sqlalchemy.orm.exc import NoResultFound
 from ..common.exceptions import (
     RecordNotFound,
@@ -14,26 +14,6 @@ import os
 files_user = UploadSet(name="userfiles", extensions=AllExcept(SCRIPTS + EXECUTABLES))
 
 
-def get_user_by_id(user_id):
-    try:
-        user = User.query.filter(User.id == user_id).one()
-    except NoResultFound:
-        msg = f"There is no User with `id: {user_id}`"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {user_id}`"
-        raise InvalidURL(message=msg)
-
-    return user
-
-
-def user_edited(user_id):
-    user = get_user_by_id(user_id)
-    if user.register_status not in ["applying", "reapplying"]:
-        user.register_status = "reapplying"
-    user.save()
-
-
 def create_medias(media_data, user_id):
     medias = []
     if int(user_id) == g.current_user.id:
@@ -44,7 +24,6 @@ def create_medias(media_data, user_id):
             media.user = g.current_user
             media.save()
             medias.append(media)
-            user_edited(user_id)
     else:
         msg = f"You can't get other people's media."
         raise CannotGetOthersMedia(message=msg)
@@ -92,7 +71,6 @@ def update_media(media_data, user_id, media_user_id):
                 media.user = g.current_user
                 media.save()
                 medias.append(media)
-                user_edited(user_id)
     else:
         msg = f"You can't get other people's media."
         raise CannotGetOthersMedia(message=msg)
