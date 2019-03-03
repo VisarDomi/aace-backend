@@ -6,63 +6,57 @@ from . import domain
 from ..bp_auth.views import token_auth
 
 
-@bp.route("/user/approved", methods=["GET"])
+@bp.route("/approved", methods=["GET"])
 @token_auth.login_required
 def get_approved_users():
     return domain.get_approved_users()
 
 
-@bp.route("/user/applying", methods=["GET"])
+@bp.route("/applying", methods=["GET"])
 @token_auth.login_required
 def get_applying_users():
     return domain.get_applying_users()
 
 
-@bp.route("/user/applying_and_reapplying", methods=["GET"])
+@bp.route("/applying_and_reapplying", methods=["GET"])
 @token_auth.login_required
 def get_applying_and_reapplying_users():
     return domain.get_applying_and_reapplying_users()
 
 
-@bp.route("/user/rejected", methods=["GET"])
+@bp.route("/rejected", methods=["GET"])
 @token_auth.login_required
 def get_rejected_users():
     return domain.get_rejected_users()
 
 
-@bp.route("/user/rebutted", methods=["GET"])
+@bp.route("/rebutted", methods=["GET"])
 @token_auth.login_required
 def get_rebutted_users():
     return domain.get_rebutted_users()
 
 
-@bp.route("/user/reapplying", methods=["GET"])
+@bp.route("/reapplying", methods=["GET"])
 @token_auth.login_required
 def get_reapplying_users():
     return domain.get_reapplying_users()
 
 
-@bp.route("/user/blank", methods=["GET"])
+@bp.route("/blank", methods=["GET"])
 @token_auth.login_required
 def get_blank_users():
     return domain.get_blank_users()
 
 
-@bp.route("/user/<user_id>", methods=["GET"])
+@bp.route("/<user_id>", methods=["GET"])
 @token_auth.login_required
 def get_user(user_id):
     return domain.get_user_by_id(user_id)
 
 
 # order is route, schema, auth
-@bp.route("/user/<user_id>", methods=["PUT"])
+@bp.route("/<user_id>", methods=["PUT"])
 @schema("/update_user.json")
 @token_auth.login_required
 def update_user(user_id):
     return domain.update_user(request.json, user_id)
-
-
-@bp.route("/media/<media_education_id>", methods=["GET"])
-@token_auth.login_required
-def download_education(media_education_id):
-    return domain.download_education(media_education_id)

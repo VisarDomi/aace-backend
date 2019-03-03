@@ -76,8 +76,6 @@ class User(BaseModel, ModelSerializerMixin):
     privilege = Column(String, default="normal_privilege")
 
     # intro
-    profile_picture = Column(String)
-    background_picture = Column(String)
     first_name = Column(String)
     last_name = Column(String, default="no_name")
     headline = Column(String)
@@ -206,7 +204,6 @@ class Education(BaseModel, ModelSerializerMixin):
     school = Column(String)
     from_year = Column(Date)
     to_year = Column(Date)
-    grade = Column(String)
     description = Column(Text)
 
     user = relationship("User", back_populates="educations")

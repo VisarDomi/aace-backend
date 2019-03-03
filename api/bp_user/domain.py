@@ -12,7 +12,6 @@ def create_user(user_data):
 def get_user_by_id(user_id):
     user = backend.get_user_by_id(user_id)
     ONLY = [
-        "profile_picture",
         "register_status",
         "id",
         "first_name",
@@ -45,7 +44,6 @@ def get_user_by_id(user_id):
 def get_all_users():
     users = backend.get_all_users()
     ONLY = [
-        "profile_picture",
         "register_status",
         "id",
         "first_name",

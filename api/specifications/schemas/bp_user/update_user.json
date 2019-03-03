@@ -7,12 +7,6 @@
     "register_status": {
       "type": "string"
     },
-    "profile_picture": {
-      "type": "string"
-    },
-    "background_picture": {
-      "type": "string"
-    },
     "first_name": {
       "type": "string"
     },

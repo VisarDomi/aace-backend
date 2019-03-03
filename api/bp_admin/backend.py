@@ -1,4 +1,4 @@
-from flask import g, send_from_directory  # , send_file
+from flask import g
 from functools import wraps
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -9,8 +9,7 @@ from ..common.exceptions import (
     InvalidURL,
 )
 
-from ..common.models import User, MediaEducation
-from config import Config
+from ..common.models import User
 
 
 # create a custom decorator, so only admins can use the following functions
@@ -101,30 +100,3 @@ def update_user(user_data, user_id):
         user.update(**user_data)
         user.save()
         return user
-
-
-# download section
-
-
-def get_media_by_id(media_education_id):
-    try:
-        media = MediaEducation.query.filter(
-            MediaEducation.id == media_education_id
-        ).one()
-    except NoResultFound:
-        msg = f"There is no media with id {media_education_id}"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {media_education_id}`"
-        raise InvalidURL(message=msg)
-
-    return media
-
-
-@are_you_admin
-def download_education(media_education_id):
-    media = get_media_by_id(media_education_id)
-    directory = Config.UPLOADED_EDUCATIONFILES_DEST
-    filename = media.media_filename
-    download_file = send_from_directory(directory, filename, as_attachment=True)
-    return download_file

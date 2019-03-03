@@ -4,8 +4,6 @@ from . import backend
 def get_user_by_id(user_id):
     user = backend.get_user_by_id(user_id)
     ONLY = [
-        "profile_picture",
-        # "token",
         "id",
         "first_name",
         "last_name",
@@ -122,7 +120,3 @@ def update_user(user_data, user_id):
     user = backend.update_user(user_data, user_id)
     user_dict = user.to_dict()
     return user_dict
-
-
-def download_education(media_education_id):
-    return backend.download_education(media_education_id)
