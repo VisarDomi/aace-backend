@@ -61,6 +61,13 @@ def delete_group(group_id):
     group.delete()
 
 
+def get_users_from_group(group_id):
+    group = get_group_by_id(group_id)
+    users = group.users.all()
+
+    return users
+
+
 @are_you_admin
 def add_user_to_group(group_id, user_id):
     group = get_group_by_id(group_id)
