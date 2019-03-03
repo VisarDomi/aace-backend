@@ -28,7 +28,7 @@ def get_user_by_id(user_id):
         for edu_media in education.medias:
             user_documents.append(edu_media.id)
 
-    user_dict["document_ids"] = user_documents
+    user_dict["media_education_ids"] = user_documents
     user_dict["years_of_experience"] = "5"
 
     return user_dict

@@ -267,9 +267,10 @@ class Group(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    group_picture = Column(String)
     name = Column(String, default="no_name")
     description = Column(Text)
+
+    # medias = relationship("Media", back_populates="skill", lazy="dynamic")
 
     users = relationship(
         "User", secondary="user_group", back_populates="groups", lazy="dynamic"

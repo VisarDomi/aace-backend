@@ -49,7 +49,7 @@ def update_group(group_data, group_id):
         raise ThereIsAlreadyAGroupByThatName(message=msg)
     else:
         group = get_group_by_id(group_id)
-        group(**group_data)
+        group.update(**group_data)
         group.save()
 
     return group
