@@ -124,9 +124,5 @@ def update_user(user_data, user_id):
     return user_dict
 
 
-def delete_user(user_id):
-    backend.delete_user(user_id)
-
-
 def download_education(media_education_id):
     return backend.download_education(media_education_id)

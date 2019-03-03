@@ -52,7 +52,8 @@ def update_user(user_data, user_id):
     if int(user_id) == g.current_user.id:
         user = get_user_by_id(user_id)
         user.update(**user_data)
-        user.register_status = "reapplying"
+        if user.register_status != "applying":
+            user.register_status = "reapplying"
         user.save()
 
     else:

@@ -62,13 +62,6 @@ def update_user(user_id):
     return domain.update_user(request.json, user_id)
 
 
-@bp.route("/user/<user_id>", methods=["DELETE"])
-@token_auth.login_required
-def delete_user(user_id):
-    domain.delete_user(user_id)
-    return {"message": "User with `id: %s` has been deleted." % user_id}
-
-
 @bp.route("/media/<media_education_id>", methods=["GET"])
 @token_auth.login_required
 def download_education(media_education_id):
