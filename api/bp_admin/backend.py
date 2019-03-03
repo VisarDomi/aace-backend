@@ -52,6 +52,14 @@ def get_applying_users():
 
 
 @are_you_admin
+def get_applying_and_reapplying_users():
+    users = User.query.filter(
+        (User.register_status == "applying") | (User.register_status == "reapplying")
+    ).all()
+    return users
+
+
+@are_you_admin
 def get_rejected_users():
     users = User.query.filter(User.register_status == "rejected").all()
     return users

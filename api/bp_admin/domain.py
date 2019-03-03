@@ -58,6 +58,18 @@ def get_applying_users():
     return users_list
 
 
+def get_applying_and_reapplying_users():
+    users = backend.get_applying_and_reapplying_users()
+
+    users_list = [
+        user.to_dict(
+            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
+        )
+        for user in users
+    ]
+    return users_list
+
+
 def get_rejected_users():
     users = backend.get_rejected_users()
 
