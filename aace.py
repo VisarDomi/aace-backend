@@ -11,6 +11,8 @@ from api.common.models import (
     Group,
     MediaUser,
     MediaEducation,
+    MediaExperience,
+    MediaSkill,
     Skill,
     User,
 )
@@ -29,6 +31,8 @@ def make_shell_context():
         "Group": Group,
         "MediaUser": MediaUser,
         "MediaEducation": MediaEducation,
+        "MediaExperience": MediaExperience,
+        "MediaSkill": MediaSkill,
         "Skill": Skill,
         "User": User,
     }

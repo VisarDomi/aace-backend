@@ -2,6 +2,8 @@ from flask import Flask
 from flask_uploads import configure_uploads
 from .bp_media_user.backend import files_user
 from .bp_media_education.backend import files_education
+from .bp_media_experience.backend import files_experience
+from .bp_media_skill.backend import files_skill
 
 from .common.middleware import (
     after_request_middleware,
@@ -14,9 +16,13 @@ from .common.middleware import response
 from .bp_admin import bp as admin_bp
 from .bp_auth import bp as auth_bp
 from .bp_education import bp as education_bp
+from .bp_experience import bp as experience_bp
+from .bp_skill import bp as skill_bp
 from .bp_group import bp as group_bp
 from .bp_media_user import bp as media_user_bp
 from .bp_media_education import bp as media_education_bp
+from .bp_media_experience import bp as media_experience_bp
+from .bp_media_skill import bp as media_skill_bp
 from .bp_user import bp as user_bp
 import os
 from config import Config
@@ -35,15 +41,25 @@ def create_app(config_class=Config):
     # Configure the image uploading via Flask-Uploads
     configure_uploads(app, files_user)
     configure_uploads(app, files_education)
+    configure_uploads(app, files_experience)
+    configure_uploads(app, files_skill)
 
     # register all blueprints
     app.register_blueprint(admin_bp, url_prefix="/api/admin")
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(education_bp, url_prefix="/api/user/<user_id>/education")
+    app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
+    app.register_blueprint(skill_bp, url_prefix="/api/user/<user_id>/skill")
     app.register_blueprint(group_bp, url_prefix="/api/group")
     app.register_blueprint(media_user_bp, url_prefix="/api/user/<user_id>")
     app.register_blueprint(
         media_education_bp, url_prefix="/api/user/<user_id>/education/<education_id>"
+    )
+    app.register_blueprint(
+        media_experience_bp, url_prefix="/api/user/<user_id>/experience/<experience_id>"
+    )
+    app.register_blueprint(
+        media_skill_bp, url_prefix="/api/user/<user_id>/skill/<skill_id>"
     )
     app.register_blueprint(user_bp, url_prefix="/api/user")
 

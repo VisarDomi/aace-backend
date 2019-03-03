@@ -29,3 +29,7 @@ class Config(object):
     UPLOADED_USERFILES_URL = f"{WEBSITE_URL}/static/files/user/"
     UPLOADED_EDUCATIONFILES_DEST = basedir + "/static/files/education/"
     UPLOADED_EDUCATIONFILES_URL = f"{WEBSITE_URL}/static/files/education/"
+    UPLOADED_EXPERIENCEFILES_DEST = basedir + "/static/files/experience/"
+    UPLOADED_EXPERIENCEFILES_URL = f"{WEBSITE_URL}/static/files/experience/"
+    UPLOADED_SKILLFILES_DEST = basedir + "/static/files/skill/"
+    UPLOADED_SKILLFILES_URL = f"{WEBSITE_URL}/static/files/skill/"

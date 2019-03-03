@@ -189,7 +189,9 @@ class Experience(BaseModel, ModelSerializerMixin):
     user = relationship("User", back_populates="experiences")
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    # medias = relationship("Media", back_populates="experience", lazy="dynamic")
+    medias = relationship(
+        "MediaExperience", back_populates="experience", lazy="dynamic"
+    )
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"
@@ -225,7 +227,7 @@ class Skill(BaseModel, ModelSerializerMixin):
     user = relationship("User", back_populates="skills")
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    # medias = relationship("Media", back_populates="skill", lazy="dynamic")
+    medias = relationship("MediaSkill", back_populates="skill", lazy="dynamic")
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.name}, id = {self.id})"
@@ -247,6 +249,22 @@ class MediaUser(BaseModel, ModelSerializerMixin):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"
 
 
+class MediaExperience(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    media_filename = Column(String)
+    media_url = Column(String)
+
+    experience = relationship("Experience", back_populates="medias")
+    experience_id = Column(Integer, ForeignKey("experiences.id"))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+
+
 class MediaEducation(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -258,6 +276,22 @@ class MediaEducation(BaseModel, ModelSerializerMixin):
 
     education = relationship("Education", back_populates="medias")
     education_id = Column(Integer, ForeignKey("educations.id"))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+
+
+class MediaSkill(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    media_filename = Column(String)
+    media_url = Column(String)
+
+    skill = relationship("Skill", back_populates="medias")
+    skill_id = Column(Integer, ForeignKey("skills.id"))
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"

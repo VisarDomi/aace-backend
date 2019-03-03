@@ -1,6 +1,6 @@
 from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ..common.models import MediaEducation, Education
+from ..common.models import MediaSkill, Skill
 from sqlalchemy.orm.exc import NoResultFound
 from ..common.exceptions import (
     RecordNotFound,
@@ -11,36 +11,34 @@ from ..common.exceptions import (
 import os
 
 
-files_education = UploadSet(
-    name="educationfiles", extensions=AllExcept(SCRIPTS + EXECUTABLES)
+files_skill = UploadSet(
+    name="skillfiles", extensions=AllExcept(SCRIPTS + EXECUTABLES)
 )
 
 
-def get_education_by_id(education_id):
+def get_skill_by_id(skill_id):
     try:
-        education = Education.query.filter(Education.id == education_id).one()
+        skill = Skill.query.filter(Skill.id == skill_id).one()
     except NoResultFound:
-        msg = f"There is no education with id {education_id}"
+        msg = f"There is no skill with id {skill_id}"
         raise RecordNotFound(message=msg)
     except InvalidURL:
-        msg = f"This is not a valid URL: {education_id}`"
+        msg = f"This is not a valid URL: {skill_id}`"
         raise InvalidURL(message=msg)
 
-    return education
+    return skill
 
 
-def create_medias(media_data, user_id, education_id):
+def create_medias(media_data, user_id, skill_id):
     medias = []
     if int(user_id) == g.current_user.id:
-        if get_education_by_id(education_id):
+        if get_skill_by_id(skill_id):
             for file in media_data:
-                media_filename = files_education.save(file)
-                media_url = files_education.url(media_filename)
-                media = MediaEducation(
-                    media_filename=media_filename, media_url=media_url
-                )
-                education = get_education_by_id(education_id)
-                media.education = education
+                media_filename = files_skill.save(file)
+                media_url = files_skill.url(media_filename)
+                media = MediaSkill(media_filename=media_filename, media_url=media_url)
+                skill = get_skill_by_id(skill_id)
+                media.skill = skill
                 media.save()
                 medias.append(media)
     else:
@@ -50,17 +48,17 @@ def create_medias(media_data, user_id, education_id):
     return medias
 
 
-def get_media_by_id(user_id, media_education_id):
+def get_media_by_id(user_id, media_skill_id):
     if int(user_id) == g.current_user.id:
         try:
-            media = MediaEducation.query.filter(
-                MediaEducation.id == media_education_id
+            media = MediaSkill.query.filter(
+                MediaSkill.id == media_skill_id
             ).one()
         except NoResultFound:
-            msg = f"There is no media with id {media_education_id}"
+            msg = f"There is no media with id {media_skill_id}"
             raise RecordNotFound(message=msg)
         except InvalidURL:
-            msg = f"This is not a valid URL: {media_education_id}`"
+            msg = f"This is not a valid URL: {media_skill_id}`"
             raise InvalidURL(message=msg)
     else:
         msg = f"You can't get other people's media."
@@ -69,10 +67,10 @@ def get_media_by_id(user_id, media_education_id):
     return media
 
 
-def get_all_medias(user_id, education_id):
+def get_all_medias(user_id, skill_id):
     if int(user_id) == g.current_user.id:
-        medias = MediaEducation.query.filter(
-            MediaEducation.education_id == int(education_id)
+        medias = MediaSkill.query.filter(
+            MediaSkill.skill_id == int(skill_id)
         ).all()
     else:
         msg = f"You can't get other people's media."
@@ -81,22 +79,22 @@ def get_all_medias(user_id, education_id):
     return medias
 
 
-def update_media(media_data, user_id, education_id, media_education_id):
+def update_media(media_data, user_id, skill_id, media_skill_id):
     if int(user_id) == g.current_user.id:
         medias = []
-        media = MediaEducation.query.filter(
-            MediaEducation.id == media_education_id
+        media = MediaSkill.query.filter(
+            MediaSkill.id == media_skill_id
         ).one_or_none()
         for file in media_data:
             if file and media:
-                delete_media(user_id, media_education_id)
-                media_filename = files_education.save(file)
-                media_url = files_education.url(media_filename)
-                media = MediaEducation(
+                delete_media(user_id, media_skill_id)
+                media_filename = files_skill.save(file)
+                media_url = files_skill.url(media_filename)
+                media = MediaSkill(
                     media_filename=media_filename, media_url=media_url
                 )
-                education = get_education_by_id(education_id)
-                media.education = education
+                skill = get_skill_by_id(skill_id)
+                media.skill = skill
                 media.save()
                 medias.append(media)
     else:
@@ -108,7 +106,7 @@ def update_media(media_data, user_id, education_id, media_education_id):
 
 def get_file_path(file_name):
     parent_dir = os.path.abspath(os.path.join(os.getcwd(), "."))
-    FILE_TO_PATH = "static/files/education"
+    FILE_TO_PATH = "static/files/skill"
     file_path = os.path.join(parent_dir, FILE_TO_PATH)
     f_path = os.path.join(file_path, file_name)
 
@@ -121,10 +119,10 @@ def is_file(file_name):
     return os.path.exists(this_file_path)
 
 
-def delete_media(user_id, media_education_id):
+def delete_media(user_id, media_skill_id):
     if int(user_id) == g.current_user.id:
-        media = get_media_by_id(user_id, media_education_id)
-        file_name = files_education.path(media.media_filename)
+        media = get_media_by_id(user_id, media_skill_id)
+        file_name = files_skill.path(media.media_filename)
         if is_file(media.media_filename):
             os.remove(get_file_path(file_name))
         media.delete()

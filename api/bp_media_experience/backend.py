@@ -1,6 +1,6 @@
 from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ..common.models import MediaEducation, Education
+from ..common.models import MediaExperience, Experience
 from sqlalchemy.orm.exc import NoResultFound
 from ..common.exceptions import (
     RecordNotFound,
@@ -11,36 +11,36 @@ from ..common.exceptions import (
 import os
 
 
-files_education = UploadSet(
-    name="educationfiles", extensions=AllExcept(SCRIPTS + EXECUTABLES)
+files_experience = UploadSet(
+    name="experiencefiles", extensions=AllExcept(SCRIPTS + EXECUTABLES)
 )
 
 
-def get_education_by_id(education_id):
+def get_experience_by_id(experience_id):
     try:
-        education = Education.query.filter(Education.id == education_id).one()
+        experience = Experience.query.filter(Experience.id == experience_id).one()
     except NoResultFound:
-        msg = f"There is no education with id {education_id}"
+        msg = f"There is no experience with id {experience_id}"
         raise RecordNotFound(message=msg)
     except InvalidURL:
-        msg = f"This is not a valid URL: {education_id}`"
+        msg = f"This is not a valid URL: {experience_id}`"
         raise InvalidURL(message=msg)
 
-    return education
+    return experience
 
 
-def create_medias(media_data, user_id, education_id):
+def create_medias(media_data, user_id, experience_id):
     medias = []
     if int(user_id) == g.current_user.id:
-        if get_education_by_id(education_id):
+        if get_experience_by_id(experience_id):
             for file in media_data:
-                media_filename = files_education.save(file)
-                media_url = files_education.url(media_filename)
-                media = MediaEducation(
+                media_filename = files_experience.save(file)
+                media_url = files_experience.url(media_filename)
+                media = MediaExperience(
                     media_filename=media_filename, media_url=media_url
                 )
-                education = get_education_by_id(education_id)
-                media.education = education
+                experience = get_experience_by_id(experience_id)
+                media.experience = experience
                 media.save()
                 medias.append(media)
     else:
@@ -50,17 +50,17 @@ def create_medias(media_data, user_id, education_id):
     return medias
 
 
-def get_media_by_id(user_id, media_education_id):
+def get_media_by_id(user_id, media_experience_id):
     if int(user_id) == g.current_user.id:
         try:
-            media = MediaEducation.query.filter(
-                MediaEducation.id == media_education_id
+            media = MediaExperience.query.filter(
+                MediaExperience.id == media_experience_id
             ).one()
         except NoResultFound:
-            msg = f"There is no media with id {media_education_id}"
+            msg = f"There is no media with id {media_experience_id}"
             raise RecordNotFound(message=msg)
         except InvalidURL:
-            msg = f"This is not a valid URL: {media_education_id}`"
+            msg = f"This is not a valid URL: {media_experience_id}`"
             raise InvalidURL(message=msg)
     else:
         msg = f"You can't get other people's media."
@@ -69,10 +69,10 @@ def get_media_by_id(user_id, media_education_id):
     return media
 
 
-def get_all_medias(user_id, education_id):
+def get_all_medias(user_id, experience_id):
     if int(user_id) == g.current_user.id:
-        medias = MediaEducation.query.filter(
-            MediaEducation.education_id == int(education_id)
+        medias = MediaExperience.query.filter(
+            MediaExperience.experience_id == int(experience_id)
         ).all()
     else:
         msg = f"You can't get other people's media."
@@ -81,22 +81,22 @@ def get_all_medias(user_id, education_id):
     return medias
 
 
-def update_media(media_data, user_id, education_id, media_education_id):
+def update_media(media_data, user_id, experience_id, media_experience_id):
     if int(user_id) == g.current_user.id:
         medias = []
-        media = MediaEducation.query.filter(
-            MediaEducation.id == media_education_id
+        media = MediaExperience.query.filter(
+            MediaExperience.id == media_experience_id
         ).one_or_none()
         for file in media_data:
             if file and media:
-                delete_media(user_id, media_education_id)
-                media_filename = files_education.save(file)
-                media_url = files_education.url(media_filename)
-                media = MediaEducation(
+                delete_media(user_id, media_experience_id)
+                media_filename = files_experience.save(file)
+                media_url = files_experience.url(media_filename)
+                media = MediaExperience(
                     media_filename=media_filename, media_url=media_url
                 )
-                education = get_education_by_id(education_id)
-                media.education = education
+                experience = get_experience_by_id(experience_id)
+                media.experience = experience
                 media.save()
                 medias.append(media)
     else:
@@ -108,7 +108,7 @@ def update_media(media_data, user_id, education_id, media_education_id):
 
 def get_file_path(file_name):
     parent_dir = os.path.abspath(os.path.join(os.getcwd(), "."))
-    FILE_TO_PATH = "static/files/education"
+    FILE_TO_PATH = "static/files/experience"
     file_path = os.path.join(parent_dir, FILE_TO_PATH)
     f_path = os.path.join(file_path, file_name)
 
@@ -121,10 +121,10 @@ def is_file(file_name):
     return os.path.exists(this_file_path)
 
 
-def delete_media(user_id, media_education_id):
+def delete_media(user_id, media_experience_id):
     if int(user_id) == g.current_user.id:
-        media = get_media_by_id(user_id, media_education_id)
-        file_name = files_education.path(media.media_filename)
+        media = get_media_by_id(user_id, media_experience_id)
+        file_name = files_experience.path(media.media_filename)
         if is_file(media.media_filename):
             os.remove(get_file_path(file_name))
         media.delete()
