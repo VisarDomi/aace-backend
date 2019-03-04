@@ -60,11 +60,6 @@ def get_all_users():
         "comment_from_administrator",
     ]
 
-    # users_list = [
-    #     user_dict = user.to_dict(only=ONLY)
-    #     for user in users
-    # ]
-
     users_list = []
     for user in users:
         user_dict = user.to_dict(only=ONLY)

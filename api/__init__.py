@@ -25,6 +25,7 @@ from .bp_media_education import bp as media_education_bp
 from .bp_media_experience import bp as media_experience_bp
 from .bp_media_skill import bp as media_skill_bp
 from .bp_user import bp as user_bp
+from .bp_search import bp as search_bp
 import os
 from config import Config
 import logging
@@ -64,6 +65,7 @@ def create_app(config_class=Config):
         media_skill_bp, url_prefix="/api/user/<user_id>/skill/<skill_id>"
     )
     app.register_blueprint(user_bp, url_prefix="/api/user")
+    app.register_blueprint(search_bp, url_prefix="/api/user/search")
 
     # register custom response class
     app.response_class = response.JSONResponse
