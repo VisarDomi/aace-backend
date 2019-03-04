@@ -3,9 +3,8 @@
   "description": "Create a experience object",
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
-  "required": ["school"],
   "properties": {
-    "school": {
+    "education_type": {
       "type": "string"
     },
     "degree": {
@@ -14,10 +13,13 @@
     "field_of_study": {
       "type": "string"
     },
-    "from_year": {
+    "school": {
       "type": "string"
     },
-    "to_year": {
+    "from_date": {
+      "type": "string"
+    },
+    "to_date": {
       "type": "string"
     },
     "description": {

@@ -4,7 +4,7 @@ from functools import singledispatch
 from flask import jsonify, Response, request
 from werkzeug.exceptions import NotFound
 
-from ..exceptions import JSONException, InvalidAPIRequest
+from ..exceptions import JSONException, InvalidAPIRequest, TypeErrorFlusk
 
 
 @singledispatch
@@ -55,7 +55,12 @@ class JSONResponse(Response):
     @classmethod
     def force_type(cls, rv, environ=None):
         rv = to_serializable(rv)
-        return super(JSONResponse, cls).force_type(rv, environ)
+        try:
+            return_value = super(JSONResponse, cls).force_type(rv, environ)
+        except TypeError:
+            msg = f"There is a type error in your request."
+            return jsonify(TypeErrorFlusk(message=msg).to_dict())
+        return return_value
 
 
 def json_error_handler(app):

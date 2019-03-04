@@ -13,16 +13,13 @@
     "last_name": {
       "type": "string"
     },
-    "headline": {
+    "sex": {
       "type": "string"
     },
     "summary": {
       "type": "string"
     },
     "country": {
-      "type": "string"
-    },
-    "industry": {
       "type": "string"
     },
     "phone": {

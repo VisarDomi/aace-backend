@@ -91,6 +91,11 @@ class InvalidURL(InvalidAPIRequest):
     pass
 
 
+class TypeErrorFlusk(InvalidAPIRequest):
+    status_code = BadRequest.code
+    pass
+
+
 class CannotPostOnOthersProfile(InvalidPermissions):
     pass
 

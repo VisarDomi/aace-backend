@@ -78,12 +78,11 @@ class User(BaseModel, ModelSerializerMixin):
     # intro
     first_name = Column(String)
     last_name = Column(String, default="no_name")
-    headline = Column(String)
+    sex = Column(String)
     summary = Column(Text)
 
     # intro - should be many to one
     country = Column(String)
-    industry = Column(String)
 
     # contact info
     phone = Column(String)
@@ -199,11 +198,12 @@ class Education(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
+    education_type = Column(String)
     degree = Column(String)
     field_of_study = Column(String, default="no_field_of_study")
     school = Column(String)
-    from_year = Column(Date)
-    to_year = Column(Date)
+    from_date = Column(Date)
+    to_date = Column(Date)
     description = Column(Text)
 
     user = relationship("User", back_populates="educations")
@@ -218,7 +218,10 @@ class Education(BaseModel, ModelSerializerMixin):
 class Skill(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
+    releaser = Column(String)
     name = Column(String, default="no_name")
+    from_date = Column(Date)
+    to_date = Column(Date)
     description = Column(Text)
 
     user = relationship("User", back_populates="skills")

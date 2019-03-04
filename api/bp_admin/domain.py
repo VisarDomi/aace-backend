@@ -7,10 +7,10 @@ def get_user_by_id(user_id):
         "id",
         "first_name",
         "last_name",
-        "headline",
+        "sex",
         "summary",
         "country",
-        "industry",
+         
         "email",
         "phone",
         "address",

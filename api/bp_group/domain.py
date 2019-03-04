@@ -41,10 +41,10 @@ def get_users_from_group(group_id):
         "id",
         "first_name",
         "last_name",
-        "headline",
+        "sex",
         "summary",
         "country",
-        "industry",
+         
         "email",
         "phone",
         "address",
