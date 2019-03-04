@@ -4,6 +4,9 @@
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
+    "files": {
+      "type": "array"
+    },
     "randomid": {
       "type": "number"
     },
