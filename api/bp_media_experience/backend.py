@@ -34,10 +34,10 @@ def create_medias(media_data, user_id, experience_id):
     if int(user_id) == g.current_user.id:
         if get_experience_by_id(experience_id):
             for file in media_data:
-                media_filename = files_experience.save(file)
-                media_url = files_experience.url(media_filename)
+                filename = files_experience.save(file)
+                url = files_experience.url(filename)
                 media = MediaExperience(
-                    media_filename=media_filename, media_url=media_url
+                    filename=filename, url=url
                 )
                 experience = get_experience_by_id(experience_id)
                 media.experience = experience
@@ -90,10 +90,10 @@ def update_media(media_data, user_id, experience_id, media_experience_id):
         for file in media_data:
             if file and media:
                 delete_media(user_id, media_experience_id)
-                media_filename = files_experience.save(file)
-                media_url = files_experience.url(media_filename)
+                filename = files_experience.save(file)
+                url = files_experience.url(filename)
                 media = MediaExperience(
-                    media_filename=media_filename, media_url=media_url
+                    filename=filename, url=url
                 )
                 experience = get_experience_by_id(experience_id)
                 media.experience = experience
@@ -124,8 +124,8 @@ def is_file(file_name):
 def delete_media(user_id, media_experience_id):
     if int(user_id) == g.current_user.id:
         media = get_media_by_id(user_id, media_experience_id)
-        file_name = files_experience.path(media.media_filename)
-        if is_file(media.media_filename):
+        file_name = files_experience.path(media.filename)
+        if is_file(media.filename):
             os.remove(get_file_path(file_name))
         media.delete()
     else:

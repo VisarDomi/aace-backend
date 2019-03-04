@@ -239,8 +239,8 @@ class MediaUser(BaseModel, ModelSerializerMixin):
 
     title = Column(String, default="no_title")
     description = Column(Text)
-    media_filename = Column(String)
-    media_url = Column(String)
+    filename = Column(String)
+    url = Column(String)
 
     user = relationship("User", back_populates="medias")
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -255,8 +255,8 @@ class MediaExperience(BaseModel, ModelSerializerMixin):
 
     title = Column(String, default="no_title")
     description = Column(Text)
-    media_filename = Column(String)
-    media_url = Column(String)
+    filename = Column(String)
+    url = Column(String)
 
     experience = relationship("Experience", back_populates="medias")
     experience_id = Column(Integer, ForeignKey("experiences.id"))
@@ -271,8 +271,8 @@ class MediaEducation(BaseModel, ModelSerializerMixin):
 
     title = Column(String, default="no_title")
     description = Column(Text)
-    media_filename = Column(String)
-    media_url = Column(String)
+    filename = Column(String)
+    url = Column(String)
 
     education = relationship("Education", back_populates="medias")
     education_id = Column(Integer, ForeignKey("educations.id"))
@@ -287,8 +287,8 @@ class MediaSkill(BaseModel, ModelSerializerMixin):
 
     title = Column(String, default="no_title")
     description = Column(Text)
-    media_filename = Column(String)
-    media_url = Column(String)
+    filename = Column(String)
+    url = Column(String)
 
     skill = relationship("Skill", back_populates="medias")
     skill_id = Column(Integer, ForeignKey("skills.id"))

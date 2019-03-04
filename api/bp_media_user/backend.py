@@ -18,9 +18,9 @@ def create_medias(media_data, user_id):
     medias = []
     if int(user_id) == g.current_user.id:
         for file in media_data:
-            media_filename = files_user.save(file)
-            media_url = files_user.url(media_filename)
-            media = MediaUser(media_filename=media_filename, media_url=media_url)
+            filename = files_user.save(file)
+            url = files_user.url(filename)
+            media = MediaUser(filename=filename, url=url)
             media.user = g.current_user
             media.save()
             medias.append(media)
@@ -65,9 +65,9 @@ def update_media(media_data, user_id, media_user_id):
         for file in media_data:
             if file and media:
                 delete_media(user_id, media_user_id)
-                media_filename = files_user.save(file)
-                media_url = files_user.url(media_filename)
-                media = MediaUser(media_filename=media_filename, media_url=media_url)
+                filename = files_user.save(file)
+                url = files_user.url(filename)
+                media = MediaUser(filename=filename, url=url)
                 media.user = g.current_user
                 media.save()
                 medias.append(media)
@@ -96,8 +96,8 @@ def is_file(file_name):
 def delete_media(user_id, media_user_id):
     if int(user_id) == g.current_user.id:
         media = get_media_by_id(user_id, media_user_id)
-        file_name = files_user.path(media.media_filename)
-        if is_file(media.media_filename):
+        file_name = files_user.path(media.filename)
+        if is_file(media.filename):
             os.remove(get_file_path(file_name))
         media.delete()
     else:

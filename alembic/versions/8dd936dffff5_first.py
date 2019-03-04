@@ -1,8 +1,8 @@
-"""first revision
+"""first
 
-Revision ID: 41e79aa5358e
+Revision ID: 8dd936dffff5
 Revises: 
-Create Date: 2019-03-02 23:42:46.819912
+Create Date: 2019-03-04 23:18:28.720724
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '41e79aa5358e'
+revision = '8dd936dffff5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -28,7 +28,6 @@ def upgrade():
     )
     op.create_table('groups',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('group_picture', sa.String(), nullable=True),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
     sa.PrimaryKeyConstraint('id')
@@ -61,14 +60,11 @@ def upgrade():
     sa.Column('register_status', sa.String(), nullable=True),
     sa.Column('role', sa.String(), nullable=True),
     sa.Column('privilege', sa.String(), nullable=True),
-    sa.Column('profile_picture', sa.String(), nullable=True),
-    sa.Column('background_picture', sa.String(), nullable=True),
     sa.Column('first_name', sa.String(), nullable=True),
     sa.Column('last_name', sa.String(), nullable=True),
-    sa.Column('headline', sa.String(), nullable=True),
+    sa.Column('sex', sa.String(), nullable=True),
     sa.Column('summary', sa.Text(), nullable=True),
     sa.Column('country', sa.String(), nullable=True),
-    sa.Column('industry', sa.String(), nullable=True),
     sa.Column('phone', sa.String(), nullable=True),
     sa.Column('address', sa.String(), nullable=True),
     sa.Column('birthday', sa.Date(), nullable=True),
@@ -81,12 +77,12 @@ def upgrade():
     )
     op.create_table('educations',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('education_type', sa.String(), nullable=True),
     sa.Column('degree', sa.String(), nullable=True),
     sa.Column('field_of_study', sa.String(), nullable=True),
     sa.Column('school', sa.String(), nullable=True),
-    sa.Column('from_year', sa.Date(), nullable=True),
-    sa.Column('to_year', sa.Date(), nullable=True),
-    sa.Column('grade', sa.String(), nullable=True),
+    sa.Column('from_date', sa.Date(), nullable=True),
+    sa.Column('to_date', sa.Date(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
@@ -109,8 +105,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('title', sa.String(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('media_filename', sa.String(), nullable=True),
-    sa.Column('media_url', sa.String(), nullable=True),
+    sa.Column('filename', sa.String(), nullable=True),
+    sa.Column('url', sa.String(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -135,7 +131,10 @@ def upgrade():
     )
     op.create_table('skills',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('releaser', sa.String(), nullable=True),
     sa.Column('name', sa.String(), nullable=True),
+    sa.Column('from_date', sa.Date(), nullable=True),
+    sa.Column('to_date', sa.Date(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
@@ -180,10 +179,30 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('title', sa.String(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('media_filename', sa.String(), nullable=True),
-    sa.Column('media_url', sa.String(), nullable=True),
+    sa.Column('filename', sa.String(), nullable=True),
+    sa.Column('url', sa.String(), nullable=True),
     sa.Column('education_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['education_id'], ['educations.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('mediaexperiences',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('title', sa.String(), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('filename', sa.String(), nullable=True),
+    sa.Column('url', sa.String(), nullable=True),
+    sa.Column('experience_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['experience_id'], ['experiences.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('mediaskills',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('title', sa.String(), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('filename', sa.String(), nullable=True),
+    sa.Column('url', sa.String(), nullable=True),
+    sa.Column('skill_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['skill_id'], ['skills.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('messagerecipients',
@@ -203,6 +222,8 @@ def upgrade():
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
     op.drop_table('messagerecipients')
+    op.drop_table('mediaskills')
+    op.drop_table('mediaexperiences')
     op.drop_table('mediaeducations')
     op.drop_table('comments')
     op.drop_table('user_notification')

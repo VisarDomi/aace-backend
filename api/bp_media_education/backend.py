@@ -34,10 +34,10 @@ def create_medias(media_data, user_id, education_id):
     if int(user_id) == g.current_user.id:
         if get_education_by_id(education_id):
             for file in media_data:
-                media_filename = files_education.save(file)
-                media_url = files_education.url(media_filename)
+                filename = files_education.save(file)
+                url = files_education.url(filename)
                 media = MediaEducation(
-                    media_filename=media_filename, media_url=media_url
+                    filename=filename, url=url
                 )
                 education = get_education_by_id(education_id)
                 media.education = education
@@ -90,10 +90,10 @@ def update_media(media_data, user_id, education_id, media_education_id):
         for file in media_data:
             if file and media:
                 delete_media(user_id, media_education_id)
-                media_filename = files_education.save(file)
-                media_url = files_education.url(media_filename)
+                filename = files_education.save(file)
+                url = files_education.url(filename)
                 media = MediaEducation(
-                    media_filename=media_filename, media_url=media_url
+                    filename=filename, url=url
                 )
                 education = get_education_by_id(education_id)
                 media.education = education
@@ -124,8 +124,8 @@ def is_file(file_name):
 def delete_media(user_id, media_education_id):
     if int(user_id) == g.current_user.id:
         media = get_media_by_id(user_id, media_education_id)
-        file_name = files_education.path(media.media_filename)
-        if is_file(media.media_filename):
+        file_name = files_education.path(media.filename)
+        if is_file(media.filename):
             os.remove(get_file_path(file_name))
         media.delete()
     else:
