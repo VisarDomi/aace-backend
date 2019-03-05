@@ -10,7 +10,7 @@
     "randomid": {
       "type": "number"
     },
-    "title": {
+    "employer": {
       "type": "string"
     },
     "company": {
