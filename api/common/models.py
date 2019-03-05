@@ -175,7 +175,7 @@ class Experience(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    title = Column(String, default="no_title")
+    employer = Column(String, default="no_employer")
     company = Column(String)
     location = Column(String)
     from_date = Column(Date)
@@ -191,7 +191,7 @@ class Experience(BaseModel, ModelSerializerMixin):
     )
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+        return f"{self.__class__.__name__}({self.employer}, id = {self.id})"
 
 
 class Education(BaseModel, ModelSerializerMixin):
