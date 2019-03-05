@@ -31,29 +31,21 @@ def create_medias(media_data, user_id):
     return medias
 
 
-def get_media_by_id(user_id, media_user_id):
-    if int(user_id) == g.current_user.id:
-        try:
-            media = MediaUser.query.filter(MediaUser.id == media_user_id).one()
-        except NoResultFound:
-            msg = f"There is no media with id {media_user_id}"
-            raise RecordNotFound(message=msg)
-        except InvalidURL:
-            msg = f"This is not a valid URL: {media_user_id}`"
-            raise InvalidURL(message=msg)
-    else:
-        msg = f"You can't get other people's media."
-        raise CannotGetOthersMedia(message=msg)
+def get_media_by_id(media_user_id):
+    try:
+        media = MediaUser.query.filter(MediaUser.id == media_user_id).one()
+    except NoResultFound:
+        msg = f"There is no media with id {media_user_id}"
+        raise RecordNotFound(message=msg)
+    except InvalidURL:
+        msg = f"This is not a valid URL: {media_user_id}`"
+        raise InvalidURL(message=msg)
 
     return media
 
 
 def get_all_medias(user_id):
-    if int(user_id) == g.current_user.id:
-        medias = MediaUser.query.filter(MediaUser.user_id == int(user_id)).all()
-    else:
-        msg = f"You can't get other people's media."
-        raise CannotGetOthersMedia(message=msg)
+    medias = MediaUser.query.filter(MediaUser.user_id == int(user_id)).all()
 
     return medias
 
@@ -95,7 +87,7 @@ def is_file(file_name):
 
 def delete_media(user_id, media_user_id):
     if int(user_id) == g.current_user.id:
-        media = get_media_by_id(user_id, media_user_id)
+        media = get_media_by_id(media_user_id)
         file_name = files_user.path(media.filename)
         if is_file(media.filename):
             os.remove(get_file_path(file_name))
