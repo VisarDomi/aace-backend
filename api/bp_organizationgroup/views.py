@@ -43,3 +43,24 @@ def delete_organizationgroup(organizationgroup_id):
         "message": "OrganizationGroup with `id: %s` has been deleted."
         % organizationgroup_id
     }
+
+
+@bp.route("/<organizationgroup_id>/user/all", methods=["GET"])
+def get_users_from_organizationgroup(organizationgroup_id):
+    return domain.get_users_from_organizationgroup(organizationgroup_id)
+
+
+@bp.route("/<organizationgroup_id>/user/<user_id>", methods=["PUT"])
+@token_auth.login_required
+def add_user_to_organizationgroup(organizationgroup_id, user_id):
+    return domain.add_user_to_organizationgroup(organizationgroup_id, user_id)
+
+
+@bp.route("/<organizationgroup_id>/user/<user_id>", methods=["DELETE"])
+@token_auth.login_required
+def remove_user_from_organizationgroup(organizationgroup_id, user_id):
+    domain.remove_user_from_organizationgroup(organizationgroup_id, user_id)
+    return {
+        "message": f"User with `{user_id}` has been removed "
+        f"from organizationgroup with `{organizationgroup_id}`."
+    }

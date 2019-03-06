@@ -35,3 +35,39 @@ def update_organizationgroup(organizationgroup_data, organizationgroup_id):
 
 def delete_organizationgroup(organizationgroup_id):
     backend.delete_organizationgroup(organizationgroup_id)
+
+
+def get_users_from_organizationgroup(organizationgroup_id):
+    users = backend.get_users_from_organizationgroup(organizationgroup_id)
+    ONLY = [
+        "register_status",
+        "id",
+        "first_name",
+        "last_name",
+        "sex",
+        "summary",
+        "country",
+        "email",
+        "phone",
+        "address",
+        "birthday",
+        "website",
+        "comment_from_administrator",
+    ]
+
+    users_list = [user.to_dict(only=ONLY) for user in users]
+
+    return users_list
+
+
+def add_user_to_organizationgroup(organizationgroup_id, user_id):
+    organizationgroup = backend.add_user_to_organizationgroup(
+        organizationgroup_id, user_id
+    )
+    organizationgroup_dict = organizationgroup.to_dict()
+
+    return organizationgroup_dict
+
+
+def remove_user_from_organizationgroup(organizationgroup_id, user_id):
+    backend.remove_user_from_organizationgroup(organizationgroup_id, user_id)

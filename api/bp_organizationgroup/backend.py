@@ -76,6 +76,13 @@ def delete_organizationgroup(organizationgroup_id):
     organizationgroup.delete()
 
 
+def get_users_from_organizationgroup(organizationgroup_id):
+    organizationgroup = get_organizationgroup_by_id(organizationgroup_id)
+    users = organizationgroup.users.all()
+
+    return users
+
+
 @are_you_admin
 def add_user_to_organizationgroup(organizationgroup_id, user_id):
     user = get_user_by_id(user_id)
