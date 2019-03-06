@@ -71,15 +71,23 @@ class CannotDeleteFirstAdmin(InvalidPermissions):
     pass
 
 
-class UserIsAlreadyPartOfGroup(RecordAlreadyExists):
-    pass
-
-
 class ThereIsAlreadyAGroupByThatName(RecordAlreadyExists):
     pass
 
 
+class UserIsAlreadyPartOfGroup(RecordAlreadyExists):
+    pass
+
+
 class NoUserByThatID(RecordNotFound):
+    pass
+
+
+class OrganizationGroupIsAlreadyPartOfGroup(RecordAlreadyExists):
+    pass
+
+
+class NoOrganizationGroupByThatID(RecordNotFound):
     pass
 
 

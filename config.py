@@ -37,3 +37,9 @@ class Config(object):
     UPLOADED_ORGANIZATIONGROUPFILES_URL = (
         f"{WEBSITE_URL}/static/files/organizationgroup/"
     )
+    UPLOADED_OFFICIALCOMMUNICATIONFILES_DEST = (
+        basedir + "/static/files/officialcommunication/"
+    )
+    UPLOADED_OFFICIALCOMMUNICATIONFILES_URL = (
+        f"{WEBSITE_URL}/static/files/officialcommunication/"
+    )

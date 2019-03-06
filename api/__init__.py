@@ -5,6 +5,7 @@ from .bp_media_education.backend import files_education
 from .bp_media_experience.backend import files_experience
 from .bp_media_skill.backend import files_skill
 from .bp_media_organizationgroup.backend import files_organizationgroup
+from .bp_media_officialcommunication.backend import files_officialcommunication
 
 from .common.middleware import (
     after_request_middleware,
@@ -21,12 +22,14 @@ from .bp_education import bp as education_bp
 from .bp_experience import bp as experience_bp
 from .bp_skill import bp as skill_bp
 from .bp_organizationgroup import bp as organizationgroup_bp
+from .bp_officialcommunication import bp as officialcommunication_bp
 from .bp_group import bp as group_bp
 from .bp_media_user import bp as media_user_bp
 from .bp_media_education import bp as media_education_bp
 from .bp_media_experience import bp as media_experience_bp
 from .bp_media_skill import bp as media_skill_bp
 from .bp_media_organizationgroup import bp as media_organizationgroup_bp
+from .bp_media_officialcommunication import bp as media_officialcommunication_bp
 from .bp_user import bp as user_bp
 from .bp_search import bp as search_bp
 import os
@@ -49,6 +52,7 @@ def create_app(config_class=Config):
     configure_uploads(app, files_experience)
     configure_uploads(app, files_skill)
     configure_uploads(app, files_organizationgroup)
+    configure_uploads(app, files_officialcommunication)
 
     # register all blueprints
     app.register_blueprint(admin_bp, url_prefix="/api/admin/user")
@@ -58,6 +62,9 @@ def create_app(config_class=Config):
     app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
     app.register_blueprint(skill_bp, url_prefix="/api/user/<user_id>/skill")
     app.register_blueprint(organizationgroup_bp, url_prefix="/api/organizationgroup")
+    app.register_blueprint(
+        officialcommunication_bp, url_prefix="/api/officialcommunication"
+    )
     app.register_blueprint(group_bp, url_prefix="/api/group")
     app.register_blueprint(media_user_bp, url_prefix="/api/user/<user_id>")
     app.register_blueprint(
@@ -72,6 +79,10 @@ def create_app(config_class=Config):
     app.register_blueprint(
         media_organizationgroup_bp,
         url_prefix="/api/organizationgroup/<organizationgroup_id>",
+    )
+    app.register_blueprint(
+        media_officialcommunication_bp,
+        url_prefix="/api/officialcommunication/<officialcommunication_id>",
     )
     app.register_blueprint(user_bp, url_prefix="/api/user")
     app.register_blueprint(search_bp, url_prefix="/api/user/search")

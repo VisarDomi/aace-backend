@@ -273,7 +273,7 @@ class OfficialCommunication(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    title = Column(String, default="no_title")
+    name = Column(String, default="no_name")
     description = Column(Text)
     body = Column(Text)
     time = Column(DateTime, default=datetime.utcnow)
@@ -297,7 +297,7 @@ class OfficialCommunication(BaseModel, ModelSerializerMixin):
     )
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+        return f"{self.__class__.__name__}({self.name}, id = {self.id})"
 
 
 class OfficialComment(BaseModel, ModelSerializerMixin):

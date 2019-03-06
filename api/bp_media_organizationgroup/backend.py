@@ -1,13 +1,7 @@
-from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
 from ..common.models import MediaOrganizationGroup, OrganizationGroup
 from sqlalchemy.orm.exc import NoResultFound
-from ..common.exceptions import (
-    RecordNotFound,
-    CannotDeleteOthersMedia,
-    InvalidURL,
-    CannotGetOthersMedia,
-)
+from ..common.exceptions import RecordNotFound, InvalidURL
 import os
 from ..bp_admin.backend import are_you_admin
 
@@ -63,7 +57,7 @@ def get_media_by_id(organizationgroup_id, media_organizationgroup_id):
 
 def get_all_medias(organizationgroup_id):
     medias = MediaOrganizationGroup.query.filter(
-        MediaOrganizationGroup.id == int(organizationgroup_id)
+        MediaOrganizationGroup.organizationgroup_id == int(organizationgroup_id)
     ).all()
 
     return medias
@@ -81,9 +75,7 @@ def update_media(media_data, organizationgroup_id, media_organizationgroup_id):
             filename = files_organizationgroup.save(file)
             url = files_organizationgroup.url(filename)
             media = MediaOrganizationGroup(filename=filename, url=url)
-            media.organizationgroup = get_organizationgroup_by_id(
-                organizationgroup_id
-            )
+            media.organizationgroup = get_organizationgroup_by_id(organizationgroup_id)
             media.save()
             medias.append(media)
 
