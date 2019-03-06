@@ -13,9 +13,11 @@ def get_user_by_id(user_id):
     user = backend.get_user_by_id(user_id)
     ONLY = [
         "register_status",
+        "application_date",
         "id",
         "first_name",
         "last_name",
+        "profession",
         "sex",
         "summary",
         "country",
@@ -44,9 +46,11 @@ def get_all_users():
     users = backend.get_all_users()
     ONLY = [
         "register_status",
+        "application_date",
         "id",
         "first_name",
         "last_name",
+        "profession",
         "sex",
         "summary",
         "country",
@@ -71,9 +75,12 @@ def get_all_users():
 def update_user(user_data, user_id):
     user = backend.update_user(user_data, user_id)
     ONLY = [
+        "register_status",
+        "application_date",
         "id",
         "first_name",
         "last_name",
+        "profession",
         "sex",
         "summary",
         "country",

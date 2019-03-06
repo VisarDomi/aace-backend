@@ -5,9 +5,11 @@ def search_users(search_user_data):
     users = backend.search_users(search_user_data)
     ONLY = [
         "register_status",
+        "application_date",
         "id",
         "first_name",
         "last_name",
+        "profession",
         "sex",
         "summary",
         "country",
