@@ -31,7 +31,7 @@ def create_medias(media_data, user_id):
     return medias
 
 
-def get_media_by_id(media_user_id):
+def get_media_by_id(user_id, media_user_id):
     try:
         media = MediaUser.query.filter(MediaUser.id == media_user_id).one()
     except NoResultFound:
