@@ -59,10 +59,12 @@ def get_officialcommunication_by_id(officialcommunication_id):
 def get_all_officialcommunications():
     officialcommunications = OfficialCommunication.query.all()
     allowed_officialcommunications = []
-    for communication in officialcommunications:
-        for group in communication.organizationgroups.all():
-            if g.current_user in group.users.all() or g.current_user.role == "admin":
-                if communication not in allowed_officialcommunications:
+    if g.current_user.role == 'admin':
+        allowed_officialcommunications = officialcommunications
+    else:
+        for communication in officialcommunications:
+            for group in communication.organizationgroups.all():
+                if g.current_user in group.users.all():
                     allowed_officialcommunications.append(communication)
 
     return allowed_officialcommunications
