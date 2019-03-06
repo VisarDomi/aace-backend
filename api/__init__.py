@@ -17,6 +17,7 @@ from .common.middleware import (
 from .common.middleware import response
 from .bp_admin import bp as admin_bp
 from .bp_admin_download import bp as admin_download_bp
+from .bp_media_download import bp as media_download_bp
 from .bp_auth import bp as auth_bp
 from .bp_education import bp as education_bp
 from .bp_experience import bp as experience_bp
@@ -57,6 +58,7 @@ def create_app(config_class=Config):
     # register all blueprints
     app.register_blueprint(admin_bp, url_prefix="/api/admin/user")
     app.register_blueprint(admin_download_bp, url_prefix="/api/admin")
+    app.register_blueprint(media_download_bp, url_prefix="/api/media")
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(education_bp, url_prefix="/api/user/<user_id>/education")
     app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
