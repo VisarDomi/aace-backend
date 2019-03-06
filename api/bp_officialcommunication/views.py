@@ -14,12 +14,14 @@ def create_officialcommunication():
 
 
 @bp.route("/<officialcommunication_id>", methods=["GET"])
+@token_auth.login_required
 def get_officialcommunication(officialcommunication_id):
 
     return domain.get_officialcommunication_by_id(officialcommunication_id)
 
 
 @bp.route("/all", methods=["GET"])
+@token_auth.login_required
 def get_officialcommunications():
 
     return domain.get_all_officialcommunications()
@@ -46,6 +48,7 @@ def delete_officialcommunication(officialcommunication_id):
 
 
 @bp.route("/<officialcommunication_id>/organizationgroup/all", methods=["GET"])
+@token_auth.login_required
 def get_organizationgroups_from_officialcommunication(officialcommunication_id):
     return domain.get_organizationgroups_from_officialcommunication(
         officialcommunication_id

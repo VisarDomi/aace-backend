@@ -67,6 +67,10 @@ class CannotChangeFirstAdminProperties(InvalidPermissions):
     pass
 
 
+class YouAreNotAllowedToView(InvalidPermissions):
+    pass
+
+
 class CannotDeleteFirstAdmin(InvalidPermissions):
     pass
 

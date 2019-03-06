@@ -5,8 +5,8 @@ from ..common.exceptions import (
     RecordNotFound,
     InvalidURL,
     OrganizationGroupIsAlreadyPartOfGroup,
-    ThereIsAlreadyAGroupByThatName,
     NoOrganizationGroupByThatID,
+    YouAreNotAllowedToView,
 )
 
 
@@ -19,16 +19,9 @@ from ..bp_organizationgroup.backend import get_organizationgroup_by_id
 
 @are_you_admin
 def create_officialcommunication(officialcommunication_data):
-    is_communication = OfficialCommunication.query.filter(
-        OfficialCommunication.name == officialcommunication_data["name"]
-    ).one_or_none()
-    if is_communication:
-        msg = "There is already a group with the name '% s'" % is_communication.name
-        raise ThereIsAlreadyAGroupByThatName(message=msg)
-    else:
-        officialcommunication = OfficialCommunication(**officialcommunication_data)
-        officialcommunication.author = g.current_user
-        officialcommunication.save()
+    officialcommunication = OfficialCommunication(**officialcommunication_data)
+    officialcommunication.author = g.current_user
+    officialcommunication.save()
 
     return officialcommunication
 
@@ -38,34 +31,48 @@ def get_officialcommunication_by_id(officialcommunication_id):
         officialcommunication = OfficialCommunication.query.filter(
             OfficialCommunication.id == officialcommunication_id
         ).one()
+        print("officialcommunication, :", officialcommunication)
     except NoResultFound:
         msg = f"There is no OfficialCommunication with `id: {officialcommunication_id}`"
         raise RecordNotFound(message=msg)
     except InvalidURL:
         msg = f"This is not a valid URL: {officialcommunication_id}`"
         raise InvalidURL(message=msg)
+    user_is_allowed_to_view = False
+    for group in officialcommunication.organizationgroups.all():
+        print("group, :", group)
+        print("group.users.all(), :", group.users.all())
+        if g.current_user in group.users.all():
+            print("user_is_allowed_to_view, :", user_is_allowed_to_view)
+            user_is_allowed_to_view = True
+
+    if g.current_user.role == "admin":
+        user_is_allowed_to_view = True
+    if not user_is_allowed_to_view:
+        msg = f"You are not allowed to view this communication "
+        "with id `{officialcommunication_id}``"
+        raise YouAreNotAllowedToView(message=msg)
 
     return officialcommunication
 
 
 def get_all_officialcommunications():
     officialcommunications = OfficialCommunication.query.all()
+    allowed_officialcommunications = []
+    for communication in officialcommunications:
+        for group in communication.organizationgroups.all():
+            if g.current_user in group.users.all() or g.current_user.role == "admin":
+                if communication not in allowed_officialcommunications:
+                    allowed_officialcommunications.append(communication)
 
-    return officialcommunications
+    return allowed_officialcommunications
 
 
 @are_you_admin
 def update_officialcommunication(officialcommunication_data, officialcommunication_id):
-    is_communication = OfficialCommunication.query.filter(
-        OfficialCommunication.name == officialcommunication_data["name"]
-    ).one_or_none()
     officialcommunication = get_officialcommunication_by_id(officialcommunication_id)
-    if is_communication and is_communication != officialcommunication:
-        msg = "There is already a group with the name '% s'" % is_communication.name
-        raise ThereIsAlreadyAGroupByThatName(message=msg)
-    else:
-        officialcommunication.update(**officialcommunication_data)
-        officialcommunication.save()
+    officialcommunication.update(**officialcommunication_data)
+    officialcommunication.save()
 
     return officialcommunication
 

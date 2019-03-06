@@ -43,3 +43,9 @@ class Config(object):
     UPLOADED_OFFICIALCOMMUNICATIONFILES_URL = (
         f"{WEBSITE_URL}/static/files/officialcommunication/"
     )
+    UPLOADED_OFFICIALCOMMENTFILES_DEST = (
+        basedir + "/static/files/officialcomment/"
+    )
+    UPLOADED_OFFICIALCOMMENTFILES_URL = (
+        f"{WEBSITE_URL}/static/files/officialcomment/"
+    )
