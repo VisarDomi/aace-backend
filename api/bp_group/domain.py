@@ -36,7 +36,6 @@ def delete_group(group_id):
 def get_users_from_group(group_id):
     users = backend.get_users_from_group(group_id)
     ONLY = [
-        "profile_picture",
         "register_status",
         "id",
         "first_name",
@@ -44,7 +43,6 @@ def get_users_from_group(group_id):
         "sex",
         "summary",
         "country",
-         
         "email",
         "phone",
         "address",

@@ -8,6 +8,7 @@ from ..common.exceptions import (
     InvalidURL,
 )
 from ..bp_admin.backend import are_you_admin
+from ..bp_user.backend import get_user_by_id
 
 
 @are_you_admin
@@ -44,11 +45,11 @@ def get_all_groups():
 @are_you_admin
 def update_group(group_data, group_id):
     is_group = Group.query.filter(Group.name == group_data["name"]).one_or_none()
-    if is_group:
+    group = get_group_by_id(group_id)
+    if is_group and is_group != group:
         msg = "There is already a group with the name '% s'" % is_group.name
         raise ThereIsAlreadyAGroupByThatName(message=msg)
     else:
-        group = get_group_by_id(group_id)
         group.update(**group_data)
         group.save()
 
@@ -71,7 +72,7 @@ def get_users_from_group(group_id):
 @are_you_admin
 def add_user_to_group(group_id, user_id):
     group = get_group_by_id(group_id)
-    user = User.query.filter(User.id == user_id).one()
+    user = get_user_by_id(user_id)
     if user != group.users.filter(User.id == user_id).one_or_none():
         group.users.append(user)
         group.save()
@@ -86,7 +87,7 @@ def remove_user_from_group(group_id, user_id):
     group = get_group_by_id(group_id)
     user = group.users.filter(User.id == user_id).one_or_none()
     if user is not None:
-        user = User.query.filter(User.id == user_id).one()
+        user = get_user_by_id(user_id)
         group.users.remove(user)
         group.save()
     else:

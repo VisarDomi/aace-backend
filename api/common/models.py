@@ -18,6 +18,18 @@ import base64
 import os
 
 
+organizationgroup_officialcommunication = Table(
+    "organizationgroup_officialcommunication",
+    BaseModel.metadata,
+    Column("organizationgroup_id", Integer, ForeignKey("organizationgroups.id")),
+    Column(
+        "officialcommunication_id", Integer, ForeignKey("officialcommunications.id")
+    ),
+)
+
+##############################################################################
+# Non used many to many tables                                               #
+##############################################################################
 user_group = Table(
     "user_group",
     BaseModel.metadata,
@@ -46,17 +58,9 @@ user_messagegroup = Table(
     Column("user_id", Integer, ForeignKey("users.id")),
     Column("messagegroup_id", Integer, ForeignKey("messagegroups.id")),
 )
-
-
-class Test(BaseModel, ModelSerializerMixin):
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String)
-    email = Column(String, unique=True)
-    description = Column(String)
-
-    def __repr__(self):
-        return f"{self.__class__.__name__}({self.name}, id = {self.id})"
+##############################################################################
+#                                                                            #
+##############################################################################
 
 
 class User(BaseModel, ModelSerializerMixin):
@@ -80,21 +84,20 @@ class User(BaseModel, ModelSerializerMixin):
     last_name = Column(String, default="no_name")
     sex = Column(String)
     summary = Column(Text)
-
-    # intro - should be many to one
     country = Column(String)
-
-    # contact info
-    phone = Column(String)
-    address = Column(String)
     birthday = Column(Date)
-
-    # contact info - should be one to many
-    website = Column(String)
+    address = Column(String)
+    # should be one to many:
+    phone = Column(String)
     email = Column(String, unique=True)
+    website = Column(String)
 
     # comment nga administratori
     comment_from_administrator = Column(Text)
+
+    # many to one
+    organizationgroup = relationship("OrganizationGroup", back_populates="users")
+    organizationgroup_id = Column(Integer, ForeignKey("organizationgroups.id"))
 
     # intro - one to many
     medias = relationship("MediaUser", back_populates="user", lazy="dynamic")
@@ -108,9 +111,18 @@ class User(BaseModel, ModelSerializerMixin):
     # skills
     skills = relationship("Skill", back_populates="user", lazy="dynamic")
 
+    # official communications
+    officialcommunications = relationship(
+        "OfficialCommunication", back_populates="author", lazy="dynamic"
+    )
+    # official comments
+    officialcomments = relationship(
+        "OfficialComment", back_populates="author", lazy="dynamic"
+    )
+
     # database related one to many
-    posts = relationship("Post", back_populates="user", lazy="dynamic")
-    comments = relationship("Comment", back_populates="user", lazy="dynamic")
+    posts = relationship("Post", back_populates="author", lazy="dynamic")
+    comments = relationship("Comment", back_populates="author", lazy="dynamic")
     messages = relationship("Message", back_populates="sender", lazy="dynamic")
     messagerecipients = relationship(
         "MessageRecipient", back_populates="recipient", lazy="dynamic"
@@ -233,6 +245,84 @@ class Skill(BaseModel, ModelSerializerMixin):
         return f"{self.__class__.__name__}({self.name}, id = {self.id})"
 
 
+class OrganizationGroup(BaseModel, ModelSerializerMixin):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    name = Column(String, default="no_name")
+    description = Column(Text)
+
+    users = relationship("User", back_populates="organizationgroup", lazy="dynamic")
+    medias = relationship(
+        "MediaOrganizationGroup", back_populates="organizationgroup", lazy="dynamic"
+    )
+
+    officialcommunications = relationship(
+        "OfficialCommunication",
+        secondary="organizationgroup_officialcommunication",
+        back_populates="organizationgroups",
+        lazy="dynamic",
+    )
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.name}, id = {self.id})"
+
+
+class OfficialCommunication(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    body = Column(Text)
+    time = Column(DateTime, default=datetime.utcnow)
+
+    author = relationship("User", back_populates="officialcommunications")
+    author_id = Column(Integer, ForeignKey("users.id"))
+
+    organizationgroups = relationship(
+        "OrganizationGroup",
+        secondary="organizationgroup_officialcommunication",
+        back_populates="officialcommunications",
+        lazy="dynamic",
+    )
+    medias = relationship(
+        "MediaOfficialCommunication",
+        back_populates="officialcommunication",
+        lazy="dynamic",
+    )
+    officialcomments = relationship(
+        "OfficialComment", back_populates="officialcommunication", lazy="dynamic"
+    )
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+
+
+class OfficialComment(BaseModel, ModelSerializerMixin):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    body = Column(String, default="no_body")
+    time = Column(DateTime, default=datetime.utcnow)
+
+    author = relationship("User", back_populates="officialcomments")
+    author_id = Column(Integer, ForeignKey("users.id"))
+
+    officialcommunication = relationship(
+        "OfficialCommunication", back_populates="officialcomments"
+    )
+    officialcommunication_id = Column(Integer, ForeignKey("officialcommunications.id"))
+
+    medias = relationship(
+        "MediaOfficialComment", back_populates="officialcomment", lazy="dynamic"
+    )
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.body}, id = {self.id})"
+
+
+# Media classes are below
+
+
 class MediaUser(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -297,6 +387,63 @@ class MediaSkill(BaseModel, ModelSerializerMixin):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"
 
 
+class MediaOrganizationGroup(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    filename = Column(String)
+    url = Column(String)
+
+    organizationgroup = relationship("OrganizationGroup", back_populates="medias")
+    organizationgroup_id = Column(Integer, ForeignKey("organizationgroups.id"))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+
+
+class MediaOfficialCommunication(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    filename = Column(String)
+    url = Column(String)
+
+    officialcommunication = relationship(
+        "OfficialCommunication", back_populates="medias"
+    )
+    officialcommunication_id = Column(Integer, ForeignKey("officialcommunications.id"))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+
+
+class MediaOfficialComment(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    filename = Column(String)
+    url = Column(String)
+
+    officialcomment = relationship("OfficialComment", back_populates="medias")
+    officialcomment_id = Column(Integer, ForeignKey("officialcomments.id"))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+
+
+##############################################################################
+##############################################################################
+#   Below here are not used classes  #
+##############################################################################
+##############################################################################
+
+
 class Group(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -342,8 +489,8 @@ class Post(BaseModel, ModelSerializerMixin):
     body = Column(Text)
     time = Column(DateTime, default=datetime.utcnow)
 
-    user = relationship("User", back_populates="posts")
-    user_id = Column(Integer, ForeignKey("users.id"))
+    author = relationship("User", back_populates="posts")
+    author_id = Column(Integer, ForeignKey("users.id"))
 
     event = relationship("Event", back_populates="posts")
     event_id = Column(Integer, ForeignKey("events.id"))
@@ -362,8 +509,8 @@ class Comment(BaseModel, ModelSerializerMixin):
     body = Column(Text)
     time = Column(DateTime, default=datetime.utcnow)
 
-    user = relationship("User", back_populates="comments")
-    user_id = Column(Integer, ForeignKey("users.id"))
+    author = relationship("User", back_populates="comments")
+    author_id = Column(Integer, ForeignKey("users.id"))
 
     post = relationship("Post", back_populates="comments")
     post_id = Column(Integer, ForeignKey("posts.id"))

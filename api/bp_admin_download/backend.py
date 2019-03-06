@@ -1,8 +1,7 @@
 from flask import send_from_directory  # , send_file
 from sqlalchemy.orm.exc import NoResultFound
 
-from ..common.exceptions import RecordNotFound
-from ..common.exceptions import InvalidURL
+from ..common.exceptions import RecordNotFound, InvalidURL
 
 from ..common.models import MediaEducation, MediaExperience, MediaSkill
 from config import Config

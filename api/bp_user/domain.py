@@ -19,7 +19,6 @@ def get_user_by_id(user_id):
         "sex",
         "summary",
         "country",
-         
         "email",
         "phone",
         "address",
@@ -36,7 +35,7 @@ def get_user_by_id(user_id):
             user_documents.append(edu_media.id)
 
     user_dict["document_ids"] = user_documents
-    user_dict["years_of_experience"] = "5"
+    user_dict["years_of_experience"] = "6"
 
     return user_dict
 
@@ -51,7 +50,6 @@ def get_all_users():
         "sex",
         "summary",
         "country",
-         
         "email",
         "phone",
         "address",
@@ -60,6 +58,7 @@ def get_all_users():
         "comment_from_administrator",
     ]
 
+    # users_list = [user.to_dict() for user in users]
     users_list = []
     for user in users:
         user_dict = user.to_dict(only=ONLY)
@@ -78,7 +77,6 @@ def update_user(user_data, user_id):
         "sex",
         "summary",
         "country",
-         
         "email",
         "phone",
         "address",

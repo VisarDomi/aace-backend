@@ -1,14 +1,15 @@
 {
-  "title": "Update media",
-  "description": "Update a media object",
+  "title": "Create organizationgroup",
+  "description": "Create a organizationgroup object",
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
-    "title": {
+    "name": {
       "type": "string"
     },
     "description": {
       "type": "string"
     }
-  }
+  },
+  "additionalProperties": false
 }

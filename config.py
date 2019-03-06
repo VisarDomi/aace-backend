@@ -33,3 +33,5 @@ class Config(object):
     UPLOADED_EXPERIENCEFILES_URL = f"{WEBSITE_URL}/static/files/experience/"
     UPLOADED_SKILLFILES_DEST = basedir + "/static/files/skill/"
     UPLOADED_SKILLFILES_URL = f"{WEBSITE_URL}/static/files/skill/"
+    UPLOADED_ORGANIZATIONGROUPFILES_DEST = basedir + "/static/files/organizationgroup/"
+    UPLOADED_ORGANIZATIONGROUPFILES_URL = f"{WEBSITE_URL}/static/files/organizationgroup/"

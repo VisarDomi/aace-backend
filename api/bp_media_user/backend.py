@@ -87,7 +87,7 @@ def is_file(file_name):
 
 def delete_media(user_id, media_user_id):
     if int(user_id) == g.current_user.id:
-        media = get_media_by_id(media_user_id)
+        media = get_media_by_id(user_id, media_user_id)
         file_name = files_user.path(media.filename)
         if is_file(media.filename):
             os.remove(get_file_path(file_name))

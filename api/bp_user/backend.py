@@ -1,11 +1,19 @@
 from flask import g
 from sqlalchemy.orm.exc import NoResultFound
 
-from ..common.exceptions import RecordAlreadyExists, RecordNotFound, MissingArguments
-from ..common.exceptions import CannotChangeOthersProfile, CannotDeleteOthersProfile
-from ..common.exceptions import CannotDeleteFirstAdmin, InvalidURL
+from ..common.exceptions import (
+    RecordAlreadyExists,
+    RecordNotFound,
+    MissingArguments,
+    CannotChangeOthersProfile,
+    CannotDeleteOthersProfile,
+    CannotDeleteFirstAdmin,
+    InvalidURL,
+)
 
 from ..common.models import User
+from ..bp_skill.backend import get_all_skills, delete_skill
+from ..bp_experience.backend import get_all_experiences, delete_experience
 from ..bp_education.backend import get_all_educations, delete_education
 from ..bp_media_user.backend import get_all_medias, delete_media
 
@@ -68,6 +76,10 @@ def delete_user(user_id):
                 delete_media(user_id, media.id)
             for education in get_all_educations(user_id):
                 delete_education(user_id, education.id)
+            for experience in get_all_experiences(user_id):
+                delete_experience(user_id, experience.id)
+            for skill in get_all_skills(user_id):
+                delete_skill(user_id, skill.id)
             user = get_user_by_id(user_id)
             user.delete()
         else:

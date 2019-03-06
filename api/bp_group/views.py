@@ -39,7 +39,6 @@ def delete_group(group_id):
 
 
 @bp.route("/<group_id>/user/all", methods=["GET"])
-@token_auth.login_required
 def get_users_from_group(group_id):
     return domain.get_users_from_group(group_id)
 
