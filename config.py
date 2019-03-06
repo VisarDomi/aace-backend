@@ -6,7 +6,7 @@ load_dotenv(os.path.join(basedir, ".env"))
 
 FLASK_ENV = os.environ.get("FLASK_ENV")
 
-if str(FLASK_ENV) == 'development':
+if str(FLASK_ENV) == "development":
     WEBSITE_URL = "http://localhost:5000"
 else:
     WEBSITE_URL = "https://aace.ml"
@@ -34,4 +34,6 @@ class Config(object):
     UPLOADED_SKILLFILES_DEST = basedir + "/static/files/skill/"
     UPLOADED_SKILLFILES_URL = f"{WEBSITE_URL}/static/files/skill/"
     UPLOADED_ORGANIZATIONGROUPFILES_DEST = basedir + "/static/files/organizationgroup/"
-    UPLOADED_ORGANIZATIONGROUPFILES_URL = f"{WEBSITE_URL}/static/files/organizationgroup/"
+    UPLOADED_ORGANIZATIONGROUPFILES_URL = (
+        f"{WEBSITE_URL}/static/files/organizationgroup/"
+    )

@@ -13,6 +13,9 @@
     "last_name": {
       "type": "string"
     },
+    "profession": {
+      "type": "string"
+    },
     "sex": {
       "type": "string"
     },
@@ -29,6 +32,9 @@
       "type": "string"
     },
     "birthday": {
+      "type": "string"
+    },
+    "application_date": {
       "type": "string"
     },
     "website": {

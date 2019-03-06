@@ -75,13 +75,13 @@ class User(BaseModel, ModelSerializerMixin):
     register_date = Column(DateTime, default=datetime.utcnow)
 
     # database only - should be many to many
-    register_status = Column(String, default="blank")
     role = Column(String, default="normal_user")
     privilege = Column(String, default="normal_privilege")
 
     # intro
     first_name = Column(String)
     last_name = Column(String, default="no_name")
+    profession = Column(String)
     sex = Column(String)
     summary = Column(Text)
     country = Column(String)
@@ -91,6 +91,8 @@ class User(BaseModel, ModelSerializerMixin):
     phone = Column(String)
     email = Column(String, unique=True)
     website = Column(String)
+    register_status = Column(String, default="blank")
+    application_date = Column(DateTime, default=datetime.utcnow)
 
     # comment nga administratori
     comment_from_administrator = Column(Text)
