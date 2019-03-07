@@ -16,6 +16,13 @@ def get_officialcommunication_by_id(officialcommunication_id):
     )
     officialcommunication_dict = officialcommunication.to_dict()
 
+    media_officialcommunication_ids = []
+    for officialcommunication_media in officialcommunication.medias:
+        media_officialcommunication_ids.append(officialcommunication_media.id)
+    officialcommunication_dict[
+        "media_officialcommunication_ids"
+    ] = media_officialcommunication_ids
+
     return officialcommunication_dict
 
 

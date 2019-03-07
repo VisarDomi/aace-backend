@@ -28,8 +28,10 @@ def download_education(media_education_id):
     media = get_education_media_by_id(media_education_id)
     directory = Config.UPLOADED_EDUCATIONFILES_DEST
     filename = media.filename
-    download_file = send_from_directory(directory, filename, as_attachment=True)
-    return download_file
+    response = send_from_directory(directory, filename, as_attachment=True)
+    # response.headers["x-suggested-filename"] = filename
+
+    return response
 
 
 def get_experience_media_by_id(media_experience_id):
@@ -52,8 +54,10 @@ def download_experience(media_experience_id):
     media = get_experience_media_by_id(media_experience_id)
     directory = Config.UPLOADED_EXPERIENCEFILES_DEST
     filename = media.filename
-    download_file = send_from_directory(directory, filename, as_attachment=True)
-    return download_file
+    response = send_from_directory(directory, filename, as_attachment=True)
+    # response.headers["x-suggested-filename"] = filename
+
+    return response
 
 
 def get_skill_media_by_id(media_skill_id):
@@ -74,5 +78,7 @@ def download_skill(media_skill_id):
     media = get_skill_media_by_id(media_skill_id)
     directory = Config.UPLOADED_SKILLFILES_DEST
     filename = media.filename
-    download_file = send_from_directory(directory, filename, as_attachment=True)
-    return download_file
+    response = send_from_directory(directory, filename, as_attachment=True)
+    # response.headers["x-suggested-filename"] = filename
+
+    return response

@@ -26,5 +26,6 @@ def download_officialcommunication(media_officialcommunication_id):
     media = get_officialcommunication_media_by_id(media_officialcommunication_id)
     directory = Config.UPLOADED_OFFICIALCOMMUNICATIONFILES_DEST
     filename = media.filename
-    download_file = send_from_directory(directory, filename, as_attachment=True)
-    return download_file
+    response = send_from_directory(directory, filename, as_attachment=True)
+
+    return response
