@@ -35,7 +35,7 @@ def get_entity(entity_id, Entity):
     except NoResultFound:
         msg = f"There is no entity with id {entity_id}"
         raise RecordNotFound(message=msg)
-    except InvalidURL or ValueError:
+    except (InvalidURL, ValueError):
         msg = f"This is not a valid URL: {entity_id}`"
         raise InvalidURL(message=msg)
 

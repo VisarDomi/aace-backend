@@ -1,24 +1,7 @@
-from sqlalchemy.orm.exc import NoResultFound
-from ..common.exceptions import (
-    RecordNotFound,
-    CannotChangeFirstAdminProperties,
-    InvalidURL,
-)
+from ..common.exceptions import CannotChangeFirstAdminProperties
 from ..common.models import User
 from ..helper_functions.decorators import admin_required
-
-
-@admin_required
-def get_user_by_id(user_id):
-    try:
-        user = User.query.filter(User.id == int(user_id)).one()
-    except NoResultFound:
-        msg = f"There is no User with `id: {user_id}`"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {user_id}`"
-        raise InvalidURL(message=msg)
-    return user
+from ..helper_functions.get_by_id import get_user_by_id
 
 
 def get_register_status_users(register_status):
