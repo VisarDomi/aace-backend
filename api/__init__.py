@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_mail import Mail
 from flask_uploads import configure_uploads
 from .bp_media_user.backend import files_user
 from .bp_media_education.backend import files_education
@@ -13,6 +12,7 @@ from .common.middleware import (
     before_request_middleware,
     teardown_appcontext_middleware,
 )
+from .common.extensions import mail
 
 # from .common.database import init_db
 from .common.middleware import response
@@ -40,9 +40,6 @@ import os
 from config import Config
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
-
-
-mail = Mail()
 
 
 def create_app(config_class=Config):

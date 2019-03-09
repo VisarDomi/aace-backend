@@ -4,6 +4,7 @@ from flask_mail import Message
 from config import Config
 from .get_by_id import get_officialcommunication_by_id, get_user_by_id
 from ..common.exceptions import EmailCannotBeSent
+from ..common.extensions import mail
 
 
 def send_async_email(api, msg):
@@ -76,5 +77,3 @@ def send_email_to_user(email_data, user_id):
     except ValueError:
         msg = "You didn't send strings on fields subject and text_body."
         raise EmailCannotBeSent(message=msg)
-
-from ..__init__ import mail
