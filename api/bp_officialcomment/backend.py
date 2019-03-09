@@ -68,9 +68,11 @@ def update_officialcomment(
 
 def delete_officialcomment(officialcommunication_id, officialcomment_id):
     if same_user(officialcommunication_id, officialcomment_id):
-        for media in get_all_medias(officialcomment_id):
-            delete_media(officialcomment_id, media.id)
-        officialcomment = get_officialcomment_by_id(officialcomment_id)
+        for media in get_all_medias(officialcommunication_id, officialcomment_id):
+            delete_media(officialcommunication_id, officialcomment_id, media.id)
+        officialcomment = get_officialcomment_by_id(
+            officialcommunication_id, officialcomment_id
+        )
         officialcomment.delete()
     else:
         msg = f"You can't change other people's comment."
