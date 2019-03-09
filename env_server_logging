@@ -1,5 +1,5 @@
 SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@localhost:5432/aace
-SECRET_KEY=b'adfgweijfolsg'
+SECRET_KEY='adfgweijfolsg'
 SECURE_API_KEY='asdfasdfetyeq'
 MAIL_SERVER=localhost
 MAIL_PORT=25

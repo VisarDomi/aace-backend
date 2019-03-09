@@ -1,4 +1,10 @@
-from werkzeug.exceptions import Conflict, NotFound, Unauthorized, BadRequest
+from werkzeug.exceptions import (
+    Conflict,
+    NotFound,
+    Unauthorized,
+    BadRequest,
+    InternalServerError,
+)
 
 
 class JSONException(Exception):
@@ -157,4 +163,8 @@ class CannotDeleteOthersMedia(InvalidPermissions):
 
 
 class CannotGetOthersMedia(InvalidPermissions):
+    pass
+
+
+class EmailCannotBeSent(InvalidAPIRequest):
     pass

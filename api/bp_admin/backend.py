@@ -2,6 +2,7 @@ from ..common.exceptions import CannotChangeFirstAdminProperties
 from ..common.models import User
 from ..helper_functions.decorators import admin_required
 from ..helper_functions.get_by_id import get_user_by_id
+from ..helper_functions.email import send_email_to_user
 
 
 def get_register_status_users(register_status):
@@ -82,3 +83,8 @@ def update_user(user_data, user_id):
         user = get_and_update_user(user_data, user_id)
 
     return user
+
+
+@admin_required
+def send_email(email_data, user_id):
+    send_email_to_user(email_data, user_id)

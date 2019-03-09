@@ -60,3 +60,12 @@ def get_user(user_id):
 @token_auth.login_required
 def update_user(user_id):
     return domain.update_user(request.json, user_id)
+
+
+@bp.route("/<user_id>/email", methods=["POST"])
+@schema("/send_email.json")
+@token_auth.login_required
+def send_email(user_id):
+    domain.send_email(request.json, user_id)
+
+    return {"message": f"An email has been sent to the user with id `{user_id}`"}

@@ -50,6 +50,7 @@ def delete_officialcommunication(officialcommunication_id):
 @bp.route("/<officialcommunication_id>/organizationgroup/all", methods=["GET"])
 @token_auth.login_required
 def get_organizationgroups_from_officialcommunication(officialcommunication_id):
+
     return domain.get_organizationgroups_from_officialcommunication(
         officialcommunication_id
     )
@@ -63,6 +64,7 @@ def get_organizationgroups_from_officialcommunication(officialcommunication_id):
 def add_organizationgroup_to_officialcommunication(
     officialcommunication_id, organizationgroup_id
 ):
+
     return domain.add_organizationgroup_to_officialcommunication(
         officialcommunication_id, organizationgroup_id
     )
@@ -79,7 +81,23 @@ def remove_organizationgroup_from_officialcommunication(
     domain.remove_organizationgroup_from_officialcommunication(
         officialcommunication_id, organizationgroup_id
     )
+
     return {
-        "message": f"Organizationgroup with `{organizationgroup_id}` has been removed "
-        f"from officialcommunication with `{officialcommunication_id}`."
+        "message": (
+            f"Organizationgroup with id `{organizationgroup_id}` has been "
+            f"removed from officialcommunication with id `{officialcommunication_id}`."
+        )
+    }
+
+
+@bp.route("/<officialcommunication_id>/email", methods=["POST"])
+@token_auth.login_required
+def send_email(officialcommunication_id):
+    domain.send_email(officialcommunication_id)
+
+    return {
+        "message": (
+            f"An email has been sent to all members of the groups of the "
+            f"official communication with id `{officialcommunication_id}`"
+        )
     }

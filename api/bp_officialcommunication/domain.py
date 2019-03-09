@@ -81,3 +81,7 @@ def remove_organizationgroup_from_officialcommunication(
     backend.remove_organizationgroup_from_officialcommunication(
         officialcommunication_id, organizationgroup_id
     )
+
+
+def send_email(officialcommunication_id):
+    backend.send_email(officialcommunication_id)

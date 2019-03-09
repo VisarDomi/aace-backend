@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_mail import Mail
 from flask_uploads import configure_uploads
 from .bp_media_user.backend import files_user
 from .bp_media_education.backend import files_education
@@ -7,7 +8,6 @@ from .bp_media_skill.backend import files_skill
 from .bp_media_organizationgroup.backend import files_organizationgroup
 from .bp_media_officialcommunication.backend import files_officialcommunication
 from .bp_media_officialcomment.backend import files_officialcomment
-
 from .common.middleware import (
     after_request_middleware,
     before_request_middleware,
@@ -42,13 +42,17 @@ import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
 
+mail = Mail()
+
+
 def create_app(config_class=Config):
 
     # initialize flask application
     app = Flask(__name__)
-
     # config app
     app.config.from_object(config_class)
+    # Initialize mail
+    mail.init_app(app)
 
     # Configure the image uploading via Flask-Uploads
     configure_uploads(app, files_user)
@@ -123,7 +127,11 @@ def create_app(config_class=Config):
     # Initialize database
     # init_db()
 
-    if not app.debug and not app.testing:
+    # Logging
+    is_app_debug = app.debug
+    is_app_testing = app.testing
+
+    if not is_app_debug and not is_app_testing:
         if app.config["MAIL_SERVER"]:
             auth = None
             if app.config["MAIL_USERNAME"] or app.config["MAIL_PASSWORD"]:

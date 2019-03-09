@@ -157,3 +157,7 @@ def update_user(user_data, user_id):
     user_dict = user.to_dict(only=ONLY)
 
     return user_dict
+
+
+def send_email(email_data, user_id):
+    backend.send_email(email_data, user_id)

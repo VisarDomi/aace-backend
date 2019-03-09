@@ -24,6 +24,8 @@ class Config(object):
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     ADMINS = ["visardomi4@gmail.com"]
+    NO_REPLY = 'no-reply@aace.al'
+    WEBSITE = WEBSITE_URL
 
     UPLOADED_USERFILES_DEST = basedir + "/static/files/user/"
     UPLOADED_USERFILES_URL = f"{WEBSITE_URL}/static/files/user/"

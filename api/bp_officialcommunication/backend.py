@@ -10,6 +10,7 @@ from ..helper_functions.get_by_id import (
     get_officialcommunication_by_id,
     get_organizationgroup_by_id,
 )
+from ..helper_functions.email import send_email_to_users
 
 
 @admin_required
@@ -146,3 +147,8 @@ def remove_organizationgroup_from_officialcommunication(
             f"of the officialcommunication with `id {officialcommunication_id}`."
         )
         raise NoOrganizationGroupByThatID(message=msg)
+
+
+@admin_required
+def send_email(officialcommunication_id):
+    send_email_to_users(officialcommunication_id)

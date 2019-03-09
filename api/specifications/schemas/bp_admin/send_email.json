@@ -1,0 +1,16 @@
+{
+  "title": "Send email",
+  "description": "Send email to a user",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "required": ["subject", "text_body"],
+  "properties": {
+    "subject": {
+      "type": "string"
+    },
+    "text_body": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
