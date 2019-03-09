@@ -1,31 +1,14 @@
-from flask import g
-from functools import wraps
 from sqlalchemy.orm.exc import NoResultFound
-
-from ..common.exceptions import RecordNotFound
 from ..common.exceptions import (
-    YouAreNotAdmin,
+    RecordNotFound,
     CannotChangeFirstAdminProperties,
     InvalidURL,
 )
-
 from ..common.models import User
+from ..helper_functions.decorators import admin_required
 
 
-# create a custom decorator, so only admins can use the following functions
-def are_you_admin(a_function):
-    @wraps(a_function)
-    def decorated_function(*args, **kwargs):
-        if g.current_user.role == "admin":
-            return a_function(*args, **kwargs)  # here goes the function
-        else:
-            msg = "You are not an admin."
-            raise YouAreNotAdmin(message=msg)
-
-    return decorated_function
-
-
-@are_you_admin
+@admin_required
 def get_user_by_id(user_id):
     try:
         user = User.query.filter(User.id == int(user_id)).one()
@@ -38,19 +21,27 @@ def get_user_by_id(user_id):
     return user
 
 
-@are_you_admin
+def get_register_status_users(register_status):
+    users = User.query.filter(User.register_status == register_status).all()
+
+    return users
+
+
+@admin_required
 def get_approved_users():
-    users = User.query.filter(User.register_status == "approved").all()
+    users = get_register_status_users("approved")
+
     return users
 
 
-@are_you_admin
+@admin_required
 def get_applying_users():
-    users = User.query.filter(User.register_status == "applying").all()
+    users = get_register_status_users("applying")
+
     return users
 
 
-@are_you_admin
+@admin_required
 def get_applying_and_reapplying_users():
     users = User.query.filter(
         (User.register_status == "applying") | (User.register_status == "reapplying")
@@ -58,45 +49,53 @@ def get_applying_and_reapplying_users():
     return users
 
 
-@are_you_admin
+@admin_required
 def get_rejected_users():
-    users = User.query.filter(User.register_status == "rejected").all()
+    users = get_register_status_users("rejected")
+
     return users
 
 
-@are_you_admin
+@admin_required
 def get_rebutted_users():
-    users = User.query.filter(User.register_status == "rebutted").all()
+    users = get_register_status_users("rebutted")
+
     return users
 
 
-@are_you_admin
+@admin_required
 def get_reapplying_users():
-    users = User.query.filter(User.register_status == "reapplying").all()
+    users = get_register_status_users("reapplying")
+
     return users
 
 
-@are_you_admin
+@admin_required
 def get_blank_users():
-    users = User.query.filter(User.register_status == "blank").all()
+    users = get_register_status_users("blank")
+
     return users
 
 
-@are_you_admin
+def get_and_update_user(user_data, user_id):
+    user = get_user_by_id(user_id)
+    user.update(**user_data)
+    user.save()
+
+    return user
+
+
+@admin_required
 def update_user(user_data, user_id):
 
     secure = True
     if secure:
         if int(user_id) != 1:
-            user = get_user_by_id(user_id)
-            user.update(**user_data)
-            user.save()
-            return user
+            user = get_and_update_user(user_data, user_id)
         else:
             msg = "Cannot change admin with `id: %s`" % user_id
             raise CannotChangeFirstAdminProperties(message=msg)
     else:
-        user = get_user_by_id(user_id)
-        user.update(**user_data)
-        user.save()
-        return user
+        user = get_and_update_user(user_data, user_id)
+
+    return user

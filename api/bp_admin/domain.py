@@ -43,7 +43,7 @@ def get_user_by_id(user_id):
             media_skill_ids.append(skill_media.id)
     user_dict["media_skill_ids"] = media_skill_ids
 
-    user_dict["years_of_experience"] = "5"
+    user_dict["years_of_experience"] = "6"
 
     return user_dict
 

@@ -1,13 +1,8 @@
 from flask import g
 from ..common.models import Skill
-from sqlalchemy.orm.exc import NoResultFound
-from ..common.exceptions import (
-    RecordNotFound,
-    InvalidURL,
-    CannotChangeOthersProfile,
-    CannotDeleteOthersSkill,
-)
+from ..common.exceptions import CannotChangeOthersProfile, CannotDeleteOthersSkill
 from ..bp_media_skill.backend import delete_media, get_all_medias
+from ..helper_functions.get_by_id import get_skill_by_id
 
 
 def create_skill(skill_data, user_id):
@@ -18,19 +13,6 @@ def create_skill(skill_data, user_id):
     else:
         msg = f"You can't change other people's profile."
         raise CannotChangeOthersProfile(message=msg)
-
-    return skill
-
-
-def get_skill_by_id(skill_id):
-    try:
-        skill = Skill.query.filter(Skill.id == skill_id).one()
-    except NoResultFound:
-        msg = f"There is no skill with id {skill_id}"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {skill_id}`"
-        raise InvalidURL(message=msg)
 
     return skill
 

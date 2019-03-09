@@ -1,14 +1,9 @@
 from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
 from ..common.models import MediaUser
-from sqlalchemy.orm.exc import NoResultFound
-from ..common.exceptions import (
-    RecordNotFound,
-    CannotDeleteOthersMedia,
-    InvalidURL,
-    CannotGetOthersMedia,
-)
+from ..common.exceptions import CannotDeleteOthersMedia, CannotGetOthersMedia
 import os
+from ..helper_functions.get_by_id import get_user_media_by_id
 
 
 files_user = UploadSet(name="userfiles", extensions=AllExcept(SCRIPTS + EXECUTABLES))
@@ -29,19 +24,6 @@ def create_medias(media_data, user_id):
         raise CannotGetOthersMedia(message=msg)
 
     return medias
-
-
-def get_media_by_id(user_id, media_user_id):
-    try:
-        media = MediaUser.query.filter(MediaUser.id == media_user_id).one()
-    except NoResultFound:
-        msg = f"There is no media with id {media_user_id}"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {media_user_id}`"
-        raise InvalidURL(message=msg)
-
-    return media
 
 
 def get_all_medias(user_id):
@@ -87,7 +69,7 @@ def is_file(file_name):
 
 def delete_media(user_id, media_user_id):
     if int(user_id) == g.current_user.id:
-        media = get_media_by_id(user_id, media_user_id)
+        media = get_user_media_by_id(user_id, media_user_id)
         file_name = files_user.path(media.filename)
         if is_file(media.filename):
             os.remove(get_file_path(file_name))

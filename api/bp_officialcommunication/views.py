@@ -80,6 +80,6 @@ def remove_organizationgroup_from_officialcommunication(
         officialcommunication_id, organizationgroup_id
     )
     return {
-        "message": f"User with `{organizationgroup_id}` has been removed "
+        "message": f"Organizationgroup with `{organizationgroup_id}` has been removed "
         f"from officialcommunication with `{officialcommunication_id}`."
     }

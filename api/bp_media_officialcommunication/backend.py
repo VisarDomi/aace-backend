@@ -1,9 +1,11 @@
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ..common.models import MediaOfficialCommunication, OfficialCommunication
-from sqlalchemy.orm.exc import NoResultFound
-from ..common.exceptions import RecordNotFound, InvalidURL
+from ..common.models import MediaOfficialCommunication
 import os
-from ..bp_admin.backend import are_you_admin
+from ..helper_functions.decorators import admin_required
+from ..helper_functions.get_by_id import (
+    get_officialcommunication_by_id,
+    get_officialcommunication_media_by_id,
+)
 
 
 files_officialcommunication = UploadSet(
@@ -11,50 +13,21 @@ files_officialcommunication = UploadSet(
 )
 
 
-def get_officialcommunication_by_id(officialcommunication_id):
-    try:
-        officialcommunication = OfficialCommunication.query.filter(
-            OfficialCommunication.id == officialcommunication_id
-        ).one()
-    except NoResultFound:
-        msg = f"There is no OfficialCommunication with `id: {officialcommunication_id}`"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {officialcommunication_id}`"
-        raise InvalidURL(message=msg)
-
-    return officialcommunication
-
-
-@are_you_admin
+@admin_required
 def create_medias(media_data, officialcommunication_id):
     medias = []
-    for file in media_data:
-        filename = files_officialcommunication.save(file)
-        url = files_officialcommunication.url(filename)
-        media = MediaOfficialCommunication(filename=filename, url=url)
-        media.officialcommunication = get_officialcommunication_by_id(
-            officialcommunication_id
-        )
-        media.save()
-        medias.append(media)
+    if get_officialcommunication_by_id(officialcommunication_id):
+        for file in media_data:
+            filename = files_officialcommunication.save(file)
+            url = files_officialcommunication.url(filename)
+            media = MediaOfficialCommunication(filename=filename, url=url)
+            media.officialcommunication = get_officialcommunication_by_id(
+                officialcommunication_id
+            )
+            media.save()
+            medias.append(media)
 
     return medias
-
-
-def get_media_by_id(officialcommunication_id, media_officialcommunication_id):
-    try:
-        media = MediaOfficialCommunication.query.filter(
-            MediaOfficialCommunication.id == media_officialcommunication_id
-        ).one()
-    except NoResultFound:
-        msg = f"There is no media with id {media_officialcommunication_id}"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {media_officialcommunication_id}`"
-        raise InvalidURL(message=msg)
-
-    return media
 
 
 def get_all_medias(officialcommunication_id):
@@ -66,7 +39,7 @@ def get_all_medias(officialcommunication_id):
     return medias
 
 
-@are_you_admin
+@admin_required
 def update_media(media_data, officialcommunication_id, media_officialcommunication_id):
     medias = []
     media = MediaOfficialCommunication.query.filter(
@@ -102,9 +75,9 @@ def is_file(file_name):
     return os.path.exists(this_file_path)
 
 
-@are_you_admin
-def delete_media(officialcommunication_id, media_officialcommunication_id):
-    media = get_media_by_id(officialcommunication_id, media_officialcommunication_id)
+@admin_required
+def delete_media(media_officialcommunication_id):
+    media = get_officialcommunication_media_by_id(media_officialcommunication_id)
     file_name = files_officialcommunication.path(media.filename)
     if is_file(media.filename):
         os.remove(get_file_path(file_name))

@@ -7,11 +7,11 @@ from ..common.exceptions import (
     NoUserByThatID,
     InvalidURL,
 )
-from ..bp_admin.backend import are_you_admin
+from ..bp_admin.backend import admin_required
 from ..bp_user.backend import get_user_by_id
 
 
-@are_you_admin
+@admin_required
 def create_group(group_data):
     is_group = Group.query.filter(Group.name == group_data["name"]).one_or_none()
     if is_group:
@@ -42,7 +42,7 @@ def get_all_groups():
     return groups
 
 
-@are_you_admin
+@admin_required
 def update_group(group_data, group_id):
     is_group = Group.query.filter(Group.name == group_data["name"]).one_or_none()
     group = get_group_by_id(group_id)
@@ -56,7 +56,7 @@ def update_group(group_data, group_id):
     return group
 
 
-@are_you_admin
+@admin_required
 def delete_group(group_id):
     group = get_group_by_id(group_id)
     group.delete()
@@ -69,7 +69,7 @@ def get_users_from_group(group_id):
     return users
 
 
-@are_you_admin
+@admin_required
 def add_user_to_group(group_id, user_id):
     group = get_group_by_id(group_id)
     user = get_user_by_id(user_id)
@@ -82,7 +82,7 @@ def add_user_to_group(group_id, user_id):
     return group
 
 
-@are_you_admin
+@admin_required
 def remove_user_from_group(group_id, user_id):
     group = get_group_by_id(group_id)
     user = group.users.filter(User.id == user_id).one_or_none()

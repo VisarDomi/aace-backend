@@ -1,14 +1,9 @@
 from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ..common.models import MediaEducation, Education
-from sqlalchemy.orm.exc import NoResultFound
-from ..common.exceptions import (
-    RecordNotFound,
-    CannotDeleteOthersMedia,
-    InvalidURL,
-    CannotGetOthersMedia,
-)
+from ..common.models import MediaEducation
+from ..common.exceptions import CannotDeleteOthersMedia, CannotGetOthersMedia
 import os
+from ..helper_functions.get_by_id import get_education_by_id, get_education_media_by_id
 
 
 files_education = UploadSet(
@@ -16,29 +11,14 @@ files_education = UploadSet(
 )
 
 
-def get_education_by_id(education_id):
-    try:
-        education = Education.query.filter(Education.id == education_id).one()
-    except NoResultFound:
-        msg = f"There is no education with id {education_id}"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {education_id}`"
-        raise InvalidURL(message=msg)
-
-    return education
-
-
 def create_medias(media_data, user_id, education_id):
-    medias = []
     if int(user_id) == g.current_user.id:
+        medias = []
         if get_education_by_id(education_id):
             for file in media_data:
                 filename = files_education.save(file)
                 url = files_education.url(filename)
-                media = MediaEducation(
-                    filename=filename, url=url
-                )
+                media = MediaEducation(filename=filename, url=url)
                 education = get_education_by_id(education_id)
                 media.education = education
                 media.save()
@@ -48,25 +28,6 @@ def create_medias(media_data, user_id, education_id):
         raise CannotGetOthersMedia(message=msg)
 
     return medias
-
-
-def get_media_by_id(user_id, media_education_id):
-    if int(user_id) == g.current_user.id:
-        try:
-            media = MediaEducation.query.filter(
-                MediaEducation.id == media_education_id
-            ).one()
-        except NoResultFound:
-            msg = f"There is no media with id {media_education_id}"
-            raise RecordNotFound(message=msg)
-        except InvalidURL:
-            msg = f"This is not a valid URL: {media_education_id}`"
-            raise InvalidURL(message=msg)
-    else:
-        msg = f"You can't get other people's media."
-        raise CannotGetOthersMedia(message=msg)
-
-    return media
 
 
 def get_all_medias(user_id, education_id):
@@ -92,9 +53,7 @@ def update_media(media_data, user_id, education_id, media_education_id):
                 delete_media(user_id, media_education_id)
                 filename = files_education.save(file)
                 url = files_education.url(filename)
-                media = MediaEducation(
-                    filename=filename, url=url
-                )
+                media = MediaEducation(filename=filename, url=url)
                 education = get_education_by_id(education_id)
                 media.education = education
                 media.save()
@@ -123,7 +82,7 @@ def is_file(file_name):
 
 def delete_media(user_id, media_education_id):
     if int(user_id) == g.current_user.id:
-        media = get_media_by_id(user_id, media_education_id)
+        media = get_education_media_by_id(user_id, media_education_id)
         file_name = files_education.path(media.filename)
         if is_file(media.filename):
             os.remove(get_file_path(file_name))

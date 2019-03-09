@@ -1,4 +1,5 @@
 from . import backend
+from ..helper_functions.get_by_id import get_user_by_id as backend_get_user_by_id
 
 
 def create_user(user_data):
@@ -10,7 +11,7 @@ def create_user(user_data):
 
 
 def get_user_by_id(user_id):
-    user = backend.get_user_by_id(user_id)
+    user = backend_get_user_by_id(user_id)
     ONLY = [
         "register_status",
         "application_date",

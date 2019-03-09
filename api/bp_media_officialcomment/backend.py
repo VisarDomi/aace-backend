@@ -1,8 +1,12 @@
+from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ..common.models import MediaOfficialComment, OfficialComment
-from sqlalchemy.orm.exc import NoResultFound
-from ..common.exceptions import RecordNotFound, InvalidURL
+from ..common.models import MediaOfficialComment
 import os
+from ..helper_functions.get_by_id import (
+    get_officialcomment_by_id,
+    get_officialcomment_media_by_id,
+)
+from ..common.exceptions import CannotGetOthersMedia
 
 
 files_officialcomment = UploadSet(
@@ -10,50 +14,28 @@ files_officialcomment = UploadSet(
 )
 
 
-def get_officialcomment_by_id(officialcomment_id):
-    try:
-        officialcomment = OfficialComment.query.filter(
-            OfficialComment.id == officialcomment_id
-        ).one()
-    except NoResultFound:
-        msg = f"There is no OfficialComment with `id: {officialcomment_id}`"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {officialcomment_id}`"
-        raise InvalidURL(message=msg)
-
-    return officialcomment
-
-
-def create_medias(media_data, officialcomment_id):
+def create_medias(media_data, officialcommunication_id, officialcomment_id):
     medias = []
-    for file in media_data:
-        filename = files_officialcomment.save(file)
-        url = files_officialcomment.url(filename)
-        media = MediaOfficialComment(filename=filename, url=url)
-        media.officialcomment = get_officialcomment_by_id(officialcomment_id)
-        media.save()
-        medias.append(media)
+    officialcomment = get_officialcomment_by_id(
+        officialcommunication_id, officialcomment_id
+    )
+    if officialcomment:
+        if officialcomment.author == g.current_user:
+            for file in media_data:
+                filename = files_officialcomment.save(file)
+                url = files_officialcomment.url(filename)
+                media = MediaOfficialComment(filename=filename, url=url)
+                media.officialcomment = officialcomment
+                media.save()
+                medias.append(media)
+        else:
+            msg = f"You can't get other people's media."
+            raise CannotGetOthersMedia(message=msg)
 
     return medias
 
 
-def get_media_by_id(officialcomment_id, media_officialcomment_id):
-    try:
-        media = MediaOfficialComment.query.filter(
-            MediaOfficialComment.id == media_officialcomment_id
-        ).one()
-    except NoResultFound:
-        msg = f"There is no media with id {media_officialcomment_id}"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {media_officialcomment_id}`"
-        raise InvalidURL(message=msg)
-
-    return media
-
-
-def get_all_medias(officialcomment_id):
+def get_all_medias(officialcommunication_id, officialcomment_id):
     medias = MediaOfficialComment.query.filter(
         MediaOfficialComment.officialcomment_id == int(officialcomment_id)
     ).all()
@@ -61,20 +43,34 @@ def get_all_medias(officialcomment_id):
     return medias
 
 
-def update_media(media_data, officialcomment_id, media_officialcomment_id):
+def update_media(
+    media_data, officialcommunication_id, officialcomment_id, media_officialcomment_id
+):
     medias = []
     media = MediaOfficialComment.query.filter(
         MediaOfficialComment.id == media_officialcomment_id
     ).one_or_none()
-    for file in media_data:
-        if file and media:
-            delete_media(officialcomment_id, media_officialcomment_id)
-            filename = files_officialcomment.save(file)
-            url = files_officialcomment.url(filename)
-            media = MediaOfficialComment(filename=filename, url=url)
-            media.officialcomment = get_officialcomment_by_id(officialcomment_id)
-            media.save()
-            medias.append(media)
+    officialcomment = get_officialcomment_by_id(
+        officialcommunication_id, officialcomment_id
+    )
+    if officialcomment:
+        if officialcomment.author == g.current_user:
+            for file in media_data:
+                if file and media:
+                    delete_media(
+                        officialcommunication_id,
+                        officialcomment_id,
+                        media_officialcomment_id,
+                    )
+                    filename = files_officialcomment.save(file)
+                    url = files_officialcomment.url(filename)
+                    media = MediaOfficialComment(filename=filename, url=url)
+                    media.officialcomment = officialcomment
+                    media.save()
+                    medias.append(media)
+        else:
+            msg = f"You can't get other people's media."
+            raise CannotGetOthersMedia(message=msg)
 
     return medias
 
@@ -94,9 +90,20 @@ def is_file(file_name):
     return os.path.exists(this_file_path)
 
 
-def delete_media(officialcomment_id, media_officialcomment_id):
-    media = get_media_by_id(officialcomment_id, media_officialcomment_id)
-    file_name = files_officialcomment.path(media.filename)
-    if is_file(media.filename):
-        os.remove(get_file_path(file_name))
-    media.delete()
+# login
+def delete_media(
+    officialcommunication_id, officialcomment_id, media_officialcomment_id
+):
+    officialcomment = get_officialcomment_by_id(
+        officialcommunication_id, officialcomment_id
+    )
+    if officialcomment:
+        if officialcomment.author == g.current_user:
+            media = get_officialcomment_media_by_id(media_officialcomment_id)
+            file_name = files_officialcomment.path(media.filename)
+            if is_file(media.filename):
+                os.remove(get_file_path(file_name))
+            media.delete()
+        else:
+            msg = f"You can't get other people's media."
+            raise CannotGetOthersMedia(message=msg)

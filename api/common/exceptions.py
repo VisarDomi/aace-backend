@@ -71,6 +71,10 @@ class YouAreNotAllowedToView(InvalidPermissions):
     pass
 
 
+class CannotChangeOthersComment(InvalidPermissions):
+    pass
+
+
 class CannotDeleteFirstAdmin(InvalidPermissions):
     pass
 

@@ -1,21 +1,17 @@
 from flask import g
-from sqlalchemy.orm.exc import NoResultFound
-
 from ..common.exceptions import (
     RecordAlreadyExists,
-    RecordNotFound,
     MissingArguments,
     CannotChangeOthersProfile,
     CannotDeleteOthersProfile,
     CannotDeleteFirstAdmin,
-    InvalidURL,
 )
-
 from ..common.models import User
 from ..bp_skill.backend import get_all_skills, delete_skill
 from ..bp_experience.backend import get_all_experiences, delete_experience
 from ..bp_education.backend import get_all_educations, delete_education
 from ..bp_media_user.backend import get_all_medias, delete_media
+from ..helper_functions.get_by_id import get_user_by_id
 
 
 def create_user(user_data):
@@ -33,19 +29,6 @@ def create_user(user_data):
         user.role = "admin"
         user.save()
     user.get_token(expires_in=36_000_000)
-
-    return user
-
-
-def get_user_by_id(user_id):
-    try:
-        user = User.query.filter(User.id == user_id).one()
-    except NoResultFound:
-        msg = f"There is no User with `id: {user_id}`"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {user_id}`"
-        raise InvalidURL(message=msg)
 
     return user
 

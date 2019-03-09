@@ -1,4 +1,5 @@
 from . import backend
+from ..helper_functions.get_by_id import get_skill_by_id as backend_get_skill_by_id
 
 
 def create_skill(skill_data, user_id):
@@ -9,7 +10,7 @@ def create_skill(skill_data, user_id):
 
 
 def get_skill_by_id(skill_id):
-    skill = backend.get_skill_by_id(skill_id)
+    skill = backend_get_skill_by_id(skill_id)
     skill_dict = skill.to_dict()
 
     return skill_dict

@@ -13,14 +13,14 @@ def create_medias(officialcommunication_id):
 
 
 @bp.route("/media/<media_officialcommunication_id>", methods=["GET"])
+@token_auth.login_required
 def get_media(officialcommunication_id, media_officialcommunication_id):
 
-    return domain.get_media_by_id(
-        officialcommunication_id, media_officialcommunication_id
-    )
+    return domain.get_media_by_id(media_officialcommunication_id)
 
 
 @bp.route("/media/all", methods=["GET"])
+@token_auth.login_required
 def get_medias(officialcommunication_id):
 
     return domain.get_all_medias(officialcommunication_id)
@@ -40,7 +40,7 @@ def update_media(officialcommunication_id, media_officialcommunication_id):
 @bp.route("/media/<media_officialcommunication_id>", methods=["DELETE"])
 @token_auth.login_required
 def delete_media(officialcommunication_id, media_officialcommunication_id):
-    domain.delete_media(officialcommunication_id, media_officialcommunication_id)
+    domain.delete_media(media_officialcommunication_id)
 
     return {
         "message": "Media with `id: %s` has been deleted."

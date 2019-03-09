@@ -1,13 +1,11 @@
 from flask import g
 from ..common.models import Education
-from sqlalchemy.orm.exc import NoResultFound
 from ..common.exceptions import (
-    RecordNotFound,
-    InvalidURL,
     CannotChangeOthersProfile,
     CannotDeleteOthersEducation,
 )
 from ..bp_media_education.backend import delete_media, get_all_medias
+from ..helper_functions.get_by_id import get_education_by_id
 
 
 def create_education(education_data, user_id):
@@ -18,19 +16,6 @@ def create_education(education_data, user_id):
     else:
         msg = f"You can't change other people's profile."
         raise CannotChangeOthersProfile(message=msg)
-
-    return education
-
-
-def get_education_by_id(education_id):
-    try:
-        education = Education.query.filter(Education.id == education_id).one()
-    except NoResultFound:
-        msg = f"There is no education with id {education_id}"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {education_id}`"
-        raise InvalidURL(message=msg)
 
     return education
 

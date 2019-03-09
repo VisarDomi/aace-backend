@@ -1,4 +1,5 @@
 from . import backend
+from ..helper_functions.get_by_id import get_organizationgroup_media_by_id
 
 
 def create_medias(media_data, organizationgroup_id):
@@ -8,8 +9,8 @@ def create_medias(media_data, organizationgroup_id):
     return medias_list
 
 
-def get_media_by_id(organizationgroup_id, media_organizationgroup_id):
-    media = backend.get_media_by_id(organizationgroup_id, media_organizationgroup_id)
+def get_media_by_id(media_organizationgroup_id):
+    media = get_organizationgroup_media_by_id(media_organizationgroup_id)
     media_dict = media.to_dict()
 
     return media_dict

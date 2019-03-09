@@ -1,4 +1,7 @@
 from . import backend
+from ..helper_functions.get_by_id import (
+    get_officialcommunication_by_id as backend_get_officialcommunication_by_id,
+)
 
 
 def create_officialcommunication(officialcommunication_data):
@@ -11,7 +14,7 @@ def create_officialcommunication(officialcommunication_data):
 
 
 def get_officialcommunication_by_id(officialcommunication_id):
-    officialcommunication = backend.get_officialcommunication_by_id(
+    officialcommunication = backend_get_officialcommunication_by_id(
         officialcommunication_id
     )
     officialcommunication_dict = officialcommunication.to_dict()

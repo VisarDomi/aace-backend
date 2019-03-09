@@ -1,4 +1,5 @@
 from . import backend
+from ..helper_functions.get_by_id import get_education_media_by_id
 
 
 def create_medias(media_data, user_id, education_id):
@@ -9,7 +10,7 @@ def create_medias(media_data, user_id, education_id):
 
 
 def get_media_by_id(user_id, media_education_id):
-    media = backend.get_media_by_id(user_id, media_education_id)
+    media = get_education_media_by_id(user_id, media_education_id)
     media_dict = media.to_dict()
 
     return media_dict

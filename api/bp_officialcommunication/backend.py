@@ -1,23 +1,18 @@
 from flask import g
-from sqlalchemy.orm.exc import NoResultFound
-
 from ..common.exceptions import (
-    RecordNotFound,
-    InvalidURL,
     OrganizationGroupIsAlreadyPartOfGroup,
     NoOrganizationGroupByThatID,
-    YouAreNotAllowedToView,
+)
+from ..common.models import OfficialCommunication, OrganizationGroup
+from ..bp_media_officialcommunication.backend import get_all_medias, delete_media
+from ..helper_functions.decorators import admin_required
+from ..helper_functions.get_by_id import (
+    get_officialcommunication_by_id,
+    get_organizationgroup_by_id,
 )
 
 
-from ..common.models import OfficialCommunication, OrganizationGroup
-
-from ..bp_media_officialcommunication.backend import get_all_medias, delete_media
-from ..bp_admin.backend import are_you_admin
-from ..bp_organizationgroup.backend import get_organizationgroup_by_id
-
-
-@are_you_admin
+@admin_required
 def create_officialcommunication(officialcommunication_data):
     officialcommunication = OfficialCommunication(**officialcommunication_data)
     officialcommunication.author = g.current_user
@@ -26,40 +21,10 @@ def create_officialcommunication(officialcommunication_data):
     return officialcommunication
 
 
-def get_officialcommunication_by_id(officialcommunication_id):
-    try:
-        officialcommunication = OfficialCommunication.query.filter(
-            OfficialCommunication.id == officialcommunication_id
-        ).one()
-        print("officialcommunication, :", officialcommunication)
-    except NoResultFound:
-        msg = f"There is no OfficialCommunication with `id: {officialcommunication_id}`"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {officialcommunication_id}`"
-        raise InvalidURL(message=msg)
-    user_is_allowed_to_view = False
-    for group in officialcommunication.organizationgroups.all():
-        print("group, :", group)
-        print("group.users.all(), :", group.users.all())
-        if g.current_user in group.users.all():
-            print("user_is_allowed_to_view, :", user_is_allowed_to_view)
-            user_is_allowed_to_view = True
-
-    if g.current_user.role == "admin":
-        user_is_allowed_to_view = True
-    if not user_is_allowed_to_view:
-        msg = f"You are not allowed to view this communication "
-        "with id `{officialcommunication_id}``"
-        raise YouAreNotAllowedToView(message=msg)
-
-    return officialcommunication
-
-
 def get_all_officialcommunications():
     officialcommunications = OfficialCommunication.query.all()
     allowed_officialcommunications = []
-    if g.current_user.role == 'admin':
+    if g.current_user.role == "admin":
         allowed_officialcommunications = officialcommunications
     else:
         for communication in officialcommunications:
@@ -70,7 +35,7 @@ def get_all_officialcommunications():
     return allowed_officialcommunications
 
 
-@are_you_admin
+@admin_required
 def update_officialcommunication(officialcommunication_data, officialcommunication_id):
     officialcommunication = get_officialcommunication_by_id(officialcommunication_id)
     officialcommunication.update(**officialcommunication_data)
@@ -79,12 +44,15 @@ def update_officialcommunication(officialcommunication_data, officialcommunicati
     return officialcommunication
 
 
-@are_you_admin
+@admin_required
 def delete_officialcommunication(officialcommunication_id):
     for media in get_all_medias(officialcommunication_id):
         delete_media(officialcommunication_id, media.id)
     officialcommunication = get_officialcommunication_by_id(officialcommunication_id)
     officialcommunication.delete()
+
+
+# Getting, adding, removing group from communication
 
 
 def get_organizationgroups_from_officialcommunication(officialcommunication_id):
@@ -94,23 +62,57 @@ def get_organizationgroups_from_officialcommunication(officialcommunication_id):
     return organizationgroups
 
 
-@are_you_admin
+def filter_organizationgroups_of_officialcommunication(
+    officialcommunication, organizationgroup_id, OrganizationGroup
+):
+    is_gr_in_co = officialcommunication.organizationgroups.filter(
+        OrganizationGroup.id == organizationgroup_id
+    ).one_or_none()
+
+    return is_gr_in_co
+
+
+def group_in_communication_or_none(
+    organizationgroup, officialcommunication, organizationgroup_id, OrganizationGroup
+):
+    group_or_none = (
+        organizationgroup
+        == filter_organizationgroups_of_officialcommunication(
+            officialcommunication, organizationgroup_id, OrganizationGroup
+        )
+    )
+
+    return group_or_none
+
+
+def is_group_in_communication(
+    organizationgroup, officialcommunication, organizationgroup_id, OrganizationGroup
+):
+    organizationgroup_in_a_officialcommunication = None
+    if group_in_communication_or_none(
+        organizationgroup,
+        officialcommunication,
+        organizationgroup_id,
+        OrganizationGroup,
+    ):
+        organizationgroup_in_a_officialcommunication = organizationgroup
+
+    return organizationgroup_in_a_officialcommunication
+
+
+@admin_required
 def add_organizationgroup_to_officialcommunication(
     officialcommunication_id, organizationgroup_id
 ):
     organizationgroup = get_organizationgroup_by_id(organizationgroup_id)
-    officialcommunications = get_all_officialcommunications()
-    organizationgroup_in_a_group = None
-    for group in officialcommunications:
-        if (
-            organizationgroup
-            == group.organizationgroups.filter(
-                OrganizationGroup.id == organizationgroup_id
-            ).one_or_none()
-        ):
-            organizationgroup_in_a_group = organizationgroup
-            that_group_id = group.id
-    if organizationgroup is not organizationgroup_in_a_group:
+    officialcommunication = get_officialcommunication_by_id(officialcommunication_id)
+    organizationgroup_in_a_officialcommunication_or_none = is_group_in_communication(
+        organizationgroup,
+        officialcommunication,
+        organizationgroup_id,
+        OrganizationGroup,
+    )
+    if organizationgroup is not organizationgroup_in_a_officialcommunication_or_none:
         officialcommunication = get_officialcommunication_by_id(
             officialcommunication_id
         )
@@ -119,14 +121,14 @@ def add_organizationgroup_to_officialcommunication(
     else:
         msg = (
             "OrganizationGroup % s is already part of the officialcommunication % s."
-            % (organizationgroup_id, that_group_id)
+            % (organizationgroup_id, officialcommunication_id)
         )
         raise OrganizationGroupIsAlreadyPartOfGroup(message=msg)
 
     return officialcommunication
 
 
-@are_you_admin
+@admin_required
 def remove_organizationgroup_from_officialcommunication(
     officialcommunication_id, organizationgroup_id
 ):

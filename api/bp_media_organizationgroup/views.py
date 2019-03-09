@@ -15,7 +15,7 @@ def create_medias(organizationgroup_id):
 @bp.route("/media/<media_organizationgroup_id>", methods=["GET"])
 def get_media(organizationgroup_id, media_organizationgroup_id):
 
-    return domain.get_media_by_id(organizationgroup_id, media_organizationgroup_id)
+    return domain.get_media_by_id(media_organizationgroup_id)
 
 
 @bp.route("/media/all", methods=["GET"])
@@ -29,9 +29,7 @@ def get_medias(organizationgroup_id):
 def update_media(organizationgroup_id, media_organizationgroup_id):
 
     return domain.update_media(
-        request.files.getlist("file"),
-        organizationgroup_id,
-        media_organizationgroup_id,
+        request.files.getlist("file"), organizationgroup_id, media_organizationgroup_id
     )
 
 

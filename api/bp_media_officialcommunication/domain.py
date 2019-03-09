@@ -1,4 +1,5 @@
 from . import backend
+from ..helper_functions.get_by_id import get_officialcommunication_media_by_id
 
 
 def create_medias(media_data, officialcommunication_id):
@@ -8,10 +9,8 @@ def create_medias(media_data, officialcommunication_id):
     return medias_list
 
 
-def get_media_by_id(officialcommunication_id, media_officialcommunication_id):
-    media = backend.get_media_by_id(
-        officialcommunication_id, media_officialcommunication_id
-    )
+def get_media_by_id(media_officialcommunication_id):
+    media = get_officialcommunication_media_by_id(media_officialcommunication_id)
     media_dict = media.to_dict()
 
     return media_dict
@@ -33,5 +32,5 @@ def update_media(media_data, officialcommunication_id, media_officialcommunicati
     return medias_list
 
 
-def delete_media(officialcommunication_id, media_officialcommunication_id):
-    backend.delete_media(officialcommunication_id, media_officialcommunication_id)
+def delete_media(media_officialcommunication_id):
+    backend.delete_media(media_officialcommunication_id)

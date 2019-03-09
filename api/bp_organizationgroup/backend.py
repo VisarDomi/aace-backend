@@ -1,22 +1,16 @@
-from sqlalchemy.orm.exc import NoResultFound
-
 from ..common.exceptions import (
-    RecordNotFound,
-    InvalidURL,
     UserIsAlreadyPartOfGroup,
     ThereIsAlreadyAGroupByThatName,
     NoUserByThatID,
 )
-
-
 from ..common.models import OrganizationGroup, User
-
 from ..bp_media_organizationgroup.backend import get_all_medias, delete_media
-from ..bp_admin.backend import are_you_admin
 from ..bp_user.backend import get_user_by_id
+from ..helper_functions.decorators import admin_required
+from ..helper_functions.get_by_id import get_organizationgroup_by_id
 
 
-@are_you_admin
+@admin_required
 def create_organizationgroup(organizationgroup_data):
     is_group = OrganizationGroup.query.filter(
         OrganizationGroup.name == organizationgroup_data["name"]
@@ -31,28 +25,13 @@ def create_organizationgroup(organizationgroup_data):
     return organizationgroup
 
 
-def get_organizationgroup_by_id(organizationgroup_id):
-    try:
-        organizationgroup = OrganizationGroup.query.filter(
-            OrganizationGroup.id == organizationgroup_id
-        ).one()
-    except NoResultFound:
-        msg = f"There is no OrganizationGroup with `id: {organizationgroup_id}`"
-        raise RecordNotFound(message=msg)
-    except InvalidURL:
-        msg = f"This is not a valid URL: {organizationgroup_id}`"
-        raise InvalidURL(message=msg)
-
-    return organizationgroup
-
-
 def get_all_organizationgroups():
     organizationgroups = OrganizationGroup.query.all()
 
     return organizationgroups
 
 
-@are_you_admin
+@admin_required
 def update_organizationgroup(organizationgroup_data, organizationgroup_id):
     is_group = OrganizationGroup.query.filter(
         OrganizationGroup.name == organizationgroup_data["name"]
@@ -68,7 +47,7 @@ def update_organizationgroup(organizationgroup_data, organizationgroup_id):
     return organizationgroup
 
 
-@are_you_admin
+@admin_required
 def delete_organizationgroup(organizationgroup_id):
     for media in get_all_medias(organizationgroup_id):
         delete_media(organizationgroup_id, media.id)
@@ -83,7 +62,7 @@ def get_users_from_organizationgroup(organizationgroup_id):
     return users
 
 
-@are_you_admin
+@admin_required
 def add_user_to_organizationgroup(organizationgroup_id, user_id):
     user = get_user_by_id(user_id)
     organizationgroups = get_all_organizationgroups()
@@ -106,7 +85,7 @@ def add_user_to_organizationgroup(organizationgroup_id, user_id):
     return organizationgroup
 
 
-@are_you_admin
+@admin_required
 def remove_user_from_organizationgroup(organizationgroup_id, user_id):
     organizationgroup = get_organizationgroup_by_id(organizationgroup_id)
     user = organizationgroup.users.filter(User.id == user_id).one_or_none()
