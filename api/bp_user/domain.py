@@ -30,13 +30,6 @@ def get_user_by_id(user_id):
     ]
     user_dict = user.to_dict(only=ONLY)
 
-    user_documents = []
-    user_educations = user.educations.all()
-    for education in user_educations:
-        for edu_media in education.medias:
-            user_documents.append(edu_media.id)
-
-    user_dict["document_ids"] = user_documents
     user_dict["years_of_experience"] = "6"
 
     return user_dict
