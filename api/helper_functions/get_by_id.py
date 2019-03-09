@@ -43,7 +43,7 @@ def get_entity(entity_id, Entity):
 
 
 def same_user_get_media(user_id, media_id, Media):
-    if int(user_id) == g.current_user.id:
+    if int(user_id) == g.current_user.id or g.current_user.role == "admin":
         media = get_entity(media_id, Media)
     else:
         msg = f"You can't get other people's media."
@@ -112,15 +112,21 @@ def get_user_by_id(user_id):
 
 
 def get_education_by_id(education_id):
-    get_entity(education_id, Education)
+    education = get_entity(education_id, Education)
+
+    return education
 
 
 def get_experience_by_id(experience_id):
-    get_entity(experience_id, Experience)
+    experience = get_entity(experience_id, Experience)
+
+    return experience
 
 
 def get_skill_by_id(skill_id):
-    get_entity(skill_id, Skill)
+    skill = get_entity(skill_id, Skill)
+
+    return skill
 
 
 def is_user_allowed_to_view(officialcommunication):
