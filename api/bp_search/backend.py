@@ -11,6 +11,8 @@ def search_users(search_user_data):
     except KeyError:
         msg = f"The keys fname and lname are not found."
         raise NotFound(message=msg)
+    if not name:
+        users = User.query.all()
     names = name.split(" ")
     if len(names) == 1:
         fname = names.pop(0)
