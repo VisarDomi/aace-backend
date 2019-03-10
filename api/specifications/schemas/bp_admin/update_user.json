@@ -12,6 +12,9 @@
     },
     "role": {
       "type": "string"
+    },
+    "accepted_date": {
+      "type": "string"
     }
   },
   "additionalProperties": false

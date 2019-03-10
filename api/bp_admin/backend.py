@@ -12,8 +12,8 @@ def get_register_status_users(register_status):
 
 
 @admin_required
-def get_approved_users():
-    users = get_register_status_users("approved")
+def get_accepted_users():
+    users = get_register_status_users("accepted")
 
     return users
 

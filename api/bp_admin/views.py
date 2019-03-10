@@ -6,10 +6,10 @@ from . import domain
 from ..bp_auth.views import token_auth
 
 
-@bp.route("/approved", methods=["GET"])
+@bp.route("/accepted", methods=["GET"])
 @token_auth.login_required
-def get_approved_users():
-    return domain.get_approved_users()
+def get_accepted_users():
+    return domain.get_accepted_users()
 
 
 @bp.route("/applying", methods=["GET"])

@@ -93,6 +93,7 @@ class User(BaseModel, ModelSerializerMixin):
     website = Column(String)
     register_status = Column(String, default="blank")
     application_date = Column(DateTime)
+    accepted_date = Column(DateTime)
 
     # comment nga administratori
     comment_from_administrator = Column(Text)
