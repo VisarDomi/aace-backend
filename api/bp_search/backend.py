@@ -11,12 +11,10 @@ def search_users(search_user_data):
     except KeyError:
         msg = f"The keys fname and lname are not found."
         raise NotFound(message=msg)
+    approved_members_query = User.query.filter(User.register_status == "approved")
+
     if not name:
-        users = (
-            User.query.filter(User.register_status != "rejected")
-            .filter(User.register_status != "blank")
-            .all()
-        )
+        users = approved_members_query.all()
     names = name.split(" ")
     if len(names) == 1:
         fname = names.pop(0)
@@ -27,10 +25,12 @@ def search_users(search_user_data):
     looking_for_fname = "%{0}%".format(fname)
     if fname and not lname:
         looking_for_lname = "%{0}%".format(lname)
-        users = User.query.filter(User.first_name.ilike(looking_for_fname)).all()
+        users = approved_members_query.filter(
+            User.first_name.ilike(looking_for_fname)
+        ).all()
     elif fname and lname:
         looking_for_lname = "%{0}%".format(lname)
-        users = User.query.filter(
+        users = approved_members_query.filter(
             User.first_name.ilike(looking_for_fname)
             & User.last_name.ilike(looking_for_lname)
         ).all()
