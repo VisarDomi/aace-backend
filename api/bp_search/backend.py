@@ -12,7 +12,11 @@ def search_users(search_user_data):
         msg = f"The keys fname and lname are not found."
         raise NotFound(message=msg)
     if not name:
-        users = User.query.all()
+        users = (
+            User.query.filter(User.register_status != "rejected")
+            .filter(User.register_status != "blank")
+            .all()
+        )
     names = name.split(" ")
     if len(names) == 1:
         fname = names.pop(0)
