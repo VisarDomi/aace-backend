@@ -4,10 +4,7 @@
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
-    "fname": {
-      "type": "string"
-    },
-    "lname": {
+    "name": {
       "type": "string"
     }
   },
