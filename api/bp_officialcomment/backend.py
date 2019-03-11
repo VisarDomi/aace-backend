@@ -20,20 +20,12 @@ def create_officialcomment(officialcomment_data, officialcommunication_id):
 
 
 def get_all_officialcomments(officialcommunication_id):
-    officialcomments = OfficialComment.query.filter(
-        OfficialCommunication.id == officialcommunication_id
-    ).all()
-    allowed_officialcomments = []
-    if g.current_user.role == "admin":
-        allowed_officialcomments = officialcomments
-    else:
-        communication = get_officialcommunication_by_id(officialcommunication_id)
-        for group in communication.organizationgroups.all():
-            if g.current_user in group.users.all():
-                for comment in officialcomments:
-                    allowed_officialcomments.append(comment)
+    communication = get_officialcommunication_by_id(officialcommunication_id)
+    for group in communication.organizationgroups.all():
+        if g.current_user in group.users.all() or g.current_user.role == "admin":
+            officialcomments = communication.officialcomments.all()
 
-    return allowed_officialcomments
+    return officialcomments
 
 
 def same_user(officialcommunication_id, officialcomment_id):
