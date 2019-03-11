@@ -50,6 +50,11 @@ def get_users_from_organizationgroup(organizationgroup_id):
     return domain.get_users_from_organizationgroup(organizationgroup_id)
 
 
+@bp.route("unassigned_users", methods=["GET"])
+def unassigned_users():
+    return domain.unassigned_users()
+
+
 @bp.route("/<organizationgroup_id>/user/<user_id>", methods=["PUT"])
 @token_auth.login_required
 def add_user_to_organizationgroup(organizationgroup_id, user_id):

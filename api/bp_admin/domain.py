@@ -1,28 +1,12 @@
 from . import backend
 from ..helper_functions.decorators import admin_required
 from ..helper_functions.get_by_id import get_user_by_id as backend_get_user_by_id
+from ..helper_functions.constants import ONLY, ADMIN_ONLY
 
 
 @admin_required
 def get_user_by_id(user_id):
     user = backend_get_user_by_id(user_id)
-    ONLY = [
-        "register_status",
-        "application_date",
-        "id",
-        "first_name",
-        "last_name",
-        "profession",
-        "sex",
-        "summary",
-        "country",
-        "email",
-        "phone",
-        "address",
-        "birthday",
-        "website",
-        "comment_from_administrator",
-    ]
     user_dict = user.to_dict(only=ONLY)
 
     media_education_ids = []
@@ -54,106 +38,54 @@ def get_user_by_id(user_id):
 def get_accepted_users():
     users = backend.get_accepted_users()
 
-    users_list = [
-        user.to_dict(
-            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
-        )
-        for user in users
-    ]
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
     return users_list
 
 
 def get_applying_users():
     users = backend.get_applying_users()
 
-    users_list = [
-        user.to_dict(
-            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
-        )
-        for user in users
-    ]
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
     return users_list
 
 
 def get_applying_and_reapplying_users():
     users = backend.get_applying_and_reapplying_users()
 
-    users_list = [
-        user.to_dict(
-            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
-        )
-        for user in users
-    ]
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
     return users_list
 
 
 def get_rejected_users():
     users = backend.get_rejected_users()
 
-    users_list = [
-        user.to_dict(
-            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
-        )
-        for user in users
-    ]
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
     return users_list
 
 
 def get_rebutted_users():
     users = backend.get_rebutted_users()
 
-    users_list = [
-        user.to_dict(
-            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
-        )
-        for user in users
-    ]
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
     return users_list
 
 
 def get_reapplying_users():
     users = backend.get_reapplying_users()
 
-    users_list = [
-        user.to_dict(
-            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
-        )
-        for user in users
-    ]
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
     return users_list
 
 
 def get_blank_users():
     users = backend.get_blank_users()
 
-    users_list = [
-        user.to_dict(
-            only=["id", "first_name", "last_name", "phone", "email", "register_status"]
-        )
-        for user in users
-    ]
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
     return users_list
 
 
 def update_user(user_data, user_id):
     user = backend.update_user(user_data, user_id)
-    ONLY = [
-        "register_status",
-        "application_date",
-        "id",
-        "first_name",
-        "last_name",
-        "profession",
-        "sex",
-        "summary",
-        "country",
-        "email",
-        "phone",
-        "address",
-        "birthday",
-        "website",
-        "comment_from_administrator",
-    ]
     user_dict = user.to_dict(only=ONLY)
 
     return user_dict

@@ -20,7 +20,9 @@ def get_education_by_id(education_id):
 
 def get_all_educations(user_id):
     educations = backend.get_all_educations(user_id)
-    educations_list = [education.to_dict() for education in educations]
+    educations_list = [
+        education.to_dict(exclude=["user_id"]) for education in educations
+    ]
 
     return educations_list
 

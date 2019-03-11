@@ -13,8 +13,6 @@ from .common.middleware import (
     teardown_appcontext_middleware,
 )
 from .common.extensions import mail
-
-# from .common.database import init_db
 from .common.middleware import response
 from .bp_admin import bp as admin_bp
 from .bp_admin_download import bp as admin_download_bp
@@ -46,8 +44,10 @@ def create_app(config_class=Config):
 
     # initialize flask application
     app = Flask(__name__)
+
     # config app
     app.config.from_object(config_class)
+
     # Initialize mail
     mail.init_app(app)
 
@@ -120,9 +120,6 @@ def create_app(config_class=Config):
 
     # register custom error handler
     response.json_error_handler(app=app)
-
-    # Initialize database
-    # init_db()
 
     # Logging
     is_app_debug = app.debug

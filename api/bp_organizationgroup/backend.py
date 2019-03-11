@@ -62,6 +62,17 @@ def get_users_from_organizationgroup(organizationgroup_id):
     return users
 
 
+def unassigned_users():
+    organizationgroups = get_all_organizationgroups()
+    unassigned_users = []
+    for organizationgroup in organizationgroups:
+        unassigned_users += User.query.filter(
+            User.organizationgroup != organizationgroup
+        ).all()
+
+    return unassigned_users
+
+
 def add_one_user_to_an_organizationgroup(organizationgroup_id, user_id):
     user = get_user_by_id(user_id)
     organizationgroups = get_all_organizationgroups()

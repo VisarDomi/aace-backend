@@ -8,8 +8,10 @@ FLASK_ENV = os.environ.get("FLASK_ENV")
 
 if str(FLASK_ENV) == "development":
     WEBSITE_URL = "http://localhost:5000"
+    WEBSITE_FOR_EMAIL = "http://localhost:5000"
 else:
     WEBSITE_URL = "https://aace.ml"
+    WEBSITE_FOR_EMAIL = "https://aace.cf"
 
 
 class Config(object):
@@ -24,8 +26,8 @@ class Config(object):
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     ADMINS = ["visardomi4@gmail.com"]
-    NO_REPLY = 'no-reply@aace.al'
-    WEBSITE = WEBSITE_URL
+    NO_REPLY = "no-reply@aace.al"
+    WEBSITE = WEBSITE_FOR_EMAIL
 
     UPLOADED_USERFILES_DEST = basedir + "/static/files/user/"
     UPLOADED_USERFILES_URL = f"{WEBSITE_URL}/static/files/user/"

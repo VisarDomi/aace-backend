@@ -20,7 +20,9 @@ def get_experience_by_id(experience_id):
 
 def get_all_experiences(user_id):
     experiences = backend.get_all_experiences(user_id)
-    experiences_list = [experience.to_dict() for experience in experiences]
+    experiences_list = [
+        experience.to_dict(exclude=["user_id"]) for experience in experiences
+    ]
 
     return experiences_list
 

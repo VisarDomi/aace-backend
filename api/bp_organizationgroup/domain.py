@@ -1,4 +1,5 @@
 from . import backend
+from ..helper_functions.constants import ONLY
 
 
 def create_organizationgroup(organizationgroup_data):
@@ -39,23 +40,13 @@ def delete_organizationgroup(organizationgroup_id):
 
 def get_users_from_organizationgroup(organizationgroup_id):
     users = backend.get_users_from_organizationgroup(organizationgroup_id)
-    ONLY = [
-        "register_status",
-        "application_date",
-        "id",
-        "first_name",
-        "last_name",
-        "profession",
-        "sex",
-        "summary",
-        "country",
-        "email",
-        "phone",
-        "address",
-        "birthday",
-        "website",
-        "comment_from_administrator",
-    ]
+    users_list = [user.to_dict(only=ONLY) for user in users]
+
+    return users_list
+
+
+def unassigned_users():
+    users = backend.unassigned_users()
     users_list = [user.to_dict(only=ONLY) for user in users]
 
     return users_list

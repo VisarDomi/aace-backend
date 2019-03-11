@@ -18,7 +18,7 @@ def get_skill_by_id(skill_id):
 
 def get_all_skills(user_id):
     skills = backend.get_all_skills(user_id)
-    skills_list = [skill.to_dict() for skill in skills]
+    skills_list = [skill.to_dict(exclude=["user_id"]) for skill in skills]
 
     return skills_list
 
