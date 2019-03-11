@@ -4,14 +4,14 @@ from ..helper_functions.get_by_id import get_skill_by_id as backend_get_skill_by
 
 def create_skill(skill_data, user_id):
     skill = backend.create_skill(skill_data, user_id)
-    skill_dict = skill.to_dict()
+    skill_dict = skill.to_dict(exclude=["user_id"])
 
     return skill_dict
 
 
 def get_skill_by_id(skill_id):
     skill = backend_get_skill_by_id(skill_id)
-    skill_dict = skill.to_dict()
+    skill_dict = skill.to_dict(exclude=["user_id"])
 
     return skill_dict
 
@@ -25,7 +25,7 @@ def get_all_skills(user_id):
 
 def update_skill(skill_data, user_id, skill_id):
     skill = backend.update_skill(skill_data, user_id, skill_id)
-    skill_dict = skill.to_dict()
+    skill_dict = skill.to_dict(exclude=["user_id"])
 
     return skill_dict
 

@@ -6,14 +6,14 @@ from ..helper_functions.get_by_id import (
 
 def create_experience(experience_data, user_id):
     experience = backend.create_experience(experience_data, user_id)
-    experience_dict = experience.to_dict()
+    experience_dict = experience.to_dict(exclude=["user_id"])
 
     return experience_dict
 
 
 def get_experience_by_id(experience_id):
     experience = backend_get_experience_by_id(experience_id)
-    experience_dict = experience.to_dict()
+    experience_dict = experience.to_dict(exclude=["user_id"])
 
     return experience_dict
 
@@ -29,7 +29,7 @@ def get_all_experiences(user_id):
 
 def update_experience(experience_data, user_id, experience_id):
     experience = backend.update_experience(experience_data, user_id, experience_id)
-    experience_dict = experience.to_dict()
+    experience_dict = experience.to_dict(exclude=["user_id"])
 
     return experience_dict
 
