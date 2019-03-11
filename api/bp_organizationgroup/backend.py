@@ -63,6 +63,7 @@ def get_users_from_organizationgroup(organizationgroup_id):
 
 
 def unassigned_users():
+    # here needs to be done
     organizationgroups = get_all_organizationgroups()
     unassigned_users = []
     for organizationgroup in organizationgroups:
