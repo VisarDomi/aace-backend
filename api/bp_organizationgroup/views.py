@@ -50,7 +50,8 @@ def get_users_from_organizationgroup(organizationgroup_id):
     return domain.get_users_from_organizationgroup(organizationgroup_id)
 
 
-@bp.route("unassigned_users", methods=["GET"])
+@bp.route("/unassigned_users", methods=["GET"])
+@token_auth.login_required
 def unassigned_users():
     return domain.unassigned_users()
 

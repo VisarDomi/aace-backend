@@ -136,7 +136,7 @@ def schema(path=None):
 
             errors = validate_schema(payload, get_schema(schema_path))
             if errors:
-                raise InvalidAPIRequest(message=errors)
+                raise InvalidAPIRequest(message=errors, status_code=400)
 
             return func(*args, **kwargs)
 

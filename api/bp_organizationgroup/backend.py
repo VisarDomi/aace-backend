@@ -62,14 +62,22 @@ def get_users_from_organizationgroup(organizationgroup_id):
     return users
 
 
+@admin_required
 def unassigned_users():
-    # here needs to be done
-    organizationgroups = get_all_organizationgroups()
+    organizationgroups = OrganizationGroup.query.all()
+    users = User.query.all()
     unassigned_users = []
+    users_in_a_group = []
     for organizationgroup in organizationgroups:
-        unassigned_users += User.query.filter(
-            User.organizationgroup != organizationgroup
-        ).all()
+        for user in users:
+            user_in_organizationgroup = organizationgroup.users.filter(
+                User.id == user.id
+            ).one_or_none()
+            if user_in_organizationgroup:
+                users_in_a_group += [user_in_organizationgroup]
+    for user in users:
+        if user not in users_in_a_group:
+            unassigned_users += [user]
 
     return unassigned_users
 
@@ -78,10 +86,10 @@ def add_one_user_to_an_organizationgroup(organizationgroup_id, user_id):
     user = get_user_by_id(user_id)
     organizationgroups = get_all_organizationgroups()
     user_in_a_group = None
-    for group in organizationgroups:
-        if user == group.users.filter(User.id == user_id).one_or_none():
+    for organizationgroup in organizationgroups:
+        if user == organizationgroup.users.filter(User.id == user_id).one_or_none():
             user_in_a_group = user
-            that_group_id = group.id
+            that_group_id = organizationgroup.id
     if user is not user_in_a_group:
         organizationgroup = get_organizationgroup_by_id(organizationgroup_id)
         organizationgroup.users.append(user)
