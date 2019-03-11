@@ -30,7 +30,6 @@ def get_user_by_id(user_id):
         "comment_from_administrator",
     ]
     user_dict = user.to_dict(only=ONLY)
-
     user_dict["years_of_experience"] = "6"
 
     return user_dict
@@ -55,8 +54,6 @@ def get_all_users():
         "website",
         "comment_from_administrator",
     ]
-
-    # users_list = [user.to_dict() for user in users]
     users_list = []
     for user in users:
         user_dict = user.to_dict(only=ONLY)

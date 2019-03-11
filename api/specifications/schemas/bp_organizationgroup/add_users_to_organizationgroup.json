@@ -1,0 +1,12 @@
+{
+  "title": "Add users to organizationgroup",
+  "description": "Add users to organizationgroup object",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "ids": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": false
+}

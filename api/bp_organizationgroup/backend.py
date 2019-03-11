@@ -62,8 +62,7 @@ def get_users_from_organizationgroup(organizationgroup_id):
     return users
 
 
-@admin_required
-def add_user_to_organizationgroup(organizationgroup_id, user_id):
+def add_one_user_to_an_organizationgroup(organizationgroup_id, user_id):
     user = get_user_by_id(user_id)
     organizationgroups = get_all_organizationgroups()
     user_in_a_group = None
@@ -86,6 +85,15 @@ def add_user_to_organizationgroup(organizationgroup_id, user_id):
 
 
 @admin_required
+def add_user_to_organizationgroup(organizationgroup_id, user_id):
+    organizationgroup = add_one_user_to_an_organizationgroup(
+        organizationgroup_id, user_id
+    )
+
+    return organizationgroup
+
+
+@admin_required
 def remove_user_from_organizationgroup(organizationgroup_id, user_id):
     organizationgroup = get_organizationgroup_by_id(organizationgroup_id)
     user = organizationgroup.users.filter(User.id == user_id).one_or_none()
@@ -99,3 +107,19 @@ def remove_user_from_organizationgroup(organizationgroup_id, user_id):
             % (user_id, organizationgroup_id)
         )
         raise NoUserByThatID(message=msg)
+
+
+@admin_required
+def add_users_to_organizationgroup(user_data_ids, organizationgroup_id):
+    for user_id in user_data_ids["ids"]:
+        organizationgroup = add_one_user_to_an_organizationgroup(
+            organizationgroup_id, user_id
+        )
+
+    return organizationgroup
+
+
+@admin_required
+def remove_users_from_organizationgroup(user_data_ids, organizationgroup_id):
+    for user_id in user_data_ids["ids"]:
+        remove_user_from_organizationgroup(organizationgroup_id, user_id)

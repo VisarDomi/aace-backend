@@ -37,9 +37,11 @@ def get_users_from_group(group_id):
     users = backend.get_users_from_group(group_id)
     ONLY = [
         "register_status",
+        "application_date",
         "id",
         "first_name",
         "last_name",
+        "profession",
         "sex",
         "summary",
         "country",
@@ -50,7 +52,6 @@ def get_users_from_group(group_id):
         "website",
         "comment_from_administrator",
     ]
-
     users_list = [user.to_dict(only=ONLY) for user in users]
 
     return users_list

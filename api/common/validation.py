@@ -20,6 +20,7 @@ def get_request_payload(method):
         "GET": _get_url_params_as_dict,
         "POST": _get_request_body,
         "PUT": _get_request_body,
+        "DELETE": _get_request_body,
     }[method]
 
 
