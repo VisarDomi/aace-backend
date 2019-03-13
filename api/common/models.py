@@ -207,6 +207,7 @@ class Experience(BaseModel, ModelSerializerMixin):
     to_date = Column(Date)
     is_currently_work_here = Column(Boolean)
     description = Column(Text)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="experiences")
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -230,6 +231,7 @@ class Education(BaseModel, ModelSerializerMixin):
     from_date = Column(Date)
     to_date = Column(Date)
     description = Column(Text)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="educations")
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -248,6 +250,7 @@ class Skill(BaseModel, ModelSerializerMixin):
     from_date = Column(Date)
     to_date = Column(Date)
     description = Column(Text)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="skills")
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -263,6 +266,7 @@ class OrganizationGroup(BaseModel, ModelSerializerMixin):
 
     name = Column(String, default="no_name")
     description = Column(Text)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     users = relationship("User", back_populates="organizationgroup", lazy="dynamic")
     medias = relationship(
@@ -287,7 +291,7 @@ class OfficialCommunication(BaseModel, ModelSerializerMixin):
     name = Column(String, default="no_name")
     description = Column(Text)
     body = Column(Text)
-    time = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     author = relationship("User", back_populates="officialcommunications")
     author_id = Column(Integer, ForeignKey("users.id"))
@@ -315,7 +319,7 @@ class OfficialComment(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     body = Column(String, default="no_body")
-    time = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     author = relationship("User", back_populates="officialcomments")
     author_id = Column(Integer, ForeignKey("users.id"))
@@ -344,6 +348,7 @@ class MediaUser(BaseModel, ModelSerializerMixin):
     description = Column(Text)
     filename = Column(String)
     url = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="medias")
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -360,6 +365,7 @@ class MediaExperience(BaseModel, ModelSerializerMixin):
     description = Column(Text)
     filename = Column(String)
     url = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     experience = relationship("Experience", back_populates="medias")
     experience_id = Column(Integer, ForeignKey("experiences.id"))
@@ -376,6 +382,7 @@ class MediaEducation(BaseModel, ModelSerializerMixin):
     description = Column(Text)
     filename = Column(String)
     url = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     education = relationship("Education", back_populates="medias")
     education_id = Column(Integer, ForeignKey("educations.id"))
@@ -392,6 +399,7 @@ class MediaSkill(BaseModel, ModelSerializerMixin):
     description = Column(Text)
     filename = Column(String)
     url = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     skill = relationship("Skill", back_populates="medias")
     skill_id = Column(Integer, ForeignKey("skills.id"))
@@ -408,6 +416,7 @@ class MediaOrganizationGroup(BaseModel, ModelSerializerMixin):
     description = Column(Text)
     filename = Column(String)
     url = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     organizationgroup = relationship("OrganizationGroup", back_populates="medias")
     organizationgroup_id = Column(Integer, ForeignKey("organizationgroups.id"))
@@ -424,6 +433,7 @@ class MediaOfficialCommunication(BaseModel, ModelSerializerMixin):
     description = Column(Text)
     filename = Column(String)
     url = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     officialcommunication = relationship(
         "OfficialCommunication", back_populates="medias"
@@ -442,6 +452,7 @@ class MediaOfficialComment(BaseModel, ModelSerializerMixin):
     description = Column(Text)
     filename = Column(String)
     url = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     officialcomment = relationship("OfficialComment", back_populates="medias")
     officialcomment_id = Column(Integer, ForeignKey("officialcomments.id"))
@@ -463,6 +474,7 @@ class Group(BaseModel, ModelSerializerMixin):
 
     name = Column(String, default="no_name")
     description = Column(Text)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     # medias = relationship("Media", back_populates="skill", lazy="dynamic")
 
@@ -483,6 +495,7 @@ class Event(BaseModel, ModelSerializerMixin):
     time_start = Column(DateTime, default=datetime.utcnow)
     time_end = Column(DateTime, default=datetime.utcnow)
     location = Column(Text)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     posts = relationship("Post", back_populates="event", lazy="dynamic")
     # medias = relationship("Media", back_populates="event", lazy="dynamic")
@@ -500,7 +513,7 @@ class Post(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     body = Column(Text)
-    time = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     author = relationship("User", back_populates="posts")
     author_id = Column(Integer, ForeignKey("users.id"))
@@ -520,7 +533,7 @@ class Comment(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     body = Column(Text)
-    time = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     author = relationship("User", back_populates="comments")
     author_id = Column(Integer, ForeignKey("users.id"))
@@ -539,7 +552,7 @@ class Message(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     body = Column(Text)
-    time = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     sender = relationship("User", back_populates="messages")
     sender_id = Column(Integer, ForeignKey("users.id"))
@@ -558,6 +571,7 @@ class MessageRecipient(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     is_read = Column(Boolean)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     message = relationship("Message", back_populates="messagerecipients")
     message_id = Column(Integer, ForeignKey("messages.id"))
@@ -577,6 +591,7 @@ class MessageGroup(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     name = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     messagerecipients = relationship(
         "MessageRecipient", back_populates="messagegroup", lazy="dynamic"
@@ -598,6 +613,7 @@ class Notification(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     name = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     users = relationship(
         "User",
