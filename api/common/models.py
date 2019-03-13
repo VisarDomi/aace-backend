@@ -69,13 +69,13 @@ class User(BaseModel, ModelSerializerMixin):
 
     # database only
     password_hash = Column(String)
+    role = Column(String, default="normal_user")
+
+    # on create or login
     token = Column(String, unique=True)
     token_expiration = Column(DateTime)
-    is_active = Column(Boolean)
-    register_date = Column(DateTime, default=datetime.utcnow)
 
     # database only - should be many to many
-    role = Column(String, default="normal_user")
     privilege = Column(String, default="normal_privilege")
 
     # intro
@@ -92,7 +92,16 @@ class User(BaseModel, ModelSerializerMixin):
     email = Column(String, unique=True)
     website = Column(String)
     register_status = Column(String, default="blank")
+
+    # activity
+    is_active = Column(Boolean)
+    last_active = Column(DateTime)
+
+    # dates
+    register_date = Column(DateTime, default=datetime.utcnow)
     application_date = Column(DateTime)
+    reapplication_date = Column(DateTime)
+    rebutted_date = Column(DateTime)
     accepted_date = Column(DateTime)
 
     # comment nga administratori
