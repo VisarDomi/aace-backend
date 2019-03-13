@@ -200,8 +200,7 @@ class Experience(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     title = Column(String, default="no_title")
-    employer = Column(String, default="no_employer")
-    company = Column(String)
+    employer = Column(String)
     location = Column(String)
     from_date = Column(Date)
     to_date = Column(Date)
