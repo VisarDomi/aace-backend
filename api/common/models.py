@@ -101,6 +101,7 @@ class User(BaseModel, ModelSerializerMixin):
     register_date = Column(DateTime, default=datetime.utcnow)
     application_date = Column(DateTime)
     reapplication_date = Column(DateTime)
+    rejected_date = Column(DateTime)
     rebutted_date = Column(DateTime)
     accepted_date = Column(DateTime)
 
