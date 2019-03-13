@@ -23,7 +23,7 @@ def send_email(subject, sender, recipients, text_body):
 def send_email_to_users(officialcommunication_id):
     officialcommunication = get_officialcommunication_by_id(officialcommunication_id)
     email_subject = officialcommunication.name
-    email_sender = Config.NO_REPLY
+    email_sender = Config.MAIL_USERNAME
     email_recipients = []
     organizationgroups = officialcommunication.organizationgroups.all()
     for organizationgroup in organizationgroups:
@@ -56,7 +56,7 @@ def send_email_to_user(email_data, user_id):
     try:
         user = get_user_by_id(user_id)
         email_subject = email_data["subject"]
-        email_sender = Config.NO_REPLY
+        email_sender = Config.MAIL_USERNAME
         email_recipients = []
         email_recipients.append(user.email)
         link = Config.WEBSITE
