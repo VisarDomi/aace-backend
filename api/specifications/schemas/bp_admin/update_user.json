@@ -15,6 +15,12 @@
     },
     "accepted_date": {
       "type": "string"
+    },
+    "rebutted_date": {
+      "type": "string"
+    },
+    "rejected_date": {
+      "type": "string"
     }
   },
   "additionalProperties": false

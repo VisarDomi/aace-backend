@@ -37,6 +37,9 @@
     "application_date": {
       "type": "string"
     },
+    "reapplication_date": {
+      "type": "string"
+    },
     "website": {
       "type": "string"
     },
