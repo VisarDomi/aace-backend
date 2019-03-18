@@ -20,12 +20,12 @@ def get_officialcomment_by_id(officialcommunication_id, officialcomment_id):
     officialcomment_dict = officialcomment.to_dict()
 
     # author
-    author_first_name = ""
+    author_first_name = officialcomment.author.first_name
     officialcomment_dict["author_first_name"] = author_first_name
-    author_last_name = ""
+    author_last_name = officialcomment.author.last_name
     officialcomment_dict["author_last_name"] = author_last_name
-    author_officialgroup = ""
-    officialcomment_dict["author_officialgroup"] = author_officialgroup
+    author_organizationgroup = officialcomment.author.organizationgroup.name
+    officialcomment_dict["author_organizationgroup"] = author_organizationgroup
 
     # medias
     media_officialcomment_ids = []
@@ -43,12 +43,12 @@ def get_all_officialcomments(officialcommunication_id):
         officialcomment_dict = officialcomment.to_dict()
 
         # author
-        author_first_name = ""
+        author_first_name = officialcomment.author.first_name
         officialcomment_dict["author_first_name"] = author_first_name
-        author_last_name = ""
+        author_last_name = officialcomment.author.last_name
         officialcomment_dict["author_last_name"] = author_last_name
-        author_officialgroup = ""
-        officialcomment_dict["author_officialgroup"] = author_officialgroup
+        author_organizationgroup = officialcomment.author.organizationgroup.name
+        officialcomment_dict["author_organizationgroup"] = author_organizationgroup
 
         # medias
         media_officialcomment_ids = []
