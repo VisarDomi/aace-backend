@@ -29,7 +29,7 @@ def create_medias(media_data, user_id, skill_id):
 
 
 def get_all_medias(user_id, skill_id):
-    if int(user_id) == g.current_user.id:
+    if int(user_id) == g.current_user.id or g.current_user.role == "admin":
         medias = MediaSkill.query.filter(MediaSkill.skill_id == int(skill_id)).all()
     else:
         msg = f"You can't get other people's media."

@@ -34,7 +34,7 @@ def create_medias(media_data, user_id, experience_id):
 
 
 def get_all_medias(user_id, experience_id):
-    if int(user_id) == g.current_user.id:
+    if int(user_id) == g.current_user.id or g.current_user.role == "admin":
         medias = MediaExperience.query.filter(
             MediaExperience.experience_id == int(experience_id)
         ).all()

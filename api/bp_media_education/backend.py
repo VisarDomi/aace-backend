@@ -31,7 +31,7 @@ def create_medias(media_data, user_id, education_id):
 
 
 def get_all_medias(user_id, education_id):
-    if int(user_id) == g.current_user.id:
+    if int(user_id) == g.current_user.id or g.current_user.role == "admin":
         medias = MediaEducation.query.filter(
             MediaEducation.education_id == int(education_id)
         ).all()

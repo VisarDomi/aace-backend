@@ -18,6 +18,7 @@ jsonschema = "*"
 pipenv = "*"
 flask-shell-ipython = "*"
 flask-mail = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
