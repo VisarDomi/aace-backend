@@ -1,6 +1,7 @@
 ONLY = [
     "register_status",
     "application_date",
+    "reapplication_date",
     "id",
     "first_name",
     "last_name",
