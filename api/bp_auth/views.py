@@ -21,7 +21,7 @@ def verify_password(email, password):
 
 @basic_auth.error_handler
 def basic_auth_error():
-    return {"error message": "@basic_auth.error_handler basic_auth_error"}
+    return {"error message": "You are not logged in. (@basic_auth.error_handler)"}
 
 
 @bp.route("/login", methods=["POST"])
@@ -41,4 +41,4 @@ def verify_token(token):
 
 @token_auth.error_handler
 def token_auth_error():
-    return {"error message": "@token_auth.error_handler token_auth_error"}
+    return {"error message": "You sent the wrong token. (@token_auth.error_handler)"}

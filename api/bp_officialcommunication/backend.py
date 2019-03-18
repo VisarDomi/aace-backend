@@ -63,14 +63,15 @@ def get_organizationgroups_from_officialcommunication(officialcommunication_id):
     return organizationgroups
 
 
-def filter_organizationgroups_of_officialcommunication(
+def filter_og_of_oc(
     officialcommunication, organizationgroup_id, OrganizationGroup
 ):
-    is_gr_in_co = officialcommunication.organizationgroups.filter(
+    """Filter organizationgroups of officialcommunication"""
+    is_og_in_oc = officialcommunication.organizationgroups.filter(
         OrganizationGroup.id == organizationgroup_id
     ).one_or_none()
 
-    return is_gr_in_co
+    return is_og_in_oc
 
 
 def group_in_communication_or_none(
@@ -78,7 +79,7 @@ def group_in_communication_or_none(
 ):
     group_or_none = (
         organizationgroup
-        == filter_organizationgroups_of_officialcommunication(
+        == filter_og_of_oc(
             officialcommunication, organizationgroup_id, OrganizationGroup
         )
     )
