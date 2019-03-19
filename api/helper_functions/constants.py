@@ -1,8 +1,10 @@
 ONLY = [
     "application_status",
-    "payment_status",
     "application_date",
     "reapplication_date",
+    "payment_status",
+    "send_payment_date",
+    "resend_payment_date",
     "id",
     "first_name",
     "last_name",
