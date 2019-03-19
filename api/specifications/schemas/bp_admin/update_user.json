@@ -7,7 +7,7 @@
     "comment_from_administrator": {
       "type": "string"
     },
-    "register_status": {
+    "application_status": {
       "type": "string"
     },
     "role": {

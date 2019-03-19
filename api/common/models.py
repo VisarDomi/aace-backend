@@ -91,7 +91,10 @@ class User(BaseModel, ModelSerializerMixin):
     phone = Column(String)
     email = Column(String, unique=True)
     website = Column(String)
-    register_status = Column(String, default="blank")
+
+    # status
+    application_status = Column(String, default="blank")
+    payment_status = Column(String, default="blank")
 
     # activity
     is_active = Column(Boolean)
@@ -101,9 +104,12 @@ class User(BaseModel, ModelSerializerMixin):
     register_date = Column(DateTime, default=datetime.utcnow)
     application_date = Column(DateTime)
     reapplication_date = Column(DateTime)
-    rejected_date = Column(DateTime)
     rebutted_date = Column(DateTime)
+    send_payment_date = Column(DateTime)
+    resend_payment_date = Column(DateTime)
+    rebutted_payment_date = Column(DateTime)
     accepted_date = Column(DateTime)
+    rejected_date = Column(DateTime)
 
     # comment nga administratori
     comment_from_administrator = Column(Text)
@@ -115,14 +121,11 @@ class User(BaseModel, ModelSerializerMixin):
     # intro - one to many
     medias = relationship("MediaUser", back_populates="user", lazy="dynamic")
 
-    # experiences
+    # experiences, educations, skills, payments
     experiences = relationship("Experience", back_populates="user", lazy="dynamic")
-
-    # educations
     educations = relationship("Education", back_populates="user", lazy="dynamic")
-
-    # skills
     skills = relationship("Skill", back_populates="user", lazy="dynamic")
+    payments = relationship("Payment", back_populates="user", lazy="dynamic")
 
     # official communications
     officialcommunications = relationship(
@@ -194,6 +197,23 @@ class User(BaseModel, ModelSerializerMixin):
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.last_name}, id = {self.id})"
+
+
+class Payment(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User", back_populates="payments")
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+    medias = relationship("MediaPayment", back_populates="payment", lazy="dynamic")
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
 
 
 class Experience(BaseModel, ModelSerializerMixin):
@@ -352,6 +372,23 @@ class MediaUser(BaseModel, ModelSerializerMixin):
 
     user = relationship("User", back_populates="medias")
     user_id = Column(Integer, ForeignKey("users.id"))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+
+
+class MediaPayment(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    filename = Column(String)
+    url = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    payment = relationship("Payment", back_populates="medias")
+    payment_id = Column(Integer, ForeignKey("payments.id"))
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"

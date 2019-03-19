@@ -11,6 +11,7 @@ from ..common.models import (
     MediaEducation,
     MediaExperience,
     MediaSkill,
+    MediaPayment,
     MediaOrganizationGroup,
     MediaOfficialCommunication,
     MediaOfficialComment,
@@ -18,6 +19,7 @@ from ..common.models import (
     Education,
     Experience,
     Skill,
+    Payment,
     OrganizationGroup,
     OfficialCommunication,
     OfficialComment,
@@ -78,6 +80,12 @@ def get_skill_media_by_id(user_id, media_skill_id):
     return skill_media
 
 
+def get_payment_media_by_id(user_id, media_payment_id):
+    payment_media = same_user_get_media(user_id, media_payment_id, MediaPayment)
+
+    return payment_media
+
+
 def get_organizationgroup_media_by_id(media_organizationgroup_id):
     organizationgroup_media = get_entity(
         media_organizationgroup_id, MediaOrganizationGroup
@@ -127,6 +135,12 @@ def get_skill_by_id(skill_id):
     skill = get_entity(skill_id, Skill)
 
     return skill
+
+
+def get_payment_by_id(payment_id):
+    payment = get_entity(payment_id, Payment)
+
+    return payment
 
 
 def is_user_allowed_to_view(officialcommunication):

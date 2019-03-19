@@ -5,22 +5,22 @@ from ..helper_functions.get_by_id import get_user_by_id
 from ..helper_functions.email import send_email_to_user
 
 
-def get_register_status_users(register_status):
-    users = User.query.filter(User.register_status == register_status).all()
+def get_application_status_users(application_status):
+    users = User.query.filter(User.application_status == application_status).all()
 
     return users
 
 
 @admin_required
 def get_accepted_users():
-    users = get_register_status_users("accepted")
+    users = get_application_status_users("accepted")
 
     return users
 
 
 @admin_required
 def get_applying_users():
-    users = get_register_status_users("applying")
+    users = get_application_status_users("applying")
 
     return users
 
@@ -28,35 +28,36 @@ def get_applying_users():
 @admin_required
 def get_applying_and_reapplying_users():
     users = User.query.filter(
-        (User.register_status == "applying") | (User.register_status == "reapplying")
+        (User.application_status == "applying")
+        | (User.application_status == "reapplying")
     ).all()
     return users
 
 
 @admin_required
 def get_rejected_users():
-    users = get_register_status_users("rejected")
+    users = get_application_status_users("rejected")
 
     return users
 
 
 @admin_required
 def get_rebutted_users():
-    users = get_register_status_users("rebutted")
+    users = get_application_status_users("rebutted")
 
     return users
 
 
 @admin_required
 def get_reapplying_users():
-    users = get_register_status_users("reapplying")
+    users = get_application_status_users("reapplying")
 
     return users
 
 
 @admin_required
 def get_blank_users():
-    users = get_register_status_users("blank")
+    users = get_application_status_users("blank")
 
     return users
 

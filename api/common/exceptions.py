@@ -158,6 +158,10 @@ class CannotDeleteOthersSkill(InvalidPermissions):
     pass
 
 
+class CannotDeleteOthersPayment(InvalidPermissions):
+    pass
+
+
 class CannotDeleteOthersMedia(InvalidPermissions):
     pass
 

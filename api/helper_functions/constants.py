@@ -1,5 +1,6 @@
 ONLY = [
-    "register_status",
+    "application_status",
+    "payment_status",
     "application_date",
     "reapplication_date",
     "id",
@@ -17,4 +18,12 @@ ONLY = [
     "comment_from_administrator",
 ]
 
-ADMIN_ONLY = ["id", "first_name", "last_name", "phone", "email", "register_status"]
+ADMIN_ONLY = [
+    "application_status",
+    "payment_status",
+    "id",
+    "first_name",
+    "last_name",
+    "phone",
+    "email",
+]

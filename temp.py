@@ -68,7 +68,7 @@ user_ids = {
 }
 
 admin_payload = {
-    "register_status": "accepted",
+    "application_status": "accepted",
     "comment_from_administrator": "",
     "accepted_date": "2019-03-18"
 }

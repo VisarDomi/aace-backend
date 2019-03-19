@@ -4,6 +4,7 @@ from .bp_media_user.backend import files_user
 from .bp_media_education.backend import files_education
 from .bp_media_experience.backend import files_experience
 from .bp_media_skill.backend import files_skill
+from .bp_media_payment.backend import files_payment
 from .bp_media_organizationgroup.backend import files_organizationgroup
 from .bp_media_officialcommunication.backend import files_officialcommunication
 from .bp_media_officialcomment.backend import files_officialcomment
@@ -21,6 +22,7 @@ from .bp_auth import bp as auth_bp
 from .bp_education import bp as education_bp
 from .bp_experience import bp as experience_bp
 from .bp_skill import bp as skill_bp
+from .bp_payment import bp as payment_bp
 from .bp_organizationgroup import bp as organizationgroup_bp
 from .bp_officialcommunication import bp as officialcommunication_bp
 from .bp_officialcomment import bp as officialcomment_bp
@@ -29,6 +31,7 @@ from .bp_media_user import bp as media_user_bp
 from .bp_media_education import bp as media_education_bp
 from .bp_media_experience import bp as media_experience_bp
 from .bp_media_skill import bp as media_skill_bp
+from .bp_media_payment import bp as media_payment_bp
 from .bp_media_organizationgroup import bp as media_organizationgroup_bp
 from .bp_media_officialcommunication import bp as media_officialcommunication_bp
 from .bp_media_officialcomment import bp as media_officialcomment_bp
@@ -56,6 +59,7 @@ def create_app(config_class=Config):
     configure_uploads(app, files_education)
     configure_uploads(app, files_experience)
     configure_uploads(app, files_skill)
+    configure_uploads(app, files_payment)
     configure_uploads(app, files_organizationgroup)
     configure_uploads(app, files_officialcommunication)
     configure_uploads(app, files_officialcomment)
@@ -68,6 +72,7 @@ def create_app(config_class=Config):
     app.register_blueprint(education_bp, url_prefix="/api/user/<user_id>/education")
     app.register_blueprint(experience_bp, url_prefix="/api/user/<user_id>/experience")
     app.register_blueprint(skill_bp, url_prefix="/api/user/<user_id>/skill")
+    app.register_blueprint(payment_bp, url_prefix="/api/user/<user_id>/payment")
     app.register_blueprint(organizationgroup_bp, url_prefix="/api/organizationgroup")
     app.register_blueprint(
         officialcommunication_bp, url_prefix="/api/officialcommunication"
@@ -87,6 +92,9 @@ def create_app(config_class=Config):
     )
     app.register_blueprint(
         media_skill_bp, url_prefix="/api/user/<user_id>/skill/<skill_id>"
+    )
+    app.register_blueprint(
+        media_payment_bp, url_prefix="/api/user/<user_id>/payment/<payment_id>"
     )
     app.register_blueprint(
         media_organizationgroup_bp,

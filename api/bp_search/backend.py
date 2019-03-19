@@ -13,7 +13,7 @@ def search_users(search_user_data):
     except KeyError:
         msg = f"The keys first_name and last_name are not found."
         raise NotFound(message=msg)
-    accepted_members_query = User.query.filter(User.register_status == "accepted")
+    accepted_members_query = User.query.filter(User.application_status == "accepted")
 
     if not name:
         users = accepted_members_query.all()

@@ -76,7 +76,7 @@ def unassigned_users():
             if user_in_organizationgroup:
                 users_in_a_group += [user_in_organizationgroup]
     for user in users:
-        if user not in users_in_a_group and user.register_status == 'accepted':
+        if user not in users_in_a_group and user.application_status == 'accepted':
             unassigned_users += [user]
 
     return unassigned_users

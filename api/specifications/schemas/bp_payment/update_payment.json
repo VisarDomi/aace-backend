@@ -1,0 +1,15 @@
+{
+  "title": "Update payment",
+  "description": "Update a payment object",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
