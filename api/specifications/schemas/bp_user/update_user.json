@@ -4,9 +4,6 @@
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
-    "application_status": {
-      "type": "string"
-    },
     "first_name": {
       "type": "string"
     },
@@ -34,16 +31,28 @@
     "birthday": {
       "type": "string"
     },
+    "website": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "application_status": {
+      "type": "string"
+    },
     "application_date": {
       "type": "string"
     },
     "reapplication_date": {
       "type": "string"
     },
-    "website": {
+    "payment_status": {
       "type": "string"
     },
-    "email": {
+    "send_payment_date": {
+      "type": "string"
+    },
+    "resend_payment_date": {
       "type": "string"
     }
   },
