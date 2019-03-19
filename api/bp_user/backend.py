@@ -19,6 +19,7 @@ def create_user(user_data):
         msg = "Please provide an email and a password."
         raise MissingArguments(message=msg)
     if not User.query.filter(User.email == user_data["email"]).one_or_none():
+        user_data["email"] = user_data["email"].lower()
         user = User(**user_data)
         user.set_password(user_data["password"])
         user.save()
