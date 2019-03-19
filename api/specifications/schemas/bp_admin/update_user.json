@@ -7,19 +7,25 @@
     "comment_from_administrator": {
       "type": "string"
     },
-    "application_status": {
-      "type": "string"
-    },
     "role": {
       "type": "string"
     },
     "accepted_date": {
       "type": "string"
     },
+    "rejected_date": {
+      "type": "string"
+    },
+    "application_status": {
+      "type": "string"
+    },
     "rebutted_date": {
       "type": "string"
     },
-    "rejected_date": {
+    "payment_status": {
+      "type": "string"
+    },
+    "rebutted_payment_date": {
       "type": "string"
     }
   },
