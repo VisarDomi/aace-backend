@@ -35,6 +35,20 @@ def get_user_by_id(user_id):
     return user_dict
 
 
+def get_blank_users():
+    users = backend.get_blank_users()
+
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
+    return users_list
+
+
+def get_rejected_users():
+    users = backend.get_rejected_users()
+
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
+    return users_list
+
+
 def get_accepted_users():
     users = backend.get_accepted_users()
 
@@ -49,15 +63,8 @@ def get_applying_users():
     return users_list
 
 
-def get_applying_and_reapplying_users():
-    users = backend.get_applying_and_reapplying_users()
-
-    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
-    return users_list
-
-
-def get_rejected_users():
-    users = backend.get_rejected_users()
+def get_reapplying_users():
+    users = backend.get_reapplying_users()
 
     users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
     return users_list
@@ -70,15 +77,22 @@ def get_rebutted_users():
     return users_list
 
 
-def get_reapplying_users():
-    users = backend.get_reapplying_users()
+def get_accepted_application_users():
+    users = backend.get_accepted_application_users()
 
     users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
     return users_list
 
 
-def get_blank_users():
-    users = backend.get_blank_users()
+def get_rebutted_payment_users():
+    users = backend.get_rebutted_payment_users()
+
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
+    return users_list
+
+
+def get_accepted_payment_users():
+    users = backend.get_accepted_payment_users()
 
     users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
     return users_list

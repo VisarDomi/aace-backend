@@ -11,6 +11,26 @@ def get_application_status_users(application_status):
     return users
 
 
+def get_payment_status_users(payment_status):
+    users = User.query.filter(User.payment_status == payment_status).all()
+
+    return users
+
+
+@admin_required
+def get_blank_users():
+    users = get_application_status_users("blank")
+
+    return users
+
+
+@admin_required
+def get_rejected_users():
+    users = get_application_status_users("rejected")
+
+    return users
+
+
 @admin_required
 def get_accepted_users():
     users = get_application_status_users("accepted")
@@ -26,17 +46,8 @@ def get_applying_users():
 
 
 @admin_required
-def get_applying_and_reapplying_users():
-    users = User.query.filter(
-        (User.application_status == "applying")
-        | (User.application_status == "reapplying")
-    ).all()
-    return users
-
-
-@admin_required
-def get_rejected_users():
-    users = get_application_status_users("rejected")
+def get_reapplying_users():
+    users = get_application_status_users("reapplying")
 
     return users
 
@@ -49,15 +60,22 @@ def get_rebutted_users():
 
 
 @admin_required
-def get_reapplying_users():
-    users = get_application_status_users("reapplying")
+def get_accepted_application_users():
+    users = get_application_status_users("accepted_application")
 
     return users
 
 
 @admin_required
-def get_blank_users():
-    users = get_application_status_users("blank")
+def get_rebutted_payment_users():
+    users = get_payment_status_users("rebutted_payment")
+
+    return users
+
+
+@admin_required
+def get_accepted_payment_users():
+    users = get_payment_status_users("accepted_payment")
 
     return users
 

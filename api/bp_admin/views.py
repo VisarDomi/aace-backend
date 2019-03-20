@@ -6,6 +6,18 @@ from . import domain
 from ..bp_auth.views import token_auth
 
 
+@bp.route("/blank", methods=["GET"])
+@token_auth.login_required
+def get_blank_users():
+    return domain.get_blank_users()
+
+
+@bp.route("/rejected", methods=["GET"])
+@token_auth.login_required
+def get_rejected_users():
+    return domain.get_rejected_users()
+
+
 @bp.route("/accepted", methods=["GET"])
 @token_auth.login_required
 def get_accepted_users():
@@ -18,16 +30,10 @@ def get_applying_users():
     return domain.get_applying_users()
 
 
-@bp.route("/applying_and_reapplying", methods=["GET"])
+@bp.route("/reapplying", methods=["GET"])
 @token_auth.login_required
-def get_applying_and_reapplying_users():
-    return domain.get_applying_and_reapplying_users()
-
-
-@bp.route("/rejected", methods=["GET"])
-@token_auth.login_required
-def get_rejected_users():
-    return domain.get_rejected_users()
+def get_reapplying_users():
+    return domain.get_reapplying_users()
 
 
 @bp.route("/rebutted", methods=["GET"])
@@ -36,16 +42,22 @@ def get_rebutted_users():
     return domain.get_rebutted_users()
 
 
-@bp.route("/reapplying", methods=["GET"])
+@bp.route("/accepted_application", methods=["GET"])
 @token_auth.login_required
-def get_reapplying_users():
-    return domain.get_reapplying_users()
+def get_accepted_application_users():
+    return domain.get_accepted_application_users()
 
 
-@bp.route("/blank", methods=["GET"])
+@bp.route("/rebutted_payment", methods=["GET"])
 @token_auth.login_required
-def get_blank_users():
-    return domain.get_blank_users()
+def get_rebutted_payment_users():
+    return domain.get_rebutted_payment_users()
+
+
+@bp.route("/accepted_payment", methods=["GET"])
+@token_auth.login_required
+def get_accepted_payment_users():
+    return domain.get_accepted_payment_users()
 
 
 @bp.route("/<user_id>", methods=["GET"])
