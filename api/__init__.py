@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_uploads import configure_uploads
+from flask_uploads import configure_uploads, patch_request_class
 from .bp_media_user.backend import files_user
 from .bp_media_education.backend import files_education
 from .bp_media_experience.backend import files_experience
@@ -63,6 +63,9 @@ def create_app(config_class=Config):
     configure_uploads(app, files_organizationgroup)
     configure_uploads(app, files_officialcommunication)
     configure_uploads(app, files_officialcomment)
+
+    # Set maximum size of files (?)
+    patch_request_class(app, 64*1024*1024)
 
     # register all blueprints
     app.register_blueprint(admin_bp, url_prefix="/api/admin/user")
