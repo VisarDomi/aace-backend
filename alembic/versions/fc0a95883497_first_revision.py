@@ -1,8 +1,8 @@
-"""first
+"""first revision
 
-Revision ID: 8dd936dffff5
+Revision ID: fc0a95883497
 Revises: 
-Create Date: 2019-03-04 23:18:28.720724
+Create Date: 2019-03-20 14:44:33.234770
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8dd936dffff5'
+revision = 'fc0a95883497'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,53 +24,80 @@ def upgrade():
     sa.Column('time_start', sa.DateTime(), nullable=True),
     sa.Column('time_end', sa.DateTime(), nullable=True),
     sa.Column('location', sa.Text(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('groups',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('messagegroups',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('notifications',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('tests',
+    op.create_table('organizationgroups',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(), nullable=True),
-    sa.Column('email', sa.String(), nullable=True),
-    sa.Column('description', sa.String(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('mediaorganizationgroups',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('title', sa.String(), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('filename', sa.String(), nullable=True),
+    sa.Column('url', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('organizationgroup_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['organizationgroup_id'], ['organizationgroups.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('password_hash', sa.String(), nullable=True),
+    sa.Column('role', sa.String(), nullable=True),
     sa.Column('token', sa.String(), nullable=True),
     sa.Column('token_expiration', sa.DateTime(), nullable=True),
-    sa.Column('is_active', sa.Boolean(), nullable=True),
-    sa.Column('register_date', sa.DateTime(), nullable=True),
-    sa.Column('register_status', sa.String(), nullable=True),
-    sa.Column('role', sa.String(), nullable=True),
     sa.Column('privilege', sa.String(), nullable=True),
     sa.Column('first_name', sa.String(), nullable=True),
     sa.Column('last_name', sa.String(), nullable=True),
+    sa.Column('profession', sa.String(), nullable=True),
     sa.Column('sex', sa.String(), nullable=True),
     sa.Column('summary', sa.Text(), nullable=True),
     sa.Column('country', sa.String(), nullable=True),
-    sa.Column('phone', sa.String(), nullable=True),
-    sa.Column('address', sa.String(), nullable=True),
     sa.Column('birthday', sa.Date(), nullable=True),
-    sa.Column('website', sa.String(), nullable=True),
+    sa.Column('address', sa.String(), nullable=True),
+    sa.Column('phone', sa.String(), nullable=True),
     sa.Column('email', sa.String(), nullable=True),
+    sa.Column('website', sa.String(), nullable=True),
+    sa.Column('application_status', sa.String(), nullable=True),
+    sa.Column('payment_status', sa.String(), nullable=True),
+    sa.Column('is_active', sa.Boolean(), nullable=True),
+    sa.Column('last_active', sa.DateTime(), nullable=True),
+    sa.Column('register_date', sa.DateTime(), nullable=True),
+    sa.Column('application_date', sa.DateTime(), nullable=True),
+    sa.Column('reapplication_date', sa.DateTime(), nullable=True),
+    sa.Column('rebutted_date', sa.DateTime(), nullable=True),
+    sa.Column('send_payment_date', sa.DateTime(), nullable=True),
+    sa.Column('resend_payment_date', sa.DateTime(), nullable=True),
+    sa.Column('rebutted_payment_date', sa.DateTime(), nullable=True),
+    sa.Column('accepted_date', sa.DateTime(), nullable=True),
+    sa.Column('rejected_date', sa.DateTime(), nullable=True),
     sa.Column('comment_from_administrator', sa.Text(), nullable=True),
+    sa.Column('organizationgroup_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['organizationgroup_id'], ['organizationgroups.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('token')
@@ -84,6 +111,7 @@ def upgrade():
     sa.Column('from_date', sa.Date(), nullable=True),
     sa.Column('to_date', sa.Date(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -91,12 +119,13 @@ def upgrade():
     op.create_table('experiences',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('title', sa.String(), nullable=True),
-    sa.Column('company', sa.String(), nullable=True),
+    sa.Column('employer', sa.String(), nullable=True),
     sa.Column('location', sa.String(), nullable=True),
     sa.Column('from_date', sa.Date(), nullable=True),
     sa.Column('to_date', sa.Date(), nullable=True),
     sa.Column('is_currently_work_here', sa.Boolean(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -107,6 +136,7 @@ def upgrade():
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('filename', sa.String(), nullable=True),
     sa.Column('url', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -114,19 +144,38 @@ def upgrade():
     op.create_table('messages',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('body', sa.Text(), nullable=True),
-    sa.Column('time', sa.DateTime(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('sender_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['sender_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('officialcommunications',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('name', sa.String(), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('body', sa.Text(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('author_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['author_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('payments',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('title', sa.String(), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('posts',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('body', sa.Text(), nullable=True),
-    sa.Column('time', sa.DateTime(), nullable=True),
-    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('author_id', sa.Integer(), nullable=True),
     sa.Column('event_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['author_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['event_id'], ['events.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('skills',
@@ -136,6 +185,7 @@ def upgrade():
     sa.Column('from_date', sa.Date(), nullable=True),
     sa.Column('to_date', sa.Date(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -168,11 +218,11 @@ def upgrade():
     op.create_table('comments',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('body', sa.Text(), nullable=True),
-    sa.Column('time', sa.DateTime(), nullable=True),
-    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('author_id', sa.Integer(), nullable=True),
     sa.Column('post_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['author_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('mediaeducations',
@@ -181,6 +231,7 @@ def upgrade():
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('filename', sa.String(), nullable=True),
     sa.Column('url', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('education_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['education_id'], ['educations.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -191,8 +242,31 @@ def upgrade():
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('filename', sa.String(), nullable=True),
     sa.Column('url', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('experience_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['experience_id'], ['experiences.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('mediaofficialcommunications',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('title', sa.String(), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('filename', sa.String(), nullable=True),
+    sa.Column('url', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('officialcommunication_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['officialcommunication_id'], ['officialcommunications.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('mediapayments',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('title', sa.String(), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('filename', sa.String(), nullable=True),
+    sa.Column('url', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('payment_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['payment_id'], ['payments.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('mediaskills',
@@ -201,6 +275,7 @@ def upgrade():
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('filename', sa.String(), nullable=True),
     sa.Column('url', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('skill_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['skill_id'], ['skills.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -208,6 +283,7 @@ def upgrade():
     op.create_table('messagerecipients',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('is_read', sa.Boolean(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('message_id', sa.Integer(), nullable=True),
     sa.Column('recipient_id', sa.Integer(), nullable=True),
     sa.Column('messagegroup_id', sa.Integer(), nullable=True),
@@ -216,13 +292,45 @@ def upgrade():
     sa.ForeignKeyConstraint(['recipient_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('officialcomments',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('body', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('author_id', sa.Integer(), nullable=True),
+    sa.Column('officialcommunication_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['author_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['officialcommunication_id'], ['officialcommunications.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('organizationgroup_officialcommunication',
+    sa.Column('organizationgroup_id', sa.Integer(), nullable=True),
+    sa.Column('officialcommunication_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['officialcommunication_id'], ['officialcommunications.id'], ),
+    sa.ForeignKeyConstraint(['organizationgroup_id'], ['organizationgroups.id'], )
+    )
+    op.create_table('mediaofficialcomments',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('title', sa.String(), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('filename', sa.String(), nullable=True),
+    sa.Column('url', sa.String(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('officialcomment_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['officialcomment_id'], ['officialcomments.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     # ### end Alembic commands ###
 
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_table('mediaofficialcomments')
+    op.drop_table('organizationgroup_officialcommunication')
+    op.drop_table('officialcomments')
     op.drop_table('messagerecipients')
     op.drop_table('mediaskills')
+    op.drop_table('mediapayments')
+    op.drop_table('mediaofficialcommunications')
     op.drop_table('mediaexperiences')
     op.drop_table('mediaeducations')
     op.drop_table('comments')
@@ -232,12 +340,15 @@ def downgrade():
     op.drop_table('user_event')
     op.drop_table('skills')
     op.drop_table('posts')
+    op.drop_table('payments')
+    op.drop_table('officialcommunications')
     op.drop_table('messages')
     op.drop_table('mediausers')
     op.drop_table('experiences')
     op.drop_table('educations')
     op.drop_table('users')
-    op.drop_table('tests')
+    op.drop_table('mediaorganizationgroups')
+    op.drop_table('organizationgroups')
     op.drop_table('notifications')
     op.drop_table('messagegroups')
     op.drop_table('groups')
