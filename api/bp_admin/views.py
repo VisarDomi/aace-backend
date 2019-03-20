@@ -24,6 +24,12 @@ def get_accepted_users():
     return domain.get_accepted_users()
 
 
+@bp.route("/applying_and_reapplying", methods=["GET"])
+@token_auth.login_required
+def get_applying_and_reapplying_users():
+    return domain.get_applying_and_reapplying_users()
+
+
 @bp.route("/applying", methods=["GET"])
 @token_auth.login_required
 def get_applying_users():

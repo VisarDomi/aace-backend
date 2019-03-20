@@ -39,6 +39,14 @@ def get_accepted_users():
 
 
 @admin_required
+def get_applying_and_reapplying_users():
+    users = User.query.filter(
+        (User.register_status == "applying") | (User.register_status == "reapplying")
+    ).all()
+    return users
+
+
+@admin_required
 def get_applying_users():
     users = get_application_status_users("applying")
 

@@ -49,6 +49,13 @@ def get_rejected_users():
     return users_list
 
 
+def get_applying_and_reapplying_users():
+    users = backend.get_applying_and_reapplying_users()
+
+    users_list = [user.to_dict(only=ADMIN_ONLY) for user in users]
+    return users_list
+
+
 def get_accepted_users():
     users = backend.get_accepted_users()
 
