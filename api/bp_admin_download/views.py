@@ -19,3 +19,9 @@ def download_experience(media_experience_id):
 @token_auth.login_required
 def download_skill(media_skill_id):
     return domain.download_skill(media_skill_id)
+
+
+@bp.route("/media_payment/<media_payment_id>", methods=["GET"])
+@token_auth.login_required
+def download_payment(media_payment_id):
+    return domain.download_payment(media_payment_id)

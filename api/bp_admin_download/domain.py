@@ -11,3 +11,7 @@ def download_experience(media_experience_id):
 
 def download_skill(media_skill_id):
     return backend.download_skill(media_skill_id)
+
+
+def download_payment(media_payment_id):
+    return backend.download_payment(media_payment_id)
