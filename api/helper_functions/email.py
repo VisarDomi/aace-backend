@@ -30,12 +30,14 @@ def send_email_to_users(officialcommunication_id):
         for user in organizationgroup.users.all():
             email_recipients.append(user.email)
     link = Config.WEBSITE
-    email_text_body = (
-        officialcommunication.description
-        + "\n"
-        + officialcommunication.body
-        + "\n"
-        + link
+    link = ""
+    email_text_body = (f"{officialcommunication.description}\n\n{officialcommunication.body}\n\n"
+    "--------\n"
+    "Komunikimi zyrtar nga SHOSHIK\n"
+    "Filan Fisteku, Sekretar i pergjithshem\n"
+    "Rruga Qofte e Mbushur, 200L\n""Website: www.aace.al\n"
+    "Telefon: +093802304234\n"
+    "Email: info@aace.al"
     )
     if email_subject and email_sender and email_recipients and email_text_body:
         send_email(
@@ -60,6 +62,7 @@ def send_email_to_user(email_data, user_id):
         email_recipients = []
         email_recipients.append(user.email)
         link = Config.WEBSITE
+        link = ""
         email_text_body = email_data["text_body"] + "\n" + link
         if email_subject and email_sender and email_recipients and email_text_body:
             send_email(

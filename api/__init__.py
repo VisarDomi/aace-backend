@@ -65,7 +65,7 @@ def create_app(config_class=Config):
     configure_uploads(app, files_officialcomment)
 
     # Set maximum size of files (?)
-    patch_request_class(app, 64*1024*1024)
+    patch_request_class(app, 16*1024*1024)
 
     # register all blueprints
     app.register_blueprint(admin_bp, url_prefix="/api/admin/user")
