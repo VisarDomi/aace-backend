@@ -9,35 +9,26 @@ def get_user_by_id(user_id):
     user = backend_get_user_by_id(user_id)
     user_dict = user.to_dict(only=ONLY)
 
-    media_education_ids = []
-    media_education = []
+    education_medias = []
     user_educations = user.educations.all()
     for education in user_educations:
         for education_media in education.medias:
-            media_education_ids.append(education_media.id)
-            media_education.append(education_media.to_dict())
-    user_dict["media_education_ids"] = media_education_ids
-    user_dict["media_education"] = media_education
+            education_medias.append(education_media.to_dict())
+    user_dict["education_medias"] = education_medias
 
-    media_experience_ids = []
-    media_experience = []
+    experience_medias = []
     user_experiences = user.experiences.all()
     for experience in user_experiences:
         for experience_media in experience.medias:
-            media_experience_ids.append(experience_media.id)
-            media_experience.append(experience_media.to_dict())
-    user_dict["media_experience_ids"] = media_experience_ids
-    user_dict["media_experience"] = media_experience
+            experience_medias.append(experience_media.to_dict())
+    user_dict["experience_medias"] = experience_medias
 
-    media_skill_ids = []
-    media_skill = []
+    skill_medias = []
     user_skills = user.skills.all()
     for skill in user_skills:
         for skill_media in skill.medias:
-            media_skill_ids.append(skill_media.id)
-            media_skill.append(skill_media.to_dict())
-    user_dict["media_skill_ids"] = media_skill_ids
-    user_dict["media_skill"] = media_skill
+            skill_medias.append(skill_media.to_dict())
+    user_dict["skill_medias"] = skill_medias
 
     user_dict["years_of_experience"] = "6"
 

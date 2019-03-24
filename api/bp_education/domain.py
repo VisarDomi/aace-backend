@@ -15,13 +15,10 @@ def get_education_by_id(education_id):
     education = backend_get_education_by_id(education_id)
     education_dict = education.to_dict()
 
-    media_education_ids = []
-    media_education = []
+    education_medias = []
     for education_media in education.medias:
-        media_education_ids.append(education_media.id)
-        media_education.append(education_media.to_dict())
-    education_dict["media_education_ids"] = media_education_ids
-    education_dict["media_education"] = media_education
+        education_medias.append(education_media.to_dict())
+    education_dict["education_medias"] = education_medias
 
     return education_dict
 
@@ -32,13 +29,10 @@ def get_all_educations(user_id):
     for education in educations:
         education_dict = education.to_dict()
 
-        media_education_ids = []
-        media_education = []
+        education_medias = []
         for education_media in education.medias:
-            media_education_ids.append(education_media.id)
-            media_education.append(education_media.to_dict())
-        education_dict["media_education_ids"] = media_education_ids
-        education_dict["media_education"] = media_education
+            education_medias.append(education_media.to_dict())
+        education_dict["education_medias"] = education_medias
 
         educations_list += [education_dict]
 

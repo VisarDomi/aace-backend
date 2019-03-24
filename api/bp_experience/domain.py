@@ -15,13 +15,10 @@ def get_experience_by_id(experience_id):
     experience = backend_get_experience_by_id(experience_id)
     experience_dict = experience.to_dict()
 
-    media_experience_ids = []
-    media_experience = []
+    experience_medias = []
     for experience_media in experience.medias:
-        media_experience_ids.append(experience_media.id)
-        media_experience.append(experience_media.to_dict())
-    experience_dict["media_experience_ids"] = media_experience_ids
-    experience_dict["media_experience"] = media_experience
+        experience_medias.append(experience_media.to_dict())
+    experience_dict["experience_medias"] = experience_medias
 
     return experience_dict
 
@@ -32,13 +29,10 @@ def get_all_experiences(user_id):
     for experience in experiences:
         experience_dict = experience.to_dict()
 
-        media_experience_ids = []
-        media_experience = []
+        experience_medias = []
         for experience_media in experience.medias:
-            media_experience_ids.append(experience_media.id)
-            media_experience.append(experience_media.to_dict())
-        experience_dict["media_experience_ids"] = media_experience_ids
-        experience_dict["media_experience"] = media_experience
+            experience_medias.append(experience_media.to_dict())
+        experience_dict["experience_medias"] = experience_medias
 
         experiences_list += [experience_dict]
 

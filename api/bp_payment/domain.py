@@ -13,13 +13,10 @@ def get_payment_by_id(payment_id):
     payment = backend_get_payment_by_id(payment_id)
     payment_dict = payment.to_dict()
 
-    media_payment_ids = []
-    media_payment = []
+    payment_medias = []
     for payment_media in payment.medias:
-        media_payment_ids.append(payment_media.id)
-        media_payment.append(payment_media.to_dict())
-    payment_dict["media_payment_ids"] = media_payment_ids
-    payment_dict["media_payment"] = media_payment
+        payment_medias.append(payment_media.to_dict())
+    payment_dict["payment_medias"] = payment_medias
 
     return payment_dict
 
@@ -30,13 +27,10 @@ def get_all_payments(user_id):
     for payment in payments:
         payment_dict = payment.to_dict()
 
-        media_payment_ids = []
-        media_payment = []
+        payment_medias = []
         for payment_media in payment.medias:
-            media_payment_ids.append(payment_media.id)
-            media_payment.append(payment_media.to_dict())
-        payment_dict["media_payment_ids"] = media_payment_ids
-        payment_dict["media_payment"] = media_payment
+            payment_medias.append(payment_media.to_dict())
+        payment_dict["payment_medias"] = payment_medias
 
         payments_list += [payment_dict]
 

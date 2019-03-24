@@ -13,13 +13,10 @@ def get_skill_by_id(skill_id):
     skill = backend_get_skill_by_id(skill_id)
     skill_dict = skill.to_dict()
 
-    media_skill_ids = []
-    media_skill = []
+    skill_medias = []
     for skill_media in skill.medias:
-        media_skill_ids.append(skill_media.id)
-        media_skill.append(skill_media.to_dict())
-    skill_dict["media_skill_ids"] = media_skill_ids
-    skill_dict["media_skill"] = media_skill
+        skill_medias.append(skill_media.to_dict())
+    skill_dict["skill_medias"] = skill_medias
 
     return skill_dict
 
@@ -30,13 +27,10 @@ def get_all_skills(user_id):
     for skill in skills:
         skill_dict = skill.to_dict()
 
-        media_skill_ids = []
-        media_skill = []
+        skill_medias = []
         for skill_media in skill.medias:
-            media_skill_ids.append(skill_media.id)
-            media_skill.append(skill_media.to_dict())
-        skill_dict["media_skill_ids"] = media_skill_ids
-        skill_dict["media_skill"] = media_skill
+            skill_medias.append(skill_media.to_dict())
+        skill_dict["skill_medias"] = skill_medias
 
         skills_list += [skill_dict]
 
