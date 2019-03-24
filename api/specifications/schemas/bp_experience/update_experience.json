@@ -10,9 +10,6 @@
     "employer": {
       "type": "string"
     },
-    "company": {
-      "type": "string"
-    },
     "location": {
       "type": "string"
     },
@@ -21,9 +18,6 @@
     },
     "to_date": {
       "type": "string"
-    },
-    "is_currently_work_here": {
-      "type": "boolean"
     },
     "description": {
       "type": "string"
