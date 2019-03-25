@@ -22,6 +22,9 @@ def get_officialcomment_by_id(officialcommunication_id, officialcomment_id):
 
     # author
     officialcomment_dict["author"] = officialcomment.author.to_dict(only=ONLY)
+    officialcomment_dict[
+        "author_organizationgroup"
+    ] = officialcomment.author.organizationgroup.name
 
     # medias
     officialcomment_medias = []
@@ -40,6 +43,9 @@ def get_all_officialcomments(officialcommunication_id):
 
         # author
         officialcomment_dict["author"] = officialcomment.author.to_dict(only=ONLY)
+        officialcomment_dict[
+            "author_organizationgroup"
+        ] = officialcomment.author.organizationgroup.name
 
         # medias
         officialcomment_medias = []
