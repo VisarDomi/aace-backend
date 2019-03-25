@@ -2,6 +2,7 @@ from . import backend
 from ..helper_functions.get_by_id import (
     get_officialcomment_by_id as backend_get_officialcomment_by_id,
 )
+from ..helper_functions.constants import ONLY
 
 
 def create_officialcomment(officialcomment_data, officialcommunication_id):
@@ -20,18 +21,13 @@ def get_officialcomment_by_id(officialcommunication_id, officialcomment_id):
     officialcomment_dict = officialcomment.to_dict()
 
     # author
-    author_first_name = officialcomment.author.first_name
-    officialcomment_dict["author_first_name"] = author_first_name
-    author_last_name = officialcomment.author.last_name
-    officialcomment_dict["author_last_name"] = author_last_name
-    author_organizationgroup = officialcomment.author.organizationgroup.name
-    officialcomment_dict["author_organizationgroup"] = author_organizationgroup
+    officialcomment_dict["author"] = officialcomment.author.to_dict(only=ONLY)
 
     # medias
-    media_officialcomment_ids = []
+    officialcomment_medias = []
     for officialcomment_media in officialcomment.medias:
-        media_officialcomment_ids.append(officialcomment_media.id)
-    officialcomment_dict["media_officialcomment_ids"] = media_officialcomment_ids
+        officialcomment_medias.append(officialcomment_media.to_dict())
+    officialcomment_dict["officialcomment_medias"] = officialcomment_medias
 
     return officialcomment_dict
 
@@ -43,18 +39,13 @@ def get_all_officialcomments(officialcommunication_id):
         officialcomment_dict = officialcomment.to_dict()
 
         # author
-        author_first_name = officialcomment.author.first_name
-        officialcomment_dict["author_first_name"] = author_first_name
-        author_last_name = officialcomment.author.last_name
-        officialcomment_dict["author_last_name"] = author_last_name
-        author_organizationgroup = officialcomment.author.organizationgroup.name
-        officialcomment_dict["author_organizationgroup"] = author_organizationgroup
+        officialcomment_dict["author"] = officialcomment.author.to_dict(only=ONLY)
 
         # medias
-        media_officialcomment_ids = []
+        officialcomment_medias = []
         for officialcomment_media in officialcomment.medias:
-            media_officialcomment_ids.append(officialcomment_media.id)
-        officialcomment_dict["media_officialcomment_ids"] = media_officialcomment_ids
+            officialcomment_medias.append(officialcomment_media.to_dict())
+        officialcomment_dict["officialcomment_medias"] = officialcomment_medias
 
         officialcomments_list += [officialcomment_dict]
 

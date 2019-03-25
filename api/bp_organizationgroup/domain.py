@@ -13,6 +13,11 @@ def get_organizationgroup_by_id(organizationgroup_id):
     organizationgroup = backend.get_organizationgroup_by_id(organizationgroup_id)
     organizationgroup_dict = organizationgroup.to_dict()
 
+    organizationgroup_medias = []
+    for organizationgroup_media in organizationgroup.medias:
+        organizationgroup_medias.append(organizationgroup_media.to_dict())
+    organizationgroup_dict["organizationgroup_medias"] = organizationgroup_medias
+
     return organizationgroup_dict
 
 
