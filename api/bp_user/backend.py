@@ -18,7 +18,7 @@ def create_user(user_data):
     if user_data["email"] is None or user_data["password"] is None:
         msg = "Please provide an email and a password."
         raise MissingArguments(message=msg)
-    if not User.query.filter(User.email == user_data["email"]).one_or_none():
+    if not User.query.filter(User.email == user_data["email"].lower()).one_or_none():
         user_data["email"] = user_data["email"].lower()
         user = User(**user_data)
         user.set_password(user_data["password"])
