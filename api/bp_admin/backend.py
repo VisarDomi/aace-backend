@@ -106,8 +106,16 @@ def update_user(user_data, user_id):
             user = get_and_update_user(user_data, user_id)
             email_data = {
                 "subject": "Admin has updated your application status",
-                "text_body": "Please login at aace.cf in order "
-                "to see your updated application status",
+                "text_body": "--------\n"
+                "Statusi juaj i aplikimit eshte ndryshuar. "
+                "Ju lutem futuni ne platforme per te pare ndryshimet."
+                "--------\n"
+                "Komunikimi zyrtar nga SHOSHIK\n"
+                "Filan Fisteku, Sekretar i pergjithshem\n"
+                "Rruga Qofte e Mbushur, 200L\n"
+                "Website: www.aace.al\n"
+                "Telefon: +093802304234\n"
+                "Email: info@aace.al",
             }
             send_email_to_user(email_data, user_id)
         else:
