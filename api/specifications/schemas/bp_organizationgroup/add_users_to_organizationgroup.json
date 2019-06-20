@@ -10,7 +10,7 @@
     }
   },
   "definitions": {
-    "id": { "type": "string" }
+    "id": { "type": "integer" }
   },
   "additionalProperties": false
 }
