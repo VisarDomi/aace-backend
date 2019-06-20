@@ -1,0 +1,255 @@
+local computer
+ssh-keygen, sourcetree preferred auth ssh
+git config --global credential.helper 'cache --timeout 3600000'
+git config --global user.name "Visar Domi"
+git config --global user.email "visardomi4@gmail.com"
+
+end local computer
+
+
+
+server computer
+
+1. login:
+ssh root@159.65.127.70
+Password:
+31e6b130536e58a3028d027c27
+
+2. create user ubuntu:
+adduser --gecos "" ubuntu
+password: password
+usermod -aG sudo ubuntu
+su ubuntu
+
+3. create ssh keys with no password:
+ssh-keygen
+
+4. add public keys of people so they can enter to the server with ssh. tip: you can make those keys by typing ssh-keygen into git bash:
+echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDrtaMyFIQVZQEen9ey8rHuJCTw5b4tkgA1vwYfGAuVc7XTeja9dmHdZJmS2DuHyDbzUxldgmJPFOAUXphaqaZNmswUd6s/Y7tBHgtbndBK/C80qxYk60qA0hXpOXhl3F5W7Ytmp6Z7uQwnSrJOizcTrLPLB6+F5p8jh4VPijJFbMvwgS8Z/oW4jCStyH4lAY1lfuWcj94MCg6wjAPIg6+lTzke3R5NYD9NzuNuKL8txDV0mCsBdfrbMYcChQiIOAbFvsXY7G2ycVeptGLgTexKC/y3ZFyrCZ6Szx1riN0OBIXy7L8iV5tGBoKEp2LU+wP3L+QOH/yiOWuDhVjQZmr1 Visar@DESKTOP-CRDHVP6 >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+
+5. logout of server (exit, exit) and login again with:
+ssh ubuntu@159.65.127.70
+
+6. remove ubuntu password:
+sudo visudo
+
+7. write at the end of file:
+# Remove password for user ubuntu
+ubuntu ALL=(ALL) NOPASSWD: ALL
+
+!warning: do the following 3 steps at the same session, or you will need to reformat the server
+8.1. removing password login:
+sudo nano /etc/ssh/sshd_config
+
+8.2. change these values from yes to no:
+PermitRootLogin no
+PasswordAuthentication no
+
+8.3. install ufw firewall:
+sudo apt-get install -y ufw
+sudo ufw allow ssh
+sudo ufw allow http
+sudo ufw allow 443/tcp
+sudo ufw --force enable
+sudo ufw status
+
+
+9. install some things on server (but not mysql) with default values:
+sudo apt-get -y update
+sudo apt-get -y install python3 python3-venv python3-dev
+sudo apt-get -y install postfix supervisor nginx git
+
+
+10. clone the repository in home/ubuntu:
+go to aace-backend in bitbucket and select clone and select https and copy it
+
+11. paste it in server:
+git clone https://VisarDomi@bitbucket.org/verweb/aace-backend.git
+cd aace-backend
+
+12. sudo apt install pipenv -y
+
+13. install postgres:
+sudo apt install -y postgresql postgresql-contrib -y
+
+14. delete Pipfile.lock
+rm -rf Pipfile.lock
+
+15. pipenv shell
+
+156-21. pipenv install
+
+22. copy paste local variables into .env and .flaskenv
+
+23. add FLASK_APP environment variable:
+echo "export FLASK_APP=aace.py" >> ~/.profile
+
+24-25. Login and logout from server:
+exit
+ssh ubuntu@159.65.127.70
+cd aace-backend
+pipenv shell
+
+
+change password for postgres:
+26.1.a edit file:
+sudo nano /etc/postgresql/11/main/pg_hba.conf
+
+change line from peer to trust:
+local   all             postgres                                peer
+to:
+local   all             postgres                                trust
+
+26.1.b
+sudo service postgresql restart
+
+26.2 changing password:
+psql -U postgres
+ALTER USER postgres with password 'postgres';
+
+26.3.a change line from trust to md5:
+local   all             postgres                                trust
+to:
+local   all             postgres                                md5
+
+26.3.b
+sudo service postgresql restart
+
+
+27. Login and logout from server:
+exit
+ssh ubuntu@159.65.127.70
+cd aace-backend
+pipenv shell
+
+28. Login with password 'postgres':
+psql -U postgres
+create database aace;
+\q
+
+29.1 upgrade database:
+alembic upgrade head
+
+29.2 create admin:
+flask shell
+copy paste from after_resetting_database.py
+
+Setup supervisorctl:
+30.1 open file:
+sudo nano /etc/supervisor/conf.d/aace.conf
+
+30.2 paste the following:
+[program:aace]
+command=/home/ubuntu/.virtualenvs/aace-backend-XuJsFZXp/bin/gunicorn -b localhost:5000 -w 4 aace:app
+directory=/home/ubuntu/aace-backend
+user=ubuntu
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+
+31. reload supervisorctl:
+sudo supervisorctl start aace
+sudo supervisorctl reload
+
+Setup nginx:
+32.1 make temp certificates:
+mkdir certs
+openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -keyout certs/key.pem -out certs/cert.pem
+
+
+32.2 remove default config if it exists:
+sudo rm /etc/nginx/sites-enabled/default
+
+32.3 add config:
+sudo nano /etc/nginx/sites-enabled/aace
+
+32.4 copy paste the following into the file:
+
+server {
+    # listen on port 80 (http)
+    listen 80;
+    server_name aace-backend.ml;
+    location / {
+        # redirect any requests to the same URL but on https
+        return 301 https://$host$request_uri;
+    }
+}
+server {
+    # listen on port 443 (https)
+    listen 443 ssl;
+    server_name aace-backend.ml;
+
+    # location of the self-signed SSL certificate
+    ssl_certificate /home/ubuntu/aace-backend/certs/cert.pem;
+    ssl_certificate_key /home/ubuntu/aace-backend/certs/key.pem;
+
+    # write access and error logs to /var/log
+    access_log /var/log/aace_access.log;
+    error_log /var/log/aace_error.log;
+
+    location / {
+        # forward application requests to the gunicorn server
+        proxy_pass http://localhost:5000;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /static {
+        # handle static files directly, without forwarding to the application
+        alias /home/ubuntu/aace-backend/static;
+    }
+}
+
+33. reload nginx:
+sudo service nginx start
+sudo service nginx reload
+
+Site is online (unsafe connection) at 159.65.127.70
+
+Real certificates with auto renewal:
+34. at freenom.com go to:
+services -> my domains -> aace-backend.ml -> manage domains -> manage freedom dns -> add records
+
+35. at target add the ip address:
+Name	Type	TTL	  Target
+A     3600  159.65.127.70
+save changes
+
+36. Install certbot:
+sudo apt-get update
+
+sudo apt-get install -y software-properties-common
+
+sudo add-apt-repository universe
+
+sudo add-apt-repository ppa:certbot/certbot
+press enter to continue
+
+sudo apt-get update
+
+sudo apt-get install -y python-certbot-nginx
+
+37. get certificate:
+sudo certbot --nginx
+enter domain name: aace-backend.ml
+choose: redirect
+autorenew is on by default
+
+38. remove temp certs:
+rm -rf certs
+
+39. now site is live at:
+https://aace-backend.ml
+
+40. Deploying updates:
+
+git pull
+sudo supervisorctl stop aace
+alembic upgrade head
+sudo supervisorctl start aace
+
+end server computer
