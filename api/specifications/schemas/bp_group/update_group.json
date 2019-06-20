@@ -4,15 +4,9 @@
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
-    "group_picture": {
-      "type": "string"
-    },
-    "name": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
-    }
+    "group_picture": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" }
   },
   "additionalProperties": false
 }

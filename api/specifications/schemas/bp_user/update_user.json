@@ -4,57 +4,23 @@
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
-    "first_name": {
-      "type": "string"
-    },
-    "last_name": {
-      "type": "string"
-    },
-    "profession": {
-      "type": "string"
-    },
-    "sex": {
-      "type": "string"
-    },
-    "summary": {
-      "type": "string"
-    },
-    "country": {
-      "type": "string"
-    },
-    "phone": {
-      "type": "string"
-    },
-    "address": {
-      "type": "string"
-    },
-    "birthday": {
-      "type": "string"
-    },
-    "website": {
-      "type": "string"
-    },
-    "email": {
-      "type": "string"
-    },
-    "application_status": {
-      "type": "string"
-    },
-    "application_date": {
-      "type": "string"
-    },
-    "reapplication_date": {
-      "type": "string"
-    },
-    "payment_status": {
-      "type": "string"
-    },
-    "send_payment_date": {
-      "type": "string"
-    },
-    "resend_payment_date": {
-      "type": "string"
-    }
+    "first_name": { "type": "string" },
+    "last_name": { "type": "string" },
+    "profession": { "type": "string" },
+    "sex": { "type": "string" },
+    "summary": { "type": "string" },
+    "country": { "type": "string" },
+    "phone": { "type": "string" },
+    "address": { "type": "string" },
+    "birthday": { "type": "string" },
+    "website": { "type": "string" },
+    "email": { "type": "string" },
+    "application_status": { "type": "string" },
+    "application_date": { "type": "string" },
+    "reapplication_date": { "type": "string" },
+    "payment_status": { "type": "string" },
+    "send_payment_date": { "type": "string" },
+    "resend_payment_date": { "type": "string" }
   },
   "additionalProperties": false
 }

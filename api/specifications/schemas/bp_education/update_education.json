@@ -4,27 +4,13 @@
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
-    "education_type": {
-      "type": "string"
-    },
-    "degree": {
-      "type": "string"
-    },
-    "field_of_study": {
-      "type": "string"
-    },
-    "school": {
-      "type": "string"
-    },
-    "from_date": {
-      "type": "string"
-    },
-    "to_date": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
-    }
+    "education_type": { "type": "string" },
+    "degree": { "type": "string" },
+    "field_of_study": { "type": "string" },
+    "school": { "type": "string" },
+    "from_date": { "type": "string" },
+    "to_date": { "type": "string" },
+    "description": { "type": "string" }
   },
   "additionalProperties": false
 }

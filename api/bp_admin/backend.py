@@ -104,6 +104,12 @@ def update_user(user_data, user_id):
     if secure:
         if int(user_id) != 1:
             user = get_and_update_user(user_data, user_id)
+            email_data = {
+                "subject": "Admin has updated your application status",
+                "text_body": "Please login at aace.cf in order "
+                "to see your updated application status",
+            }
+            send_email_to_user(email_data, user_id)
         else:
             msg = "Cannot change admin with `id: %s`" % user_id
             raise CannotChangeFirstAdminProperties(message=msg)

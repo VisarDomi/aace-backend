@@ -4,30 +4,14 @@
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
-    "comment_from_administrator": {
-      "type": "string"
-    },
-    "role": {
-      "type": "string"
-    },
-    "accepted_date": {
-      "type": "string"
-    },
-    "rejected_date": {
-      "type": "string"
-    },
-    "application_status": {
-      "type": "string"
-    },
-    "rebutted_date": {
-      "type": "string"
-    },
-    "payment_status": {
-      "type": "string"
-    },
-    "rebutted_payment_date": {
-      "type": "string"
-    }
+    "comment_from_administrator": { "type": "string" },
+    "role": { "type": "string" },
+    "accepted_date": { "type": "string" },
+    "rejected_date": { "type": "string" },
+    "application_status": { "type": "string" },
+    "rebutted_date": { "type": "string" },
+    "payment_status": { "type": "string" },
+    "rebutted_payment_date": { "type": "string" }
   },
   "additionalProperties": false
 }

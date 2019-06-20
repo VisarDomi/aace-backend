@@ -5,8 +5,12 @@
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
     "ids": {
-      "type": "array"
+      "type": "array",
+      "items": { "$ref": "#/definitions/id" }
     }
+  },
+  "definitions": {
+    "id": { "type": "string" }
   },
   "additionalProperties": false
 }
