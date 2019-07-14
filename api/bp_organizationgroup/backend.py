@@ -3,7 +3,8 @@ from ..common.exceptions import (
     ThereIsAlreadyAGroupByThatName,
     NoUserByThatID,
 )
-from ..common.models import OrganizationGroup, User
+from ..common.models.items import OrganizationGroup
+from ..common.models.users import User
 from ..bp_media_organizationgroup.backend import get_all_medias, delete_media
 from ..bp_user.backend import get_user_by_id
 from ..helper_functions.decorators import admin_required

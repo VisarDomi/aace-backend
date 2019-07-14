@@ -3,7 +3,7 @@ from ..common.exceptions import (
     OrganizationGroupIsAlreadyPartOfGroup,
     NoOrganizationGroupByThatID,
 )
-from ..common.models import OfficialCommunication, OrganizationGroup
+from ..common.models.items import OfficialCommunication, OrganizationGroup
 from ..bp_media_officialcommunication.backend import get_all_medias, delete_media
 from ..helper_functions.decorators import admin_required
 from ..helper_functions.get_by_id import (

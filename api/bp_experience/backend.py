@@ -1,5 +1,5 @@
 from flask import g
-from ..common.models import Experience
+from ..common.models.items import Experience
 from ..common.exceptions import CannotChangeOthersProfile, CannotDeleteOthersExperience
 from ..bp_media_experience.backend import delete_media, get_all_medias
 from ..helper_functions.get_by_id import get_experience_by_id

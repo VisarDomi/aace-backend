@@ -1,6 +1,6 @@
 from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ..common.models import MediaPayment
+from ..common.models.medias import MediaPayment
 from ..common.exceptions import CannotDeleteOthersMedia, CannotGetOthersMedia
 import os
 from ..helper_functions.get_by_id import get_payment_by_id, get_payment_media_by_id

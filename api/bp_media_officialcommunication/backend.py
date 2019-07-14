@@ -1,5 +1,5 @@
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ..common.models import MediaOfficialCommunication
+from ..common.models.medias import MediaOfficialCommunication
 import os
 from ..helper_functions.decorators import admin_required
 from ..helper_functions.get_by_id import (

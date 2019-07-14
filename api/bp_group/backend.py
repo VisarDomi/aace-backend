@@ -1,4 +1,5 @@
-from ..common.models import Group, User
+from ..common.models.items import Group
+from ..common.models.users import User
 from sqlalchemy.orm.exc import NoResultFound
 from ..common.exceptions import (
     RecordNotFound,

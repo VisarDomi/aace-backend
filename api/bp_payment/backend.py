@@ -1,5 +1,5 @@
 from flask import g
-from ..common.models import Payment
+from ..common.models.items import Payment
 from ..common.exceptions import CannotChangeOthersProfile, CannotDeleteOthersPayment
 from ..bp_media_payment.backend import delete_media, get_all_medias
 from ..helper_functions.get_by_id import get_payment_by_id

@@ -1,5 +1,5 @@
 from flask import g
-from ..common.models import Skill
+from ..common.models.items import Skill
 from ..common.exceptions import CannotChangeOthersProfile, CannotDeleteOthersSkill
 from ..bp_media_skill.backend import delete_media, get_all_medias
 from ..helper_functions.get_by_id import get_skill_by_id

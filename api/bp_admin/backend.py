@@ -1,5 +1,5 @@
 from ..common.exceptions import CannotChangeFirstAdminProperties
-from ..common.models import User
+from ..common.models.users import User
 from ..helper_functions.decorators import admin_required
 from ..helper_functions.get_by_id import get_user_by_id
 from ..helper_functions.email import send_email_to_user
@@ -114,8 +114,10 @@ def update_user(user_data, user_id):
                 new_payment_status = user_data["payment_status"]
             except KeyError:
                 new_payment_status = "no_change"
-            string_application_status = f"Statusi juaj i aplikimit eshte ndryshuar nga {old_application_status} ne {new_application_status}. \n"
-            string_payment_status = f"Statusi juaj i pageses eshte ndryshuar nga {old_payment_status} ne {new_payment_status}. \n"
+            string_application_status = f"Statusi juaj i aplikimit eshte ndryshuar"
+            f" nga {old_application_status} ne {new_application_status}. \n"
+            string_payment_status = f"Statusi juaj i pageses eshte ndryshuar"
+            f" nga {old_payment_status} ne {new_payment_status}. \n"
             if new_application_status == "no_change":
                 string_application_status = ""
             if new_payment_status == "no_change":

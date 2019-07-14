@@ -1,4 +1,4 @@
-from ..common.models import User
+from ..common.models.users import User
 from ..common.exceptions import NotFound
 
 

@@ -6,7 +6,8 @@ from ..common.exceptions import (
     YouAreNotAllowedToView,
     CannotGetOthersMedia,
 )
-from ..common.models import (
+from ..common.models.users import User
+from ..common.models.medias import (
     MediaUser,
     MediaEducation,
     MediaExperience,
@@ -15,7 +16,8 @@ from ..common.models import (
     MediaOrganizationGroup,
     MediaOfficialCommunication,
     MediaOfficialComment,
-    User,
+)
+from ..common.models.items import (
     Education,
     Experience,
     Skill,

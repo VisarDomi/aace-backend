@@ -8,7 +8,7 @@ from ..bp_auth.views import token_auth
 @bp.route("/media", methods=["POST"])
 @token_auth.login_required
 def create_medias(officialcommunication_id):
-    print('request.files.getlist("file"), officialcommunication_id :', request.files.getlist("file"), officialcommunication_id)
+
     return domain.create_medias(request.files.getlist("file"), officialcommunication_id)
 
 

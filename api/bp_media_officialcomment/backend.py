@@ -1,6 +1,6 @@
 from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ..common.models import MediaOfficialComment
+from ..common.models.medias import MediaOfficialComment
 import os
 from ..helper_functions.get_by_id import (
     get_officialcomment_by_id,

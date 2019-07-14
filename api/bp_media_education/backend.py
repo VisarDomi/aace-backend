@@ -1,6 +1,6 @@
 from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
-from ..common.models import MediaEducation
+from ..common.models.medias import MediaEducation
 from ..common.exceptions import CannotDeleteOthersMedia, CannotGetOthersMedia
 import os
 from ..helper_functions.get_by_id import get_education_by_id, get_education_media_by_id

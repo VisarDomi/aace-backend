@@ -6,7 +6,7 @@ from ..common.exceptions import (
     CannotDeleteOthersProfile,
     CannotDeleteFirstAdmin,
 )
-from ..common.models import User
+from ..common.models.users import User
 from ..bp_skill.backend import get_all_skills, delete_skill
 from ..bp_experience.backend import get_all_experiences, delete_experience
 from ..bp_education.backend import get_all_educations, delete_education
