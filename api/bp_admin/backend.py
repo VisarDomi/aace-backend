@@ -103,12 +103,31 @@ def update_user(user_data, user_id):
     secure = True
     if secure:
         if int(user_id) != 1:
+            user = get_user_by_id(user_id)
+            old_application_status = user.application_status
+            old_payment_status = user.payment_status
+            try:
+                new_application_status = user_data["application_status"]
+            except KeyError:
+                new_application_status = "no_change"
+            try:
+                new_payment_status = user_data["payment_status"]
+            except KeyError:
+                new_payment_status = "no_change"
+            string_application_status = f"Statusi juaj i aplikimit eshte ndryshuar nga {old_application_status} ne {new_application_status}. \n"
+            string_payment_status = f"Statusi juaj i pageses eshte ndryshuar nga {old_payment_status} ne {new_payment_status}. \n"
+            if new_application_status == "no_change":
+                string_application_status = ""
+            if new_payment_status == "no_change":
+                string_payment_status = ""
+
             user = get_and_update_user(user_data, user_id)
             email_data = {
                 "subject": "Admin has updated your application status",
                 "text_body": "--------\n"
-                "Statusi juaj i aplikimit eshte ndryshuar. "
-                "Ju lutem futuni ne platforme per te pare ndryshimet."
+                f"{string_application_status}\n"
+                f"{string_payment_status}\n"
+                "Ju lutem futuni ne platforme per te pare ndryshimet.\n"
                 "--------\n"
                 "Komunikimi zyrtar nga SHOSHIK\n"
                 "Filan Fisteku, Sekretar i pergjithshem\n"
