@@ -64,7 +64,7 @@ def create_app(config_class=Config):
     configure_uploads(app, files_comment)
 
     # Set maximum size of files (?)
-    patch_request_class(app, 32 * 1024 * 1024)
+    patch_request_class(app, 64 * 1024 * 1024)
 
     # register all blueprints
     app.register_blueprint(admin_bp, url_prefix="/api/admin/user")
@@ -77,6 +77,8 @@ def create_app(config_class=Config):
     app.register_blueprint(payment_bp, url_prefix="/api/user/<user_id>/payment")
     app.register_blueprint(organizationgroup_bp, url_prefix="/api/organizationgroup")
     app.register_blueprint(communication_bp, url_prefix="/api/communication")
+    app.register_blueprint(user_bp, url_prefix="/api/user")
+    app.register_blueprint(search_bp, url_prefix="/api/user/search")
     app.register_blueprint(
         comment_bp, url_prefix="/api/communication/<communication_id>/comment"
     )
@@ -104,8 +106,6 @@ def create_app(config_class=Config):
         media_comment_bp,
         url_prefix=("/api/communication/<communication_id>/comment/<comment_id>"),
     )
-    app.register_blueprint(user_bp, url_prefix="/api/user")
-    app.register_blueprint(search_bp, url_prefix="/api/user/search")
 
     # register custom response class
     app.response_class = response.JSONResponse
@@ -138,7 +138,7 @@ def create_app(config_class=Config):
                 mailhost=(app.config["MAIL_SERVER"], app.config["MAIL_PORT"]),
                 fromaddr=app.config["MAIL_USERNAME"],
                 toaddrs=app.config["ADMINS"],
-                subject="AACE-Network Failure",
+                subject="AACE Failure",
                 credentials=auth,
                 secure=secure,
             )
@@ -147,7 +147,7 @@ def create_app(config_class=Config):
         if not os.path.exists("logs"):
             os.mkdir("logs")
         file_handler = RotatingFileHandler(
-            "logs/aace-network.log", maxBytes=10240, backupCount=10
+            "logs/aace.log", maxBytes=10240, backupCount=10
         )
         file_handler.setFormatter(
             logging.Formatter(
@@ -158,6 +158,6 @@ def create_app(config_class=Config):
         app.logger.addHandler(file_handler)
 
         app.logger.setLevel(logging.INFO)
-        app.logger.info("AACE-Network")
+        app.logger.info("AACE")
 
     return app
