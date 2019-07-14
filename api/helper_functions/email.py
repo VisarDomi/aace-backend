@@ -47,12 +47,6 @@ def send_email_to_users(communication_id):
             recipients=email_recipients,
             text_body=email_text_body,
         )
-    else:
-        msg = (
-            "There is missing arguments: email_subject, email_sender, "
-            "email_recipients, email_text_body"
-        )
-        raise EmailCannotBeSent(message=msg)
 
 
 def send_email_to_user(email_data, user_id):

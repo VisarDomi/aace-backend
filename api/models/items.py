@@ -208,9 +208,6 @@ class Event(BaseModel, ModelSerializerMixin):
     location = Column(Text)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
-    posts = relationship("Post", back_populates="event", lazy="dynamic")
-    # medias = relationship("Media", back_populates="event", lazy="dynamic")
-
     users = relationship(
         "User", secondary="user_event", back_populates="events", lazy="dynamic"
     )

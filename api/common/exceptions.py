@@ -3,7 +3,7 @@ from werkzeug.exceptions import (
     NotFound,
     Unauthorized,
     BadRequest,
-    InternalServerError,
+    # InternalServerError,
 )
 
 
@@ -105,24 +105,12 @@ class NoOrganizationGroupByThatID(RecordNotFound):
     pass
 
 
-class NoPostByThatID(RecordNotFound):
-    pass
-
-
 class InvalidURL(InvalidAPIRequest):
     pass
 
 
 class TypeErrorFlusk(InvalidAPIRequest):
     status_code = BadRequest.code
-    pass
-
-
-class CannotPostOnOthersProfile(InvalidPermissions):
-    pass
-
-
-class CannotDeleteOthersPost(InvalidPermissions):
     pass
 
 
@@ -139,10 +127,6 @@ class CannotEventOnOthersProfile(InvalidPermissions):
 
 
 class CannotCommentOnOthersProfile(InvalidPermissions):
-    pass
-
-
-class PostIsAlreadyPartOfEvent(RecordAlreadyExists):
     pass
 
 

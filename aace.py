@@ -5,8 +5,8 @@ from werkzeug.contrib.fixers import ProxyFix
 from api import create_app
 
 from api.common.database import db_session, drop_db, init_db
-from api.common.models.users import User
-from api.common.models.items import (
+from api.models.users import User
+from api.models.items import (
     Education,
     Experience,
     Skill,
@@ -15,7 +15,7 @@ from api.common.models.items import (
     Communication,
     OrganizationGroup,
 )
-from api.common.models.medias import (
+from api.models.medias import (
     MediaUser,
     MediaEducation,
     MediaExperience,

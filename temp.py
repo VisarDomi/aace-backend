@@ -1,5 +1,7 @@
 ###################
 # users
+
+
 def create_user(user_data):
     if user_data["email"] is None or user_data["password"] is None:
         print("Please provide an email and a password.")
@@ -17,134 +19,50 @@ def create_user(user_data):
     return user
 
 
-test1_dict = {
-    "email": "test1@aace.al",
+admin_dict = {
+    "email": "admin@aace.al",
     "password": "password"
 }
-test1 = create_user(test1_dict)
-test1.save()
+admin = create_user(admin_dict)
 
-test2_dict = {
-    "email": "test2@aace.al",
-    "password": "password"
+####################
+# organizationgroups
+
+anetaret_dict = {
+    "name": "anetaret",
+    "description": "anetaret e shoqates"
 }
-test2 = create_user(test2_dict)
-test2.save()
-
-test3_dict = {
-    "email": "test3@aace.al",
-    "password": "password"
+presidenti_dict = {
+    "name": "presidenti",
+    "description": "presidenti i shoqates"
 }
-test3 = create_user(test3_dict)
-test3.save()
-
-############################
-# communications
-
-communication1_dict = {
-    "name": "communication1 name",
-    "description": "communication1 description",
-    "body": "communication1 body"
+sekretari_dict = {
+    "name": "sekretari",
+    "description": "sekretari i shoqates"
 }
-communication1 = Communication(**communication1_dict)
-communication1.author = User.query.filter(User.id == 1).one()
-communication1.save()
-
-communication2_dict = {
-    "name": "communication2 name",
-    "description": "communication2 description",
-    "body": "communication2 body"
+koordinatori_dict = {
+    "name": "koordinatori",
+    "description": "koordinatori i shoqates"
 }
-communication2 = Communication(**communication2_dict)
-communication2.author = User.query.filter(User.id == 1).one()
-communication2.save()
-
-
-###############################
-# accept users as members add them to organizationgroup 'anetaret'
-
-user_ids = {
-    "ids": [2, 3, 4]
+kryesia_dict = {
+    "name": "kryesia",
+    "description": "kryesia e shoqates"
 }
-
-admin_payload = {
-    "application_status": "accepted",
-    "comment_from_administrator": "",
-    "accepted_date": "2019-03-18"
+bordi_dict = {
+    "name": "bordi",
+    "description": "bordi i shoqates"
 }
-
-for user_id in user_ids["ids"]:
-    user = User.query.filter(User.id == user_id).one()
-
-    # accept users
-    user.update(**admin_payload)
-    user.save()
-
-    # add them to organizationgroup 'anetaret'
-    organizationgroups = OrganizationGroup.query.all()
-    anetaret = organizationgroups[0]
-    user_in_a_group = None
-    for organizationgroup in organizationgroups:
-        if user == organizationgroup.users.filter(User.id == user_id).one_or_none():
-            user_in_a_group = user
-    if user is not user_in_a_group:
-        organizationgroup = anetaret
-        organizationgroup.users.append(user)
-        organizationgroup.save()
-
-
-######################################################
-# add organizationgroup 'anetaret' to communication 1 and 2
-
-communication_list = [communication1, communication2]
-anetaret = organizationgroups[0]
-organizationgroups = OrganizationGroup.query.all()
-organizationgroup = anetaret
-for communication in communication_list:
-    og_in_oc_one_or_none = communication.organizationgroups.filter(
-        OrganizationGroup.id == organizationgroup.id
-    ).one_or_none()
-    if organizationgroup is not og_in_oc_one_or_none:
-        # add organizationgroup only it is not part of that communication
-        communication.organizationgroups.append(organizationgroup)
-        communication.save()
-    else:
-        print(f"{organizationgroup} is already part of {communication}")
-
-
-#################################
-# add comments to communication 1
-
-comment1_dict = {
-    "body": "comment1 body"
-}
-comment2_dict = {
-    "body": "comment2 body"
-}
-comments = [comment1_dict, comment2_dict]
-author_id = 2
-communication = communication1
-for comment in comments:
-    comment1 = Comment(**comment)
-    comment1.communication = Communication.query.filter(Communication.id == communication.id).one()
-    comment1.author = User.query.filter(User.id == author_id).one()
-    comment1.save()
-
-comment3_dict = {
-    "body": "comment3 body"
-}
-comment4_dict = {
-    "body": "comment4 body"
-}
-comments = [comment3_dict, comment4_dict]
-author_id = 3
-communication = communication2
-for comment in comments:
-    comment1 = Comment(**comment)
-    comment1.communication = Communication.query.filter(Communication.id == communication.id).one()
-    comment1.author = User.query.filter(User.id == author_id).one()
-    comment1.save()
-
-
+anetaret = OrganizationGroup(**anetaret_dict)
+anetaret.save()
+presidenti = OrganizationGroup(**presidenti_dict)
+presidenti.save()
+sekretari = OrganizationGroup(**sekretari_dict)
+sekretari.save()
+koordinatori = OrganizationGroup(**koordinatori_dict)
+koordinatori.save()
+kryesia = OrganizationGroup(**kryesia_dict)
+kryesia.save()
+bordi = OrganizationGroup(**bordi_dict)
+bordi.save()
 
 db_session.commit()

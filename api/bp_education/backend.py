@@ -1,5 +1,5 @@
 from flask import g
-from ..common.models.items import Education
+from ..models.items import Education
 from ..common.exceptions import (
     CannotChangeOthersProfile,
     CannotDeleteOthersEducation,

@@ -91,7 +91,6 @@ class User(BaseModel, ModelSerializerMixin):
     )
 
     # database related one to many
-    posts = relationship("Post", back_populates="author", lazy="dynamic")
     comments = relationship("Comment", back_populates="author", lazy="dynamic")
     messages = relationship("Message", back_populates="sender", lazy="dynamic")
     messagerecipients = relationship(

@@ -1,6 +1,6 @@
 from flask import g
 from ..common.exceptions import CannotChangeOthersComment
-from ..common.models.items import Comment
+from ..models.items import Comment
 from ..bp_media_comment.backend import get_all_medias, delete_media
 from ..helper_functions.get_by_id import (
     get_comment_by_id,

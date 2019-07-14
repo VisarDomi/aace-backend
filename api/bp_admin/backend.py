@@ -1,5 +1,5 @@
 from ..common.exceptions import CannotChangeFirstAdminProperties
-from ..common.models.users import User
+from ..models.users import User
 from ..helper_functions.decorators import admin_required
 from ..helper_functions.get_by_id import get_user_by_id
 from ..helper_functions.email import send_email_to_user
