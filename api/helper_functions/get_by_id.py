@@ -14,8 +14,8 @@ from ..common.models.medias import (
     MediaSkill,
     MediaPayment,
     MediaOrganizationGroup,
-    MediaOfficialCommunication,
-    MediaOfficialComment,
+    MediaCommunication,
+    MediaComment,
 )
 from ..common.models.items import (
     Education,
@@ -23,8 +23,8 @@ from ..common.models.items import (
     Skill,
     Payment,
     OrganizationGroup,
-    OfficialCommunication,
-    OfficialComment,
+    Communication,
+    Comment,
 )
 
 
@@ -96,18 +96,18 @@ def get_organizationgroup_media_by_id(media_organizationgroup_id):
     return organizationgroup_media
 
 
-def get_officialcommunication_media_by_id(media_officialcommunication_id):
-    officialcommunication_media = get_entity(
-        media_officialcommunication_id, MediaOfficialCommunication
+def get_communication_media_by_id(media_communication_id):
+    communication_media = get_entity(
+        media_communication_id, MediaCommunication
     )
 
-    return officialcommunication_media
+    return communication_media
 
 
-def get_officialcomment_media_by_id(media_officialcomment_id):
-    officialcomment_media = get_entity(media_officialcomment_id, MediaOfficialComment)
+def get_comment_media_by_id(media_comment_id):
+    comment_media = get_entity(media_comment_id, MediaComment)
 
-    return officialcomment_media
+    return comment_media
 
 
 ##############################################################
@@ -145,32 +145,32 @@ def get_payment_by_id(payment_id):
     return payment
 
 
-def is_user_allowed_to_view(officialcommunication):
+def is_user_allowed_to_view(communication):
     is_allowed_to_view = False
-    for organizationgroup in officialcommunication.organizationgroups.all():
+    for organizationgroup in communication.organizationgroups.all():
         if g.current_user in organizationgroup.users.all():
             is_allowed_to_view = True
     if g.current_user.role == "admin":
         is_allowed_to_view = True
     if not is_allowed_to_view:
         msg = f"You are not allowed to view this communication "
-        "with id `{officialcomment_id}``"
+        "with id `{comment_id}``"
         raise YouAreNotAllowedToView(message=msg)
 
 
-def get_officialcomment_by_id(officialcommunication_id, officialcomment_id):
-    officialcomment = get_entity(officialcomment_id, OfficialComment)
-    officialcommunication = get_officialcommunication_by_id(officialcommunication_id)
-    is_user_allowed_to_view(officialcommunication)
+def get_comment_by_id(communication_id, comment_id):
+    comment = get_entity(comment_id, Comment)
+    communication = get_communication_by_id(communication_id)
+    is_user_allowed_to_view(communication)
 
-    return officialcomment
+    return comment
 
 
-def get_officialcommunication_by_id(officialcommunication_id):
-    officialcommunication = get_entity(officialcommunication_id, OfficialCommunication)
-    is_user_allowed_to_view(officialcommunication)
+def get_communication_by_id(communication_id):
+    communication = get_entity(communication_id, Communication)
+    is_user_allowed_to_view(communication)
 
-    return officialcommunication
+    return communication
 
 
 def get_organizationgroup_by_id(organizationgroup_id):

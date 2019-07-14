@@ -1,6 +1,6 @@
 {
-  "title": "Update officialcommunication",
-  "description": "Update a officialcommunication object",
+  "title": "Update communication",
+  "description": "Update a communication object",
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {

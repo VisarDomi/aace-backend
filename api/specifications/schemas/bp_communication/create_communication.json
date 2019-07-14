@@ -1,6 +1,6 @@
 {
-  "title": "Create officialcommunication",
-  "description": "Create a officialcommunication object",
+  "title": "Create communication",
+  "description": "Create a communication object",
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {

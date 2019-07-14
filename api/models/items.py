@@ -108,9 +108,9 @@ class OrganizationGroup(BaseModel, ModelSerializerMixin):
         "MediaOrganizationGroup", back_populates="organizationgroup", lazy="dynamic"
     )
 
-    officialcommunications = relationship(
-        "OfficialCommunication",
-        secondary="organizationgroup_officialcommunication",
+    communications = relationship(
+        "Communication",
+        secondary="organizationgroup_communication",
         back_populates="organizationgroups",
         lazy="dynamic",
     )
@@ -119,7 +119,7 @@ class OrganizationGroup(BaseModel, ModelSerializerMixin):
         return f"{self.__class__.__name__}({self.name}, id = {self.id})"
 
 
-class OfficialCommunication(BaseModel, ModelSerializerMixin):
+class Communication(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -128,44 +128,44 @@ class OfficialCommunication(BaseModel, ModelSerializerMixin):
     body = Column(Text)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
-    author = relationship("User", back_populates="officialcommunications")
+    author = relationship("User", back_populates="communications")
     author_id = Column(Integer, ForeignKey("users.id"))
 
     organizationgroups = relationship(
         "OrganizationGroup",
-        secondary="organizationgroup_officialcommunication",
-        back_populates="officialcommunications",
+        secondary="organizationgroup_communication",
+        back_populates="communications",
         lazy="dynamic",
     )
     medias = relationship(
-        "MediaOfficialCommunication",
-        back_populates="officialcommunication",
+        "MediaCommunication",
+        back_populates="communication",
         lazy="dynamic",
     )
-    officialcomments = relationship(
-        "OfficialComment", back_populates="officialcommunication", lazy="dynamic"
+    comments = relationship(
+        "Comment", back_populates="communication", lazy="dynamic"
     )
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.name}, id = {self.id})"
 
 
-class OfficialComment(BaseModel, ModelSerializerMixin):
+class Comment(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     body = Column(String, default="no_body")
     timestamp = Column(DateTime, default=datetime.utcnow)
 
-    author = relationship("User", back_populates="officialcomments")
+    author = relationship("User", back_populates="comments")
     author_id = Column(Integer, ForeignKey("users.id"))
 
-    officialcommunication = relationship(
-        "OfficialCommunication", back_populates="officialcomments"
+    communication = relationship(
+        "Communication", back_populates="comments"
     )
-    officialcommunication_id = Column(Integer, ForeignKey("officialcommunications.id"))
+    communication_id = Column(Integer, ForeignKey("communications.id"))
 
     medias = relationship(
-        "MediaOfficialComment", back_populates="officialcomment", lazy="dynamic"
+        "MediaComment", back_populates="comment", lazy="dynamic"
     )
 
     def __repr__(self):

@@ -114,7 +114,7 @@ class MediaOrganizationGroup(BaseModel, ModelSerializerMixin):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"
 
 
-class MediaOfficialCommunication(BaseModel, ModelSerializerMixin):
+class MediaCommunication(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -124,16 +124,16 @@ class MediaOfficialCommunication(BaseModel, ModelSerializerMixin):
     url = Column(String)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
-    officialcommunication = relationship(
-        "OfficialCommunication", back_populates="medias"
+    communication = relationship(
+        "Communication", back_populates="medias"
     )
-    officialcommunication_id = Column(Integer, ForeignKey("officialcommunications.id"))
+    communication_id = Column(Integer, ForeignKey("communications.id"))
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"
 
 
-class MediaOfficialComment(BaseModel, ModelSerializerMixin):
+class MediaComment(BaseModel, ModelSerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -143,8 +143,8 @@ class MediaOfficialComment(BaseModel, ModelSerializerMixin):
     url = Column(String)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
-    officialcomment = relationship("OfficialComment", back_populates="medias")
-    officialcomment_id = Column(Integer, ForeignKey("officialcomments.id"))
+    comment = relationship("Comment", back_populates="medias")
+    comment_id = Column(Integer, ForeignKey("comments.id"))
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"

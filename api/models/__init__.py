@@ -8,12 +8,12 @@ from sqlalchemy import (
 from ..common.database import BaseModel
 
 
-organizationgroup_officialcommunication = Table(
-    "organizationgroup_officialcommunication",
+organizationgroup_communication = Table(
+    "organizationgroup_communication",
     BaseModel.metadata,
     Column("organizationgroup_id", Integer, ForeignKey("organizationgroups.id")),
     Column(
-        "officialcommunication_id", Integer, ForeignKey("officialcommunications.id")
+        "communication_id", Integer, ForeignKey("communications.id")
     ),
 )
 

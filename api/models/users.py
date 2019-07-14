@@ -82,12 +82,12 @@ class User(BaseModel, ModelSerializerMixin):
     payments = relationship("Payment", back_populates="user", lazy="dynamic")
 
     # official communications
-    officialcommunications = relationship(
-        "OfficialCommunication", back_populates="author", lazy="dynamic"
+    communications = relationship(
+        "Communication", back_populates="author", lazy="dynamic"
     )
     # official comments
-    officialcomments = relationship(
-        "OfficialComment", back_populates="author", lazy="dynamic"
+    comments = relationship(
+        "Comment", back_populates="author", lazy="dynamic"
     )
 
     # database related one to many

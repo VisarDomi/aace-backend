@@ -4,14 +4,14 @@ from ..bp_auth.views import token_auth
 
 
 @bp.route(
-    "/media_officialcommunication/<media_officialcommunication_id>", methods=["GET"]
+    "/media_communication/<media_communication_id>", methods=["GET"]
 )
 @token_auth.login_required
-def download_officialcommunication(media_officialcommunication_id):
-    return domain.download_officialcommunication(media_officialcommunication_id)
+def download_communication(media_communication_id):
+    return domain.download_communication(media_communication_id)
 
 
-@bp.route("/media_officialcomment/<media_officialcomment_id>", methods=["GET"])
+@bp.route("/media_comment/<media_comment_id>", methods=["GET"])
 @token_auth.login_required
-def download_officialcomment(media_officialcomment_id):
-    return domain.download_officialcomment(media_officialcomment_id)
+def download_comment(media_comment_id):
+    return domain.download_comment(media_comment_id)

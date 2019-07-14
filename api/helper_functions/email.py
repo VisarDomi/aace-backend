@@ -2,7 +2,7 @@ from threading import Thread
 from flask import current_app
 from flask_mail import Message
 from config import Config
-from .get_by_id import get_officialcommunication_by_id, get_user_by_id
+from .get_by_id import get_communication_by_id, get_user_by_id
 from ..common.exceptions import EmailCannotBeSent
 from ..common.extensions import mail
 
@@ -20,24 +20,25 @@ def send_email(subject, sender, recipients, text_body):
     ).start()
 
 
-def send_email_to_users(officialcommunication_id):
-    officialcommunication = get_officialcommunication_by_id(officialcommunication_id)
-    email_subject = officialcommunication.name
+def send_email_to_users(communication_id):
+    communication = get_communication_by_id(communication_id)
+    email_subject = communication.name
     email_sender = Config.MAIL_USERNAME
     email_recipients = []
-    organizationgroups = officialcommunication.organizationgroups.all()
+    organizationgroups = communication.organizationgroups.all()
     for organizationgroup in organizationgroups:
         for user in organizationgroup.users.all():
             email_recipients.append(user.email)
-    link = Config.WEBSITE
-    link = ""
-    email_text_body = (f"{officialcommunication.description}\n\n{officialcommunication.body}\n\n"
-    "--------\n"
-    "Komunikimi zyrtar nga SHOSHIK\n"
-    "Filan Fisteku, Sekretar i pergjithshem\n"
-    "Rruga Qofte e Mbushur, 200L\n""Website: www.aace.al\n"
-    "Telefon: +093802304234\n"
-    "Email: info@aace.al"
+    # link = Config.WEBSITE
+    # link = ""
+    email_text_body = (
+        f"{communication.description}\n\n{communication.body}\n\n"
+        "--------\n"
+        "Komunikimi zyrtar nga SHOSHIK\n"
+        "Filan Fisteku, Sekretar i pergjithshem\n"
+        "Rruga Qofte e Mbushur, 200L\n""Website: www.aace.al\n"
+        "Telefon: +093802304234\n"
+        "Email: info@aace.al"
     )
     if email_subject and email_sender and email_recipients and email_text_body:
         send_email(
