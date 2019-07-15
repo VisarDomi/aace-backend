@@ -1,0 +1,12 @@
+{
+  "title": "Update event",
+  "description": "Update a event object",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "body": { "type": "string" }
+  },
+  "additionalProperties": false
+}

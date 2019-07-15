@@ -1,7 +1,7 @@
 from flask import g
 from ..models.items import Experience
 from ..common.exceptions import CannotChangeOthersProfile, CannotDeleteOthersExperience
-from ..bp_media_experience.backend import delete_media, get_all_medias
+from ..bp_media_experience.backend import delete_media, get_medias
 from ..helper_functions.get_by_id import get_experience_by_id
 
 
@@ -17,7 +17,7 @@ def create_experience(experience_data, user_id):
     return experience
 
 
-def get_all_experiences(user_id):
+def get_experiences(user_id):
     experiences = Experience.query.filter(Experience.user_id == user_id).all()
 
     return experiences
@@ -39,7 +39,7 @@ def delete_experience(user_id, experience_id):
 
     if int(user_id) == g.current_user.id:
 
-        medias = get_all_medias(user_id, experience_id)
+        medias = get_medias(user_id, experience_id)
         for media in medias:
             delete_media(user_id, media.id)
         experience = get_experience_by_id(experience_id)

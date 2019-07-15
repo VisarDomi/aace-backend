@@ -5,7 +5,7 @@ from ..common.exceptions import (
 )
 from ..models.items import OrganizationGroup
 from ..models.users import User
-from ..bp_media_organizationgroup.backend import get_all_medias, delete_media
+from ..bp_media_organizationgroup.backend import get_medias, delete_media
 from ..bp_user.backend import get_user_by_id
 from ..helper_functions.decorators import admin_required
 from ..helper_functions.get_by_id import get_organizationgroup_by_id
@@ -26,7 +26,7 @@ def create_organizationgroup(organizationgroup_data):
     return organizationgroup
 
 
-def get_all_organizationgroups():
+def get_organizationgroups():
     organizationgroups = OrganizationGroup.query.all()
 
     return organizationgroups
@@ -50,7 +50,7 @@ def update_organizationgroup(organizationgroup_data, organizationgroup_id):
 
 @admin_required
 def delete_organizationgroup(organizationgroup_id):
-    for media in get_all_medias(organizationgroup_id):
+    for media in get_medias(organizationgroup_id):
         delete_media(organizationgroup_id, media.id)
     organizationgroup = get_organizationgroup_by_id(organizationgroup_id)
     organizationgroup.delete()
@@ -85,7 +85,7 @@ def unassigned_users():
 
 def add_one_user_to_an_organizationgroup(organizationgroup_id, user_id):
     user = get_user_by_id(user_id)
-    organizationgroups = get_all_organizationgroups()
+    organizationgroups = get_organizationgroups()
     user_in_a_group = None
     for organizationgroup in organizationgroups:
         if user == organizationgroup.users.filter(User.id == user_id).one_or_none():

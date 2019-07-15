@@ -16,14 +16,14 @@ def create_medias(user_id, experience_id):
 @token_auth.login_required
 def get_media(user_id, experience_id, media_experience_id):
 
-    return domain.get_media_by_id(user_id, media_experience_id)
+    return domain.get_media(user_id, media_experience_id)
 
 
 @bp.route("/media/all", methods=["GET"])
 @token_auth.login_required
 def get_medias(user_id, experience_id):
 
-    return domain.get_all_medias(user_id, experience_id)
+    return domain.get_medias(user_id, experience_id)
 
 
 @bp.route("/media/<media_experience_id>", methods=["PUT"])

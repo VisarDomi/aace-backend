@@ -81,30 +81,26 @@ class User(BaseModel, ModelSerializerMixin):
     skills = relationship("Skill", back_populates="user", lazy="dynamic")
     payments = relationship("Payment", back_populates="user", lazy="dynamic")
 
-    # official communications
+    # communications, events, polls, comments
     communications = relationship(
         "Communication", back_populates="author", lazy="dynamic"
     )
-    # official comments
-    comments = relationship(
-        "Comment", back_populates="author", lazy="dynamic"
-    )
+    events = relationship("Event", back_populates="author", lazy="dynamic")
+    polls = relationship("Poll", back_populates="author", lazy="dynamic")
+    comments = relationship("Comment", back_populates="author", lazy="dynamic")
 
     # database related one to many
-    comments = relationship("Comment", back_populates="author", lazy="dynamic")
     messages = relationship("Message", back_populates="sender", lazy="dynamic")
     messagerecipients = relationship(
         "MessageRecipient", back_populates="recipient", lazy="dynamic"
     )
 
-    # groups
+    # options, groups
+    options = relationship(
+        "Option", secondary="option_user", back_populates="users", lazy="dynamic"
+    )
     groups = relationship(
         "Group", secondary="user_group", back_populates="users", lazy="dynamic"
-    )
-
-    # events
-    events = relationship(
-        "Event", secondary="user_event", back_populates="users", lazy="dynamic"
     )
 
     # notifications

@@ -4,7 +4,7 @@ from ..common.exceptions import (
     CannotChangeOthersProfile,
     CannotDeleteOthersEducation,
 )
-from ..bp_media_education.backend import delete_media, get_all_medias
+from ..bp_media_education.backend import delete_media, get_medias
 from ..helper_functions.get_by_id import get_education_by_id
 
 
@@ -20,7 +20,7 @@ def create_education(education_data, user_id):
     return education
 
 
-def get_all_educations(user_id):
+def get_educations(user_id):
     educations = Education.query.filter(Education.user_id == user_id).all()
 
     return educations
@@ -42,7 +42,7 @@ def delete_education(user_id, education_id):
 
     if int(user_id) == g.current_user.id:
 
-        medias = get_all_medias(user_id, education_id)
+        medias = get_medias(user_id, education_id)
         for media in medias:
             delete_media(user_id, media.id)
         education = get_education_by_id(education_id)

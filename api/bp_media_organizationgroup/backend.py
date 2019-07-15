@@ -2,10 +2,8 @@ from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
 from ..models.medias import MediaOrganizationGroup
 import os
 from ..helper_functions.decorators import admin_required
-from ..helper_functions.get_by_id import (
-    get_organizationgroup_by_id,
-    get_organizationgroup_media_by_id,
-)
+from ..helper_functions.get_by_id import get_organizationgroup_by_id
+from ..helper_functions.get_media_by_id import get_organizationgroup_media_by_id
 
 
 files_organizationgroup = UploadSet(
@@ -28,7 +26,7 @@ def create_medias(media_data, organizationgroup_id):
     return medias
 
 
-def get_all_medias(organizationgroup_id):
+def get_medias(organizationgroup_id):
     medias = MediaOrganizationGroup.query.filter(
         MediaOrganizationGroup.organizationgroup_id == int(organizationgroup_id)
     ).all()

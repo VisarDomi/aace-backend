@@ -1,11 +1,4 @@
-from sqlalchemy import (
-    Integer,
-    String,
-    DateTime,
-    Text,
-    ForeignKey,
-    Column,
-)
+from sqlalchemy import Integer, String, DateTime, Text, ForeignKey, Column
 from sqlalchemy.orm import relationship
 from ..common.database import BaseModel
 from ..common.serializers import ModelSerializerMixin
@@ -124,10 +117,42 @@ class MediaCommunication(BaseModel, ModelSerializerMixin):
     url = Column(String)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
-    communication = relationship(
-        "Communication", back_populates="medias"
-    )
+    communication = relationship("Communication", back_populates="medias")
     communication_id = Column(Integer, ForeignKey("communications.id"))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+
+
+class MediaEvent(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    filename = Column(String)
+    url = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    event = relationship("Event", back_populates="medias")
+    event_id = Column(Integer, ForeignKey("events.id"))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
+
+
+class MediaPoll(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    title = Column(String, default="no_title")
+    description = Column(Text)
+    filename = Column(String)
+    url = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    poll = relationship("Poll", back_populates="medias")
+    poll_id = Column(Integer, ForeignKey("polls.id"))
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.title}, id = {self.id})"

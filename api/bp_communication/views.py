@@ -17,14 +17,14 @@ def create_communication():
 @token_auth.login_required
 def get_communication(communication_id):
 
-    return domain.get_communication_by_id(communication_id)
+    return domain.get_communication(communication_id)
 
 
 @bp.route("/all", methods=["GET"])
 @token_auth.login_required
 def get_communications():
 
-    return domain.get_all_communications()
+    return domain.get_communications()
 
 
 # order is route, schema, auth
@@ -42,8 +42,7 @@ def delete_communication(communication_id):
     domain.delete_communication(communication_id)
 
     return {
-        "message": "OrganizationGroup with `id: %s` has been deleted."
-        % communication_id
+        "message": "Communication with `id: %s` has been deleted." % communication_id
     }
 
 
@@ -51,19 +50,14 @@ def delete_communication(communication_id):
 @token_auth.login_required
 def get_organizationgroups_from_communication(communication_id):
 
-    return domain.get_organizationgroups_from_communication(
-        communication_id
-    )
+    return domain.get_organizationgroups_from_communication(communication_id)
 
 
 @bp.route(
-    "/<communication_id>/organizationgroup/<organizationgroup_id>",
-    methods=["PUT"],
+    "/<communication_id>/organizationgroup/<organizationgroup_id>", methods=["PUT"]
 )
 @token_auth.login_required
-def add_organizationgroup_to_communication(
-    communication_id, organizationgroup_id
-):
+def add_organizationgroup_to_communication(communication_id, organizationgroup_id):
 
     return domain.add_organizationgroup_to_communication(
         communication_id, organizationgroup_id
@@ -71,13 +65,10 @@ def add_organizationgroup_to_communication(
 
 
 @bp.route(
-    "/<communication_id>/organizationgroup/<organizationgroup_id>",
-    methods=["DELETE"],
+    "/<communication_id>/organizationgroup/<organizationgroup_id>", methods=["DELETE"]
 )
 @token_auth.login_required
-def remove_organizationgroup_from_communication(
-    communication_id, organizationgroup_id
-):
+def remove_organizationgroup_from_communication(communication_id, organizationgroup_id):
     domain.remove_organizationgroup_from_communication(
         communication_id, organizationgroup_id
     )

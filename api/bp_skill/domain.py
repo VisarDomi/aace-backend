@@ -1,5 +1,5 @@
 from . import backend
-from ..helper_functions.get_by_id import get_skill_by_id as backend_get_skill_by_id
+from ..helper_functions.get_by_id import get_skill_by_id
 
 
 def create_skill(skill_data, user_id):
@@ -9,8 +9,8 @@ def create_skill(skill_data, user_id):
     return skill_dict
 
 
-def get_skill_by_id(skill_id):
-    skill = backend_get_skill_by_id(skill_id)
+def get_skill(skill_id):
+    skill = get_skill_by_id(skill_id)
     skill_dict = skill.to_dict()
 
     skill_medias = []
@@ -21,8 +21,8 @@ def get_skill_by_id(skill_id):
     return skill_dict
 
 
-def get_all_skills(user_id):
-    skills = backend.get_all_skills(user_id)
+def get_skills(user_id):
+    skills = backend.get_skills(user_id)
     skills_list = []
     for skill in skills:
         skill_dict = skill.to_dict()

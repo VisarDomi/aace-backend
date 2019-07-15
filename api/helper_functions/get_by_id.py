@@ -1,22 +1,4 @@
-from flask import g
-from sqlalchemy.orm.exc import NoResultFound
-from ..common.exceptions import (
-    RecordNotFound,
-    InvalidURL,
-    YouAreNotAllowedToView,
-    CannotGetOthersMedia,
-)
 from ..models.users import User
-from ..models.medias import (
-    MediaUser,
-    MediaEducation,
-    MediaExperience,
-    MediaSkill,
-    MediaPayment,
-    MediaOrganizationGroup,
-    MediaCommunication,
-    MediaComment,
-)
 from ..models.items import (
     Education,
     Experience,
@@ -24,95 +6,17 @@ from ..models.items import (
     Payment,
     OrganizationGroup,
     Communication,
+    Event,
+    Poll,
     Comment,
+    Option,
 )
-
-
-##############################################################
-#                        Media                               #
-##############################################################
-
-
-def get_entity(entity_id, Entity):
-    try:
-        entity = Entity.query.filter(Entity.id == int(entity_id)).one()
-    except NoResultFound:
-        msg = f"There is no entity with id {entity_id}"
-        raise RecordNotFound(message=msg)
-    except (InvalidURL, ValueError):
-        msg = f"This is not a valid URL: {entity_id}`"
-        raise InvalidURL(message=msg)
-
-    return entity
-
-
-def same_user_get_media(user_id, media_id, Media):
-    if int(user_id) == g.current_user.id or g.current_user.role == "admin":
-        media = get_entity(media_id, Media)
-    else:
-        msg = f"You can't get other people's media."
-        raise CannotGetOthersMedia(message=msg)
-
-    return media
-
-
-def get_user_media_by_id(media_user_id):
-    user_media = get_entity(media_user_id, MediaUser)
-
-    return user_media
-
-
-def get_education_media_by_id(user_id, media_education_id):
-    education_media = same_user_get_media(user_id, media_education_id, MediaEducation)
-
-    return education_media
-
-
-def get_experience_media_by_id(user_id, media_experience_id):
-    experience_media = same_user_get_media(
-        user_id, media_experience_id, MediaExperience
-    )
-
-    return experience_media
-
-
-def get_skill_media_by_id(user_id, media_skill_id):
-    skill_media = same_user_get_media(user_id, media_skill_id, MediaSkill)
-
-    return skill_media
-
-
-def get_payment_media_by_id(user_id, media_payment_id):
-    payment_media = same_user_get_media(user_id, media_payment_id, MediaPayment)
-
-    return payment_media
-
-
-def get_organizationgroup_media_by_id(media_organizationgroup_id):
-    organizationgroup_media = get_entity(
-        media_organizationgroup_id, MediaOrganizationGroup
-    )
-
-    return organizationgroup_media
-
-
-def get_communication_media_by_id(media_communication_id):
-    communication_media = get_entity(
-        media_communication_id, MediaCommunication
-    )
-
-    return communication_media
-
-
-def get_comment_media_by_id(media_comment_id):
-    comment_media = get_entity(media_comment_id, MediaComment)
-
-    return comment_media
-
-
-##############################################################
-#                        Non-Media                           #
-##############################################################
+from .is_allowed import (
+    is_user_allowed_to_view_communication,
+    is_user_allowed_to_view_event,
+    is_user_allowed_to_view_poll,
+)
+from .common_functions import get_entity
 
 
 def get_user_by_id(user_id):
@@ -145,32 +49,38 @@ def get_payment_by_id(payment_id):
     return payment
 
 
-def is_user_allowed_to_view(communication):
-    is_allowed_to_view = False
-    for organizationgroup in communication.organizationgroups.all():
-        if g.current_user in organizationgroup.users.all():
-            is_allowed_to_view = True
-    if g.current_user.role == "admin":
-        is_allowed_to_view = True
-    if not is_allowed_to_view:
-        msg = f"You are not allowed to view this communication "
-        "with id `{comment_id}``"
-        raise YouAreNotAllowedToView(message=msg)
-
-
-def get_comment_by_id(communication_id, comment_id):
+def get_comment_by_id(comment_id):
     comment = get_entity(comment_id, Comment)
-    communication = get_communication_by_id(communication_id)
-    is_user_allowed_to_view(communication)
 
     return comment
 
 
+def get_option_by_id(poll_id, option_id):
+    option = get_entity(option_id, Option)
+    is_user_allowed_to_view_poll(poll_id)
+
+    return option
+
+
 def get_communication_by_id(communication_id):
     communication = get_entity(communication_id, Communication)
-    is_user_allowed_to_view(communication)
+    is_user_allowed_to_view_communication(communication_id)
 
     return communication
+
+
+def get_event_by_id(event_id):
+    event = get_entity(event_id, Event)
+    is_user_allowed_to_view_event(event_id)
+
+    return event
+
+
+def get_poll_by_id(poll_id):
+    poll = get_entity(poll_id, Poll)
+    is_user_allowed_to_view_poll(poll_id)
+
+    return poll
 
 
 def get_organizationgroup_by_id(organizationgroup_id):

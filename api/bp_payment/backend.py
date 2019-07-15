@@ -1,7 +1,7 @@
 from flask import g
 from ..models.items import Payment
 from ..common.exceptions import CannotChangeOthersProfile, CannotDeleteOthersPayment
-from ..bp_media_payment.backend import delete_media, get_all_medias
+from ..bp_media_payment.backend import delete_media, get_medias
 from ..helper_functions.get_by_id import get_payment_by_id
 
 
@@ -17,7 +17,7 @@ def create_payment(payment_data, user_id):
     return payment
 
 
-def get_all_payments(user_id):
+def get_payments(user_id):
     payments = Payment.query.filter(Payment.user_id == user_id).all()
 
     return payments
@@ -39,7 +39,7 @@ def delete_payment(user_id, payment_id):
 
     if int(user_id) == g.current_user.id:
 
-        medias = get_all_medias(user_id, payment_id)
+        medias = get_medias(user_id, payment_id)
         for media in medias:
             delete_media(user_id, media.id)
         payment = get_payment_by_id(payment_id)

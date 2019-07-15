@@ -1,5 +1,5 @@
 from . import backend
-from ..helper_functions.get_by_id import get_communication_media_by_id
+from ..helper_functions.get_media_by_id import get_communication_media_by_id
 
 
 def create_medias(media_data, communication_id):
@@ -9,15 +9,15 @@ def create_medias(media_data, communication_id):
     return medias_list
 
 
-def get_media_by_id(media_communication_id):
+def get_media(media_communication_id):
     media = get_communication_media_by_id(media_communication_id)
     media_dict = media.to_dict()
 
     return media_dict
 
 
-def get_all_medias(communication_id):
-    medias = backend.get_all_medias(communication_id)
+def get_medias(communication_id):
+    medias = backend.get_medias(communication_id)
     medias_list = [media.to_dict() for media in medias]
 
     return medias_list

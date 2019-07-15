@@ -3,10 +3,8 @@ from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
 from ..models.medias import MediaExperience
 from ..common.exceptions import CannotDeleteOthersMedia, CannotGetOthersMedia
 import os
-from ..helper_functions.get_by_id import (
-    get_experience_by_id,
-    get_experience_media_by_id,
-)
+from ..helper_functions.get_by_id import get_experience_by_id
+from ..helper_functions.get_media_by_id import get_experience_media_by_id
 
 
 files_experience = UploadSet(
@@ -33,7 +31,7 @@ def create_medias(media_data, user_id, experience_id):
     return medias
 
 
-def get_all_medias(user_id, experience_id):
+def get_medias(user_id, experience_id):
     if int(user_id) == g.current_user.id or g.current_user.role == "admin":
         medias = MediaExperience.query.filter(
             MediaExperience.experience_id == int(experience_id)

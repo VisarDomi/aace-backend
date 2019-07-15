@@ -25,6 +25,8 @@ from .bp_skill import bp as skill_bp
 from .bp_payment import bp as payment_bp
 from .bp_organizationgroup import bp as organizationgroup_bp
 from .bp_communication import bp as communication_bp
+from .bp_event import bp as event_bp
+from .bp_poll import bp as poll_bp
 from .bp_comment import bp as comment_bp
 from .bp_media_user import bp as media_user_bp
 from .bp_media_education import bp as media_education_bp
@@ -33,6 +35,8 @@ from .bp_media_skill import bp as media_skill_bp
 from .bp_media_payment import bp as media_payment_bp
 from .bp_media_organizationgroup import bp as media_organizationgroup_bp
 from .bp_media_communication import bp as media_communication_bp
+from .bp_media_event import bp as media_event_bp
+from .bp_media_poll import bp as media_poll_bp
 from .bp_media_comment import bp as media_comment_bp
 from .bp_user import bp as user_bp
 from .bp_search import bp as search_bp
@@ -77,11 +81,11 @@ def create_app(config_class=Config):
     app.register_blueprint(payment_bp, url_prefix="/api/user/<user_id>/payment")
     app.register_blueprint(organizationgroup_bp, url_prefix="/api/organizationgroup")
     app.register_blueprint(communication_bp, url_prefix="/api/communication")
+    app.register_blueprint(event_bp, url_prefix="/api/event")
+    app.register_blueprint(poll_bp, url_prefix="/api/poll")
     app.register_blueprint(user_bp, url_prefix="/api/user")
     app.register_blueprint(search_bp, url_prefix="/api/user/search")
-    app.register_blueprint(
-        comment_bp, url_prefix="/api/communication/<communication_id>/comment"
-    )
+    app.register_blueprint(comment_bp, url_prefix="/api/comment")
     app.register_blueprint(media_user_bp, url_prefix="/api/user/<user_id>")
     app.register_blueprint(
         media_education_bp, url_prefix="/api/user/<user_id>/education/<education_id>"
@@ -102,10 +106,9 @@ def create_app(config_class=Config):
     app.register_blueprint(
         media_communication_bp, url_prefix="/api/communication/<communication_id>"
     )
-    app.register_blueprint(
-        media_comment_bp,
-        url_prefix=("/api/communication/<communication_id>/comment/<comment_id>"),
-    )
+    app.register_blueprint(media_event_bp, url_prefix="/api/event/<event_id>")
+    app.register_blueprint(media_poll_bp, url_prefix="/api/poll/<poll_id>")
+    app.register_blueprint(media_comment_bp, url_prefix=("/api/comment/<comment_id>"))
 
     # register custom response class
     app.response_class = response.JSONResponse

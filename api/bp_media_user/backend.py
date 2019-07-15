@@ -3,7 +3,7 @@ from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
 from ..models.medias import MediaUser
 from ..common.exceptions import CannotDeleteOthersMedia, CannotGetOthersMedia
 import os
-from ..helper_functions.get_by_id import get_user_media_by_id
+from ..helper_functions.get_media_by_id import get_user_media_by_id
 
 
 files_user = UploadSet(name="userfiles", extensions=AllExcept(SCRIPTS + EXECUTABLES))
@@ -26,7 +26,7 @@ def create_medias(media_data, user_id):
     return medias
 
 
-def get_all_medias(user_id):
+def get_medias(user_id):
     medias = MediaUser.query.filter(MediaUser.user_id == int(user_id)).all()
 
     return medias

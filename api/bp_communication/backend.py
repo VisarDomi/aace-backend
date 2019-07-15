@@ -4,7 +4,7 @@ from ..common.exceptions import (
     NoOrganizationGroupByThatID,
 )
 from ..models.items import Communication, OrganizationGroup
-from ..bp_media_communication.backend import get_all_medias, delete_media
+from ..bp_media_communication.backend import get_medias, delete_media
 from ..helper_functions.decorators import admin_required
 from ..helper_functions.get_by_id import (
     get_communication_by_id,
@@ -22,7 +22,7 @@ def create_communication(communication_data):
     return communication
 
 
-def get_all_communications():
+def get_communications():
     communications = Communication.query.all()
     allowed_communications = []
     if g.current_user.role == "admin":
@@ -47,8 +47,8 @@ def update_communication(communication_data, communication_id):
 
 @admin_required
 def delete_communication(communication_id):
-    for media in get_all_medias(communication_id):
-        delete_media(communication_id, media.id)
+    for media in get_medias(communication_id):
+        delete_media(media.id)
     communication = get_communication_by_id(communication_id)
     communication.delete()
 
@@ -63,9 +63,7 @@ def get_organizationgroups_from_communication(communication_id):
     return organizationgroups
 
 
-def filter_og_of_oc(
-    communication, organizationgroup_id, OrganizationGroup
-):
+def filter_og_of_oc(communication, organizationgroup_id, OrganizationGroup):
     """Filter organizationgroups of communication"""
     is_og_in_oc = communication.organizationgroups.filter(
         OrganizationGroup.id == organizationgroup_id
@@ -77,11 +75,8 @@ def filter_og_of_oc(
 def group_in_communication_or_none(
     organizationgroup, communication, organizationgroup_id, OrganizationGroup
 ):
-    group_or_none = (
-        organizationgroup
-        == filter_og_of_oc(
-            communication, organizationgroup_id, OrganizationGroup
-        )
+    group_or_none = organizationgroup == filter_og_of_oc(
+        communication, organizationgroup_id, OrganizationGroup
     )
 
     return group_or_none
@@ -92,10 +87,7 @@ def is_group_in_communication(
 ):
     organizationgroup_in_a_communication = None
     if group_in_communication_or_none(
-        organizationgroup,
-        communication,
-        organizationgroup_id,
-        OrganizationGroup,
+        organizationgroup, communication, organizationgroup_id, OrganizationGroup
     ):
         organizationgroup_in_a_communication = organizationgroup
 
@@ -103,27 +95,20 @@ def is_group_in_communication(
 
 
 @admin_required
-def add_organizationgroup_to_communication(
-    communication_id, organizationgroup_id
-):
+def add_organizationgroup_to_communication(communication_id, organizationgroup_id):
     organizationgroup = get_organizationgroup_by_id(organizationgroup_id)
     communication = get_communication_by_id(communication_id)
     organizationgroup_in_a_communication_or_none = is_group_in_communication(
-        organizationgroup,
-        communication,
-        organizationgroup_id,
-        OrganizationGroup,
+        organizationgroup, communication, organizationgroup_id, OrganizationGroup
     )
     if organizationgroup is not organizationgroup_in_a_communication_or_none:
-        communication = get_communication_by_id(
-            communication_id
-        )
+        communication = get_communication_by_id(communication_id)
         communication.organizationgroups.append(organizationgroup)
         communication.save()
     else:
-        msg = (
-            "OrganizationGroup % s is already part of the communication % s."
-            % (organizationgroup_id, communication_id)
+        msg = "OrganizationGroup % s is already part of the communication % s." % (
+            organizationgroup_id,
+            communication_id,
         )
         raise OrganizationGroupIsAlreadyPartOfGroup(message=msg)
 
@@ -131,9 +116,7 @@ def add_organizationgroup_to_communication(
 
 
 @admin_required
-def remove_organizationgroup_from_communication(
-    communication_id, organizationgroup_id
-):
+def remove_organizationgroup_from_communication(communication_id, organizationgroup_id):
     communication = get_communication_by_id(communication_id)
     organizationgroup = communication.organizationgroups.filter(
         OrganizationGroup.id == organizationgroup_id

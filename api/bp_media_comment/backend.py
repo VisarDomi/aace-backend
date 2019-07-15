@@ -2,10 +2,8 @@ from flask import g
 from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
 from ..models.medias import MediaComment
 import os
-from ..helper_functions.get_by_id import (
-    get_comment_by_id,
-    get_comment_media_by_id,
-)
+from ..helper_functions.get_by_id import get_comment_by_id
+from ..helper_functions.get_media_by_id import get_comment_media_by_id
 from ..common.exceptions import CannotGetOthersMedia
 
 
@@ -14,11 +12,9 @@ files_comment = UploadSet(
 )
 
 
-def create_medias(media_data, communication_id, comment_id):
+def create_medias(media_data, comment_id):
     medias = []
-    comment = get_comment_by_id(
-        communication_id, comment_id
-    )
+    comment = get_comment_by_id(comment_id)
     if comment:
         if comment.author == g.current_user:
             for file in media_data:
@@ -35,33 +31,21 @@ def create_medias(media_data, communication_id, comment_id):
     return medias
 
 
-def get_all_medias(communication_id, comment_id):
-    medias = MediaComment.query.filter(
-        MediaComment.comment_id == int(comment_id)
-    ).all()
+def get_medias(comment_id):
+    medias = MediaComment.query.filter(MediaComment.comment_id == int(comment_id)).all()
 
     return medias
 
 
-def update_media(
-    media_data, communication_id, comment_id, media_comment_id
-):
+def update_media(media_data, comment_id, media_comment_id):
     medias = []
-    media = MediaComment.query.filter(
-        MediaComment.id == media_comment_id
-    ).one_or_none()
-    comment = get_comment_by_id(
-        communication_id, comment_id
-    )
+    media = MediaComment.query.filter(MediaComment.id == media_comment_id).one_or_none()
+    comment = get_comment_by_id(comment_id)
     if comment:
         if comment.author == g.current_user:
             for file in media_data:
                 if file and media:
-                    delete_media(
-                        communication_id,
-                        comment_id,
-                        media_comment_id,
-                    )
+                    delete_media(comment_id, media_comment_id)
                     filename = files_comment.save(file)
                     url = files_comment.url(filename)
                     media = MediaComment(filename=filename, url=url)
@@ -90,14 +74,12 @@ def is_file(file_name):
     return os.path.exists(this_file_path)
 
 
-# login
-def delete_media(
-    communication_id, comment_id, media_comment_id
-):
-    comment = get_comment_by_id(
-        communication_id, comment_id
-    )
-    if comment:
+def delete_media(comment_id, media_comment_id):
+    comment = get_comment_by_id(comment_id)
+    secure = False
+    # needs security
+    secure = True
+    if comment and secure:
         if comment.author == g.current_user:
             media = get_comment_media_by_id(media_comment_id)
             file_name = files_comment.path(media.filename)

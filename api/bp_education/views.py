@@ -16,13 +16,13 @@ def create_education(user_id):
 @bp.route("/<education_id>", methods=["GET"])
 def get_education(user_id, education_id):
 
-    return domain.get_education_by_id(education_id)
+    return domain.get_education(education_id)
 
 
 @bp.route("/all", methods=["GET"])
 def get_educations(user_id):
 
-    return domain.get_all_educations(user_id)
+    return domain.get_educations(user_id)
 
 
 @bp.route("/<education_id>", methods=["PUT"])
@@ -38,4 +38,4 @@ def update_education(user_id, education_id):
 def delete_education(user_id, education_id):
     domain.delete_education(user_id, education_id)
 
-    return {"message": "Experience with `id: %s` has been deleted." % education_id}
+    return {"message": "Education with `id: %s` has been deleted." % education_id}

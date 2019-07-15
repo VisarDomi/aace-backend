@@ -1,7 +1,5 @@
 from . import backend
-from ..helper_functions.get_by_id import (
-    get_experience_by_id as backend_get_experience_by_id,
-)
+from ..helper_functions.get_by_id import get_experience_by_id
 
 
 def create_experience(experience_data, user_id):
@@ -11,8 +9,8 @@ def create_experience(experience_data, user_id):
     return experience_dict
 
 
-def get_experience_by_id(experience_id):
-    experience = backend_get_experience_by_id(experience_id)
+def get_experience(experience_id):
+    experience = get_experience_by_id(experience_id)
     experience_dict = experience.to_dict()
 
     experience_medias = []
@@ -23,8 +21,8 @@ def get_experience_by_id(experience_id):
     return experience_dict
 
 
-def get_all_experiences(user_id):
-    experiences = backend.get_all_experiences(user_id)
+def get_experiences(user_id):
+    experiences = backend.get_experiences(user_id)
     experiences_list = []
     for experience in experiences:
         experience_dict = experience.to_dict()

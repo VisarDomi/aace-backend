@@ -2,10 +2,8 @@ from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
 from ..models.medias import MediaCommunication
 import os
 from ..helper_functions.decorators import admin_required
-from ..helper_functions.get_by_id import (
-    get_communication_by_id,
-    get_communication_media_by_id,
-)
+from ..helper_functions.get_by_id import get_communication_by_id
+from ..helper_functions.get_media_by_id import get_communication_media_by_id
 
 
 files_communication = UploadSet(
@@ -21,19 +19,16 @@ def create_medias(media_data, communication_id):
             filename = files_communication.save(file)
             url = files_communication.url(filename)
             media = MediaCommunication(filename=filename, url=url)
-            media.communication = get_communication_by_id(
-                communication_id
-            )
+            media.communication = get_communication_by_id(communication_id)
             media.save()
             medias.append(media)
 
     return medias
 
 
-def get_all_medias(communication_id):
+def get_medias(communication_id):
     medias = MediaCommunication.query.filter(
-        MediaCommunication.communication_id
-        == int(communication_id)
+        MediaCommunication.communication_id == int(communication_id)
     ).all()
 
     return medias
@@ -51,9 +46,7 @@ def update_media(media_data, communication_id, media_communication_id):
             filename = files_communication.save(file)
             url = files_communication.url(filename)
             media = MediaCommunication(filename=filename, url=url)
-            media.communication = get_communication_by_id(
-                communication_id
-            )
+            media.communication = get_communication_by_id(communication_id)
             media.save()
             medias.append(media)
 

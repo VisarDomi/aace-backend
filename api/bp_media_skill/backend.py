@@ -3,7 +3,8 @@ from flask_uploads import UploadSet, AllExcept, SCRIPTS, EXECUTABLES
 from ..models.medias import MediaSkill
 from ..common.exceptions import CannotDeleteOthersMedia, CannotGetOthersMedia
 import os
-from ..helper_functions.get_by_id import get_skill_by_id, get_skill_media_by_id
+from ..helper_functions.get_by_id import get_skill_by_id
+from ..helper_functions.get_media_by_id import get_skill_media_by_id
 
 
 files_skill = UploadSet(name="skillfiles", extensions=AllExcept(SCRIPTS + EXECUTABLES))
@@ -28,7 +29,7 @@ def create_medias(media_data, user_id, skill_id):
     return medias
 
 
-def get_all_medias(user_id, skill_id):
+def get_medias(user_id, skill_id):
     if int(user_id) == g.current_user.id or g.current_user.role == "admin":
         medias = MediaSkill.query.filter(MediaSkill.skill_id == int(skill_id)).all()
     else:

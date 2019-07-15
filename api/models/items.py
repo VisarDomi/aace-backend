@@ -114,6 +114,18 @@ class OrganizationGroup(BaseModel, ModelSerializerMixin):
         back_populates="organizationgroups",
         lazy="dynamic",
     )
+    events = relationship(
+        "Event",
+        secondary="organizationgroup_event",
+        back_populates="organizationgroups",
+        lazy="dynamic",
+    )
+    polls = relationship(
+        "Poll",
+        secondary="organizationgroup_poll",
+        back_populates="organizationgroups",
+        lazy="dynamic",
+    )
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.name}, id = {self.id})"
@@ -138,16 +150,82 @@ class Communication(BaseModel, ModelSerializerMixin):
         lazy="dynamic",
     )
     medias = relationship(
-        "MediaCommunication",
-        back_populates="communication",
-        lazy="dynamic",
+        "MediaCommunication", back_populates="communication", lazy="dynamic"
     )
-    comments = relationship(
-        "Comment", back_populates="communication", lazy="dynamic"
-    )
+    comments = relationship("Comment", back_populates="communication", lazy="dynamic")
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.name}, id = {self.id})"
+
+
+class Event(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    name = Column(String, default="no_name")
+    description = Column(Text)
+    body = Column(Text)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+    time_start = Column(DateTime, default=datetime.utcnow)
+    time_end = Column(DateTime, default=datetime.utcnow)
+
+    author = relationship("User", back_populates="events")
+    author_id = Column(Integer, ForeignKey("users.id"))
+
+    organizationgroups = relationship(
+        "OrganizationGroup",
+        secondary="organizationgroup_event",
+        back_populates="events",
+        lazy="dynamic",
+    )
+    medias = relationship("MediaEvent", back_populates="event", lazy="dynamic")
+    comments = relationship("Comment", back_populates="event", lazy="dynamic")
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.name}, id = {self.id})"
+
+
+class Poll(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    name = Column(String, default="no_name")
+    description = Column(Text)
+    body = Column(Text)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    author = relationship("User", back_populates="polls")
+    author_id = Column(Integer, ForeignKey("users.id"))
+
+    organizationgroups = relationship(
+        "OrganizationGroup",
+        secondary="organizationgroup_poll",
+        back_populates="polls",
+        lazy="dynamic",
+    )
+    medias = relationship("MediaPoll", back_populates="poll", lazy="dynamic")
+    comments = relationship("Comment", back_populates="poll", lazy="dynamic")
+    options = relationship("Option", back_populates="poll", lazy="dynamic")
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.name}, id = {self.id})"
+
+
+class Option(BaseModel, ModelSerializerMixin):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    body = Column(String, default="no_body")
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    users = relationship(
+        "User", secondary="user_option", back_populates="options", lazy="dynamic"
+    )
+
+    poll = relationship("Poll", back_populates="options")
+    poll_id = Column(Integer, ForeignKey("polls.id"))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.body}, id = {self.id})"
 
 
 class Comment(BaseModel, ModelSerializerMixin):
@@ -159,14 +237,14 @@ class Comment(BaseModel, ModelSerializerMixin):
     author = relationship("User", back_populates="comments")
     author_id = Column(Integer, ForeignKey("users.id"))
 
-    communication = relationship(
-        "Communication", back_populates="comments"
-    )
+    communication = relationship("Communication", back_populates="comments")
     communication_id = Column(Integer, ForeignKey("communications.id"))
+    event = relationship("Event", back_populates="comments")
+    event_id = Column(Integer, ForeignKey("events.id"))
+    poll = relationship("Poll", back_populates="comments")
+    poll_id = Column(Integer, ForeignKey("polls.id"))
 
-    medias = relationship(
-        "MediaComment", back_populates="comment", lazy="dynamic"
-    )
+    medias = relationship("MediaComment", back_populates="comment", lazy="dynamic")
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.body}, id = {self.id})"
@@ -195,25 +273,6 @@ class Group(BaseModel, ModelSerializerMixin):
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.name}, id = {self.id})"
-
-
-class Event(BaseModel, ModelSerializerMixin):
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-
-    title = Column(String, default="no_title")
-    body = Column(Text)
-    time_start = Column(DateTime, default=datetime.utcnow)
-    time_end = Column(DateTime, default=datetime.utcnow)
-    location = Column(Text)
-    timestamp = Column(DateTime, default=datetime.utcnow)
-
-    users = relationship(
-        "User", secondary="user_event", back_populates="events", lazy="dynamic"
-    )
-
-    def __repr__(self):
-        return f"{self.__class__.__name__}({self.title}, id = {self.id})"
 
 
 class Message(BaseModel, ModelSerializerMixin):

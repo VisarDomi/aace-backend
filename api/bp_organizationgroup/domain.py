@@ -1,4 +1,5 @@
 from . import backend
+from ..helper_functions.get_by_id import get_organizationgroup_by_id
 from ..helper_functions.constants import ONLY
 
 
@@ -9,8 +10,8 @@ def create_organizationgroup(organizationgroup_data):
     return organizationgroup_dict
 
 
-def get_organizationgroup_by_id(organizationgroup_id):
-    organizationgroup = backend.get_organizationgroup_by_id(organizationgroup_id)
+def get_organizationgroup(organizationgroup_id):
+    organizationgroup = get_organizationgroup_by_id(organizationgroup_id)
     organizationgroup_dict = organizationgroup.to_dict()
 
     organizationgroup_medias = []
@@ -21,8 +22,8 @@ def get_organizationgroup_by_id(organizationgroup_id):
     return organizationgroup_dict
 
 
-def get_all_organizationgroups():
-    organizationgroups = backend.get_all_organizationgroups()
+def get_organizationgroups():
+    organizationgroups = backend.get_organizationgroups()
     organizationgroups_list = [
         organizationgroup.to_dict() for organizationgroup in organizationgroups
     ]

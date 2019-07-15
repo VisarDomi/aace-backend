@@ -7,10 +7,10 @@ from ..common.exceptions import (
     CannotDeleteFirstAdmin,
 )
 from ..models.users import User
-from ..bp_skill.backend import get_all_skills, delete_skill
-from ..bp_experience.backend import get_all_experiences, delete_experience
-from ..bp_education.backend import get_all_educations, delete_education
-from ..bp_media_user.backend import get_all_medias, delete_media
+from ..bp_skill.backend import get_skills, delete_skill
+from ..bp_experience.backend import get_experiences, delete_experience
+from ..bp_education.backend import get_educations, delete_education
+from ..bp_media_user.backend import get_medias, delete_media
 from ..helper_functions.get_by_id import get_user_by_id
 
 
@@ -34,7 +34,7 @@ def create_user(user_data):
     return user
 
 
-def get_all_users():
+def get_users():
     users = User.query.all()
 
     return users
@@ -56,13 +56,13 @@ def update_user(user_data, user_id):
 def delete_user(user_id):
     if int(user_id) != 1:
         if int(user_id) == g.current_user.id:
-            for media in get_all_medias(user_id):
+            for media in get_medias(user_id):
                 delete_media(user_id, media.id)
-            for education in get_all_educations(user_id):
+            for education in get_educations(user_id):
                 delete_education(user_id, education.id)
-            for experience in get_all_experiences(user_id):
+            for experience in get_experiences(user_id):
                 delete_experience(user_id, experience.id)
-            for skill in get_all_skills(user_id):
+            for skill in get_skills(user_id):
                 delete_skill(user_id, skill.id)
             user = get_user_by_id(user_id)
             user.delete()

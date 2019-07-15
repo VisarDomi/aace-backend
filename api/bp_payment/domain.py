@@ -1,5 +1,5 @@
 from . import backend
-from ..helper_functions.get_by_id import get_payment_by_id as backend_get_payment_by_id
+from ..helper_functions.get_by_id import get_payment_by_id
 
 
 def create_payment(payment_data, user_id):
@@ -9,8 +9,8 @@ def create_payment(payment_data, user_id):
     return payment_dict
 
 
-def get_payment_by_id(payment_id):
-    payment = backend_get_payment_by_id(payment_id)
+def get_payment(payment_id):
+    payment = get_payment_by_id(payment_id)
     payment_dict = payment.to_dict()
 
     payment_medias = []
@@ -21,8 +21,8 @@ def get_payment_by_id(payment_id):
     return payment_dict
 
 
-def get_all_payments(user_id):
-    payments = backend.get_all_payments(user_id)
+def get_payments(user_id):
+    payments = backend.get_payments(user_id)
     payments_list = []
     for payment in payments:
         payment_dict = payment.to_dict()

@@ -16,13 +16,13 @@ def create_organizationgroup():
 @bp.route("/<organizationgroup_id>", methods=["GET"])
 def get_organizationgroup(organizationgroup_id):
 
-    return domain.get_organizationgroup_by_id(organizationgroup_id)
+    return domain.get_organizationgroup(organizationgroup_id)
 
 
 @bp.route("/all", methods=["GET"])
 def get_organizationgroups():
 
-    return domain.get_all_organizationgroups()
+    return domain.get_organizationgroups()
 
 
 # order is route, schema, auth

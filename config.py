@@ -42,11 +42,11 @@ class Config(object):
     UPLOADED_ORGANIZATIONGROUPFILES_URL = (
         f"{WEBSITE_URL}/static/files/organizationgroup/"
     )
-    UPLOADED_COMMUNICATIONFILES_DEST = (
-        basedir + "/static/files/communication/"
-    )
-    UPLOADED_COMMUNICATIONFILES_URL = (
-        f"{WEBSITE_URL}/static/files/communication/"
-    )
+    UPLOADED_COMMUNICATIONFILES_DEST = basedir + "/static/files/communication/"
+    UPLOADED_COMMUNICATIONFILES_URL = f"{WEBSITE_URL}/static/files/communication/"
+    UPLOADED_EVENTFILES_DEST = basedir + "/static/files/event/"
+    UPLOADED_EVENTFILES_URL = f"{WEBSITE_URL}/static/files/event/"
+    UPLOADED_POLLFILES_DEST = basedir + "/static/files/poll/"
+    UPLOADED_POLLFILES_URL = f"{WEBSITE_URL}/static/files/poll/"
     UPLOADED_COMMENTFILES_DEST = basedir + "/static/files/comment/"
     UPLOADED_COMMENTFILES_URL = f"{WEBSITE_URL}/static/files/comment/"

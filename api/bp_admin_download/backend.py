@@ -1,7 +1,7 @@
 from flask import send_from_directory  # , send_file
 from config import Config
 from ..helper_functions.decorators import admin_required
-from ..helper_functions.get_by_id import (
+from ..helper_functions.get_media_by_id import (
     get_education_media_by_id,
     get_experience_media_by_id,
     get_skill_media_by_id,

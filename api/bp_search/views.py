@@ -3,7 +3,6 @@ from flask import request
 from ..common.validation import schema
 from . import bp
 from . import domain
-# from ..bp_auth.views import token_auth
 
 
 @bp.route("", methods=["POST"])
