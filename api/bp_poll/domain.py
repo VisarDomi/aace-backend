@@ -9,6 +9,13 @@ def create_poll(poll_data):
     return poll_dict
 
 
+def get_polls():
+    polls = backend.get_polls()
+    polls_list = [poll.to_dict() for poll in polls]
+
+    return polls_list
+
+
 def get_poll(poll_id):
     poll = get_poll_by_id(poll_id)
     poll_dict = poll.to_dict()
@@ -19,13 +26,6 @@ def get_poll(poll_id):
     poll_dict["poll_medias"] = poll_medias
 
     return poll_dict
-
-
-def get_polls():
-    polls = backend.get_polls()
-    polls_list = [poll.to_dict() for poll in polls]
-
-    return polls_list
 
 
 def update_poll(poll_data, poll_id):

@@ -11,14 +11,6 @@ def create_user(user_data):
     return user_dict
 
 
-def get_user(user_id):
-    user = get_user_by_id(user_id)
-    user_dict = user.to_dict(only=ONLY)
-    user_dict["years_of_experience"] = "6"
-
-    return user_dict
-
-
 def get_users():
     users = backend.get_users()
     users_list = []
@@ -28,6 +20,14 @@ def get_users():
         users_list.append(user_dict)
 
     return users_list
+
+
+def get_user(user_id):
+    user = get_user_by_id(user_id)
+    user_dict = user.to_dict(only=ONLY)
+    user_dict["years_of_experience"] = "6"
+
+    return user_dict
 
 
 def update_user(user_data, user_id):

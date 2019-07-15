@@ -9,13 +9,6 @@ def create_medias(media_data, comment_id):
     return medias_list
 
 
-def get_media(comment_id, media_comment_id):
-    media = get_comment_media_by_id(media_comment_id)
-    media_dict = media.to_dict()
-
-    return media_dict
-
-
 def get_medias(comment_id):
     medias = backend.get_medias(comment_id)
     medias_list = [media.to_dict() for media in medias]
@@ -23,10 +16,15 @@ def get_medias(comment_id):
     return medias_list
 
 
+def get_media(comment_id, media_comment_id):
+    media = get_comment_media_by_id(media_comment_id)
+    media_dict = media.to_dict()
+
+    return media_dict
+
+
 def update_media(media_data, comment_id, media_comment_id):
-    medias = backend.update_media(
-        media_data, comment_id, media_comment_id
-    )
+    medias = backend.update_media(media_data, comment_id, media_comment_id)
     medias_list = [media.to_dict() for media in medias]
 
     return medias_list

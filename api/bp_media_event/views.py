@@ -12,18 +12,18 @@ def create_medias(event_id):
     return domain.create_medias(request.files.getlist("file"), event_id)
 
 
-@bp.route("/media/<media_event_id>", methods=["GET"])
-@token_auth.login_required
-def get_media(event_id, media_event_id):
-
-    return domain.get_media(media_event_id)
-
-
 @bp.route("/media/all", methods=["GET"])
 @token_auth.login_required
 def get_medias(event_id):
 
     return domain.get_medias(event_id)
+
+
+@bp.route("/media/<media_event_id>", methods=["GET"])
+@token_auth.login_required
+def get_media(event_id, media_event_id):
+
+    return domain.get_media(media_event_id)
 
 
 @bp.route("/media/<media_event_id>", methods=["PUT"])

@@ -21,9 +21,12 @@ def create_communication_comment(comment_data, communication_id):
 
 def get_communication_comments(communication_id):
     communication = get_communication_by_id(communication_id)
+    comments = []
     for group in communication.organizationgroups.all():
-        if g.current_user in group.users.all() or g.current_user.role == "admin":
+        if g.current_user in group.users.all():
             comments = communication.comments.all()
+    if g.current_user.role == "admin":
+        comments = communication.comments.all()
 
     return comments
 
@@ -74,6 +77,12 @@ def create_event_comment(comment_data, event_id):
 
 def get_event_comments(event_id):
     event = get_event_by_id(event_id)
+    comments = []
+    for group in event.organizationgroups.all():
+        if g.current_user in group.users.all():
+            comments = event.comments.all()
+    if g.current_user.role == "admin":
+        comments = event.comments.all()
     for group in event.organizationgroups.all():
         if g.current_user in group.users.all() or g.current_user.role == "admin":
             comments = event.comments.all()
@@ -127,6 +136,12 @@ def create_poll_comment(comment_data, poll_id):
 
 def get_poll_comments(poll_id):
     poll = get_poll_by_id(poll_id)
+    comments = []
+    for group in poll.organizationgroups.all():
+        if g.current_user in group.users.all():
+            comments = poll.comments.all()
+    if g.current_user.role == "admin":
+        comments = poll.comments.all()
     for group in poll.organizationgroups.all():
         if g.current_user in group.users.all() or g.current_user.role == "admin":
             comments = poll.comments.all()

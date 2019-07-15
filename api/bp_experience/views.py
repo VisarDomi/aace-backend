@@ -13,16 +13,16 @@ def create_experience(user_id):
     return domain.create_experience(request.json, user_id)
 
 
-@bp.route("/<experience_id>", methods=["GET"])
-def get_experience(user_id, experience_id):
-
-    return domain.get_experience(experience_id)
-
-
 @bp.route("/all", methods=["GET"])
 def get_experiences(user_id):
 
     return domain.get_experiences(user_id)
+
+
+@bp.route("/<experience_id>", methods=["GET"])
+def get_experience(user_id, experience_id):
+
+    return domain.get_experience(experience_id)
 
 
 @bp.route("/<experience_id>", methods=["PUT"])

@@ -58,11 +58,11 @@ class User(BaseModel, ModelSerializerMixin):
     register_date = Column(DateTime, default=datetime.utcnow)
     application_date = Column(DateTime)
     reapplication_date = Column(DateTime)
-    rebutted_date = Column(DateTime)
     send_payment_date = Column(DateTime)
     resend_payment_date = Column(DateTime)
     rebutted_payment_date = Column(DateTime)
     accepted_date = Column(DateTime)
+    rebutted_date = Column(DateTime)
     rejected_date = Column(DateTime)
 
     # comment nga administratori
@@ -97,7 +97,7 @@ class User(BaseModel, ModelSerializerMixin):
 
     # options, groups
     options = relationship(
-        "Option", secondary="option_user", back_populates="users", lazy="dynamic"
+        "Option", secondary="user_option", back_populates="users", lazy="dynamic"
     )
     groups = relationship(
         "Group", secondary="user_group", back_populates="users", lazy="dynamic"

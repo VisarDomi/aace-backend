@@ -13,18 +13,18 @@ def create_poll():
     return domain.create_poll(request.json)
 
 
-@bp.route("/<poll_id>", methods=["GET"])
-@token_auth.login_required
-def get_poll(poll_id):
-
-    return domain.get_poll(poll_id)
-
-
 @bp.route("/all", methods=["GET"])
 @token_auth.login_required
 def get_polls():
 
     return domain.get_polls()
+
+
+@bp.route("/<poll_id>", methods=["GET"])
+@token_auth.login_required
+def get_poll(poll_id):
+
+    return domain.get_poll(poll_id)
 
 
 # order is route, schema, auth

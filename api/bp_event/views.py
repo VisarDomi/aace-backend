@@ -13,18 +13,18 @@ def create_event():
     return domain.create_event(request.json)
 
 
-@bp.route("/<event_id>", methods=["GET"])
-@token_auth.login_required
-def get_event(event_id):
-
-    return domain.get_event(event_id)
-
-
 @bp.route("/all", methods=["GET"])
 @token_auth.login_required
 def get_events():
 
     return domain.get_events()
+
+
+@bp.route("/<event_id>", methods=["GET"])
+@token_auth.login_required
+def get_event(event_id):
+
+    return domain.get_event(event_id)
 
 
 # order is route, schema, auth

@@ -10,6 +10,15 @@ def create_organizationgroup(organizationgroup_data):
     return organizationgroup_dict
 
 
+def get_organizationgroups():
+    organizationgroups = backend.get_organizationgroups()
+    organizationgroups_list = [
+        organizationgroup.to_dict() for organizationgroup in organizationgroups
+    ]
+
+    return organizationgroups_list
+
+
 def get_organizationgroup(organizationgroup_id):
     organizationgroup = get_organizationgroup_by_id(organizationgroup_id)
     organizationgroup_dict = organizationgroup.to_dict()
@@ -20,15 +29,6 @@ def get_organizationgroup(organizationgroup_id):
     organizationgroup_dict["organizationgroup_medias"] = organizationgroup_medias
 
     return organizationgroup_dict
-
-
-def get_organizationgroups():
-    organizationgroups = backend.get_organizationgroups()
-    organizationgroups_list = [
-        organizationgroup.to_dict() for organizationgroup in organizationgroups
-    ]
-
-    return organizationgroups_list
 
 
 def update_organizationgroup(organizationgroup_data, organizationgroup_id):

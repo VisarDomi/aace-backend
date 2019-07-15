@@ -9,6 +9,13 @@ def create_communication(communication_data):
     return communication_dict
 
 
+def get_communications():
+    communications = backend.get_communications()
+    communications_list = [communication.to_dict() for communication in communications]
+
+    return communications_list
+
+
 def get_communication(communication_id):
     communication = get_communication_by_id(communication_id)
     communication_dict = communication.to_dict()
@@ -19,13 +26,6 @@ def get_communication(communication_id):
     communication_dict["communication_medias"] = communication_medias
 
     return communication_dict
-
-
-def get_communications():
-    communications = backend.get_communications()
-    communications_list = [communication.to_dict() for communication in communications]
-
-    return communications_list
 
 
 def update_communication(communication_data, communication_id):

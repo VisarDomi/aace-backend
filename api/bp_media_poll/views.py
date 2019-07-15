@@ -12,18 +12,18 @@ def create_medias(poll_id):
     return domain.create_medias(request.files.getlist("file"), poll_id)
 
 
-@bp.route("/media/<media_poll_id>", methods=["GET"])
-@token_auth.login_required
-def get_media(poll_id, media_poll_id):
-
-    return domain.get_media(media_poll_id)
-
-
 @bp.route("/media/all", methods=["GET"])
 @token_auth.login_required
 def get_medias(poll_id):
 
     return domain.get_medias(poll_id)
+
+
+@bp.route("/media/<media_poll_id>", methods=["GET"])
+@token_auth.login_required
+def get_media(poll_id, media_poll_id):
+
+    return domain.get_media(media_poll_id)
 
 
 @bp.route("/media/<media_poll_id>", methods=["PUT"])

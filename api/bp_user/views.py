@@ -12,16 +12,16 @@ def create_user():
     return domain.create_user(request.json)
 
 
-@bp.route("/<user_id>", methods=["GET"])
-def get_user(user_id):
-
-    return domain.get_user(user_id)
-
-
 @bp.route("/all", methods=["GET"])
 def get_users():
 
     return domain.get_users()
+
+
+@bp.route("/<user_id>", methods=["GET"])
+def get_user(user_id):
+
+    return domain.get_user(user_id)
 
 
 # order is route, schema, auth

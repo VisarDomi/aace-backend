@@ -9,6 +9,13 @@ def create_event(event_data):
     return event_dict
 
 
+def get_events():
+    events = backend.get_events()
+    events_list = [event.to_dict() for event in events]
+
+    return events_list
+
+
 def get_event(event_id):
     event = get_event_by_id(event_id)
     event_dict = event.to_dict()
@@ -19,13 +26,6 @@ def get_event(event_id):
     event_dict["event_medias"] = event_medias
 
     return event_dict
-
-
-def get_events():
-    events = backend.get_events()
-    events_list = [event.to_dict() for event in events]
-
-    return events_list
 
 
 def update_event(event_data, event_id):

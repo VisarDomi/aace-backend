@@ -10,19 +10,20 @@ from ..bp_auth.views import token_auth
 @schema("create_organizationgroup.json")
 @token_auth.login_required
 def create_organizationgroup():
+
     return domain.create_organizationgroup(request.json)
-
-
-@bp.route("/<organizationgroup_id>", methods=["GET"])
-def get_organizationgroup(organizationgroup_id):
-
-    return domain.get_organizationgroup(organizationgroup_id)
 
 
 @bp.route("/all", methods=["GET"])
 def get_organizationgroups():
 
     return domain.get_organizationgroups()
+
+
+@bp.route("/<organizationgroup_id>", methods=["GET"])
+def get_organizationgroup(organizationgroup_id):
+
+    return domain.get_organizationgroup(organizationgroup_id)
 
 
 # order is route, schema, auth
@@ -47,18 +48,21 @@ def delete_organizationgroup(organizationgroup_id):
 
 @bp.route("/<organizationgroup_id>/user/all", methods=["GET"])
 def get_users_from_organizationgroup(organizationgroup_id):
+
     return domain.get_users_from_organizationgroup(organizationgroup_id)
 
 
 @bp.route("/unassigned_users", methods=["GET"])
 @token_auth.login_required
 def unassigned_users():
+
     return domain.unassigned_users()
 
 
 @bp.route("/<organizationgroup_id>/user/<user_id>", methods=["PUT"])
 @token_auth.login_required
 def add_user_to_organizationgroup(organizationgroup_id, user_id):
+
     return domain.add_user_to_organizationgroup(organizationgroup_id, user_id)
 
 
@@ -66,6 +70,7 @@ def add_user_to_organizationgroup(organizationgroup_id, user_id):
 @token_auth.login_required
 def remove_user_from_organizationgroup(organizationgroup_id, user_id):
     domain.remove_user_from_organizationgroup(organizationgroup_id, user_id)
+
     return {
         "message": f"User with `{user_id}` has been removed "
         f"from organizationgroup with `{organizationgroup_id}`."
@@ -76,6 +81,7 @@ def remove_user_from_organizationgroup(organizationgroup_id, user_id):
 @schema("add_users_to_organizationgroup.json")
 @token_auth.login_required
 def add_users_to_organizationgroup(organizationgroup_id):
+
     return domain.add_users_to_organizationgroup(request.json, organizationgroup_id)
 
 

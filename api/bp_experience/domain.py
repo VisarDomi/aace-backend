@@ -9,18 +9,6 @@ def create_experience(experience_data, user_id):
     return experience_dict
 
 
-def get_experience(experience_id):
-    experience = get_experience_by_id(experience_id)
-    experience_dict = experience.to_dict()
-
-    experience_medias = []
-    for experience_media in experience.medias:
-        experience_medias.append(experience_media.to_dict())
-    experience_dict["experience_medias"] = experience_medias
-
-    return experience_dict
-
-
 def get_experiences(user_id):
     experiences = backend.get_experiences(user_id)
     experiences_list = []
@@ -35,6 +23,18 @@ def get_experiences(user_id):
         experiences_list += [experience_dict]
 
     return experiences_list
+
+
+def get_experience(experience_id):
+    experience = get_experience_by_id(experience_id)
+    experience_dict = experience.to_dict()
+
+    experience_medias = []
+    for experience_media in experience.medias:
+        experience_medias.append(experience_media.to_dict())
+    experience_dict["experience_medias"] = experience_medias
+
+    return experience_dict
 
 
 def update_experience(experience_data, user_id, experience_id):

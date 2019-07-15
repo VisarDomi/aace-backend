@@ -9,18 +9,18 @@ def create_medias(media_data, user_id, education_id):
     return medias_list
 
 
-def get_media(user_id, media_education_id):
-    media = get_education_media_by_id(user_id, media_education_id)
-    media_dict = media.to_dict()
-
-    return media_dict
-
-
 def get_medias(user_id, education_id):
     medias = backend.get_medias(user_id, education_id)
     medias_list = [media.to_dict() for media in medias]
 
     return medias_list
+
+
+def get_media(user_id, media_education_id):
+    media = get_education_media_by_id(user_id, media_education_id)
+    media_dict = media.to_dict()
+
+    return media_dict
 
 
 def update_media(media_data, user_id, education_id, media_education_id):

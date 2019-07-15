@@ -13,18 +13,18 @@ def create_communication():
     return domain.create_communication(request.json)
 
 
-@bp.route("/<communication_id>", methods=["GET"])
-@token_auth.login_required
-def get_communication(communication_id):
-
-    return domain.get_communication(communication_id)
-
-
 @bp.route("/all", methods=["GET"])
 @token_auth.login_required
 def get_communications():
 
     return domain.get_communications()
+
+
+@bp.route("/<communication_id>", methods=["GET"])
+@token_auth.login_required
+def get_communication(communication_id):
+
+    return domain.get_communication(communication_id)
 
 
 # order is route, schema, auth

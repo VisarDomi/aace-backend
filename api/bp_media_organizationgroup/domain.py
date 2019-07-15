@@ -9,18 +9,18 @@ def create_medias(media_data, organizationgroup_id):
     return medias_list
 
 
-def get_media(media_organizationgroup_id):
-    media = get_organizationgroup_media_by_id(media_organizationgroup_id)
-    media_dict = media.to_dict()
-
-    return media_dict
-
-
 def get_medias(organizationgroup_id):
     medias = backend.get_medias(organizationgroup_id)
     medias_list = [media.to_dict() for media in medias]
 
     return medias_list
+
+
+def get_media(media_organizationgroup_id):
+    media = get_organizationgroup_media_by_id(media_organizationgroup_id)
+    media_dict = media.to_dict()
+
+    return media_dict
 
 
 def update_media(media_data, organizationgroup_id, media_organizationgroup_id):

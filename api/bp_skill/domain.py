@@ -9,18 +9,6 @@ def create_skill(skill_data, user_id):
     return skill_dict
 
 
-def get_skill(skill_id):
-    skill = get_skill_by_id(skill_id)
-    skill_dict = skill.to_dict()
-
-    skill_medias = []
-    for skill_media in skill.medias:
-        skill_medias.append(skill_media.to_dict())
-    skill_dict["skill_medias"] = skill_medias
-
-    return skill_dict
-
-
 def get_skills(user_id):
     skills = backend.get_skills(user_id)
     skills_list = []
@@ -35,6 +23,18 @@ def get_skills(user_id):
         skills_list += [skill_dict]
 
     return skills_list
+
+
+def get_skill(skill_id):
+    skill = get_skill_by_id(skill_id)
+    skill_dict = skill.to_dict()
+
+    skill_medias = []
+    for skill_media in skill.medias:
+        skill_medias.append(skill_media.to_dict())
+    skill_dict["skill_medias"] = skill_medias
+
+    return skill_dict
 
 
 def update_skill(skill_data, user_id, skill_id):

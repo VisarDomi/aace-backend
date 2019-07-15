@@ -9,18 +9,6 @@ def create_education(education_data, user_id):
     return education_dict
 
 
-def get_education(education_id):
-    education = get_education_by_id(education_id)
-    education_dict = education.to_dict()
-
-    education_medias = []
-    for education_media in education.medias:
-        education_medias.append(education_media.to_dict())
-    education_dict["education_medias"] = education_medias
-
-    return education_dict
-
-
 def get_educations(user_id):
     educations = backend.get_educations(user_id)
     educations_list = []
@@ -35,6 +23,18 @@ def get_educations(user_id):
         educations_list += [education_dict]
 
     return educations_list
+
+
+def get_education(education_id):
+    education = get_education_by_id(education_id)
+    education_dict = education.to_dict()
+
+    education_medias = []
+    for education_media in education.medias:
+        education_medias.append(education_media.to_dict())
+    education_dict["education_medias"] = education_medias
+
+    return education_dict
 
 
 def update_education(education_data, user_id, education_id):

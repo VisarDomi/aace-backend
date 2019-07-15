@@ -13,16 +13,16 @@ def create_skill(user_id):
     return domain.create_skill(request.json, user_id)
 
 
-@bp.route("/<skill_id>", methods=["GET"])
-def get_skill(user_id, skill_id):
-
-    return domain.get_skill(skill_id)
-
-
 @bp.route("/all", methods=["GET"])
 def get_skills(user_id):
 
     return domain.get_skills(user_id)
+
+
+@bp.route("/<skill_id>", methods=["GET"])
+def get_skill(user_id, skill_id):
+
+    return domain.get_skill(skill_id)
 
 
 @bp.route("/<skill_id>", methods=["PUT"])

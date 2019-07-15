@@ -9,18 +9,18 @@ def create_medias(media_data, poll_id):
     return medias_list
 
 
-def get_media(media_poll_id):
-    media = get_poll_media_by_id(media_poll_id)
-    media_dict = media.to_dict()
-
-    return media_dict
-
-
 def get_medias(poll_id):
     medias = backend.get_medias(poll_id)
     medias_list = [media.to_dict() for media in medias]
 
     return medias_list
+
+
+def get_media(media_poll_id):
+    media = get_poll_media_by_id(media_poll_id)
+    media_dict = media.to_dict()
+
+    return media_dict
 
 
 def update_media(media_data, poll_id, media_poll_id):
