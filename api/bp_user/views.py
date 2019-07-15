@@ -18,6 +18,12 @@ def get_users():
     return domain.get_users()
 
 
+@bp.route("/all/count", methods=["GET"])
+def get_users_count():
+
+    return domain.get_users_count()
+
+
 @bp.route("/<user_id>", methods=["GET"])
 def get_user(user_id):
 

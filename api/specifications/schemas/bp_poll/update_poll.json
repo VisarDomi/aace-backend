@@ -6,7 +6,21 @@
   "properties": {
     "name": { "type": "string" },
     "description": { "type": "string" },
-    "body": { "type": "string" }
+    "body": { "type": "string" },
+    "options": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/option" }
+    }
+  },
+  "definitions": {
+    "option": {
+      "type": "object",
+      "required": ["body"],
+      "properties": {
+        "body": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
   },
   "additionalProperties": false
 }

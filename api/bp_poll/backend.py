@@ -3,7 +3,7 @@ from ..common.exceptions import (
     OrganizationGroupIsAlreadyPartOfGroup,
     NoOrganizationGroupByThatID,
 )
-from ..models.items import Poll, OrganizationGroup
+from ..models.items import Poll, OrganizationGroup, Option
 from ..bp_media_poll.backend import get_medias, delete_media
 from ..helper_functions.decorators import admin_required
 from ..helper_functions.get_by_id import get_poll_by_id, get_organizationgroup_by_id
@@ -12,7 +12,13 @@ from ..helper_functions.email import send_email_to_users
 
 @admin_required
 def create_poll(poll_data):
+    options_data = poll_data.pop("options")
     poll = Poll(**poll_data)
+    poll.save()
+    for option_data in options_data:
+        option = Option(**option_data)
+        option.poll = poll
+        option.save()
     poll.author = g.current_user
     poll.save()
 
@@ -38,6 +44,26 @@ def update_poll(poll_data, poll_id):
     poll = get_poll_by_id(poll_id)
     poll.update(**poll_data)
     poll.save()
+
+    return poll
+
+
+def update_poll_vote(poll_data, poll_id):
+    user = g.current_user
+    poll = get_poll_by_id(poll_id)
+    incoming_options = poll_data.pop("options")
+    poll_options = poll.options.all()
+    for incoming_option in incoming_options:
+        for option in poll_options:
+            incoming_body = incoming_option["body"]
+            print("incoming_body", incoming_body)
+            option_dict = option.to_dict()
+            body = option_dict["body"]
+            print("body", body)
+            if incoming_body == body:
+                print("they are equal")
+                option.users.append(user)
+                option.save()
 
     return poll
 

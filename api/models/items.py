@@ -215,7 +215,6 @@ class Option(BaseModel, ModelSerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     body = Column(String, default="no_body")
-    timestamp = Column(DateTime, default=datetime.utcnow)
 
     users = relationship(
         "User", secondary="user_option", back_populates="options", lazy="dynamic"

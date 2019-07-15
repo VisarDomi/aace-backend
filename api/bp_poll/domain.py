@@ -11,7 +11,15 @@ def create_poll(poll_data):
 
 def get_polls():
     polls = backend.get_polls()
-    polls_list = [poll.to_dict() for poll in polls]
+    polls_list = []
+    for poll in polls:
+        poll_dict = poll.to_dict()
+        poll_dict["options"] = []
+        for option in poll.options.all():
+            option_dict = option.to_dict()
+            option_dict["votes"] = option.users.count()
+            poll_dict["options"].append(option_dict)
+        polls_list.append(poll_dict)
 
     return polls_list
 
@@ -21,6 +29,11 @@ def get_poll(poll_id):
     poll_dict = poll.to_dict()
 
     poll_medias = []
+    poll_dict["options"] = []
+    for option in poll.options.all():
+        option_dict = option.to_dict()
+        option_dict["votes"] = option.users.count()
+        poll_dict["options"].append(option_dict)
     for poll_media in poll.medias:
         poll_medias.append(poll_media.to_dict())
     poll_dict["poll_medias"] = poll_medias
@@ -30,6 +43,13 @@ def get_poll(poll_id):
 
 def update_poll(poll_data, poll_id):
     poll = backend.update_poll(poll_data, poll_id)
+    poll_dict = poll.to_dict()
+
+    return poll_dict
+
+
+def update_poll_vote(poll_data, poll_id):
+    poll = backend.update_poll_vote(poll_data, poll_id)
     poll_dict = poll.to_dict()
 
     return poll_dict

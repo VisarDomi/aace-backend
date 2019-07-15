@@ -12,7 +12,10 @@ from api.models.items import (
     Skill,
     Group,
     Comment,
+    Option,
     Communication,
+    Event,
+    Poll,
     OrganizationGroup,
 )
 from api.models.medias import (
@@ -22,6 +25,8 @@ from api.models.medias import (
     MediaSkill,
     MediaComment,
     MediaCommunication,
+    MediaEvent,
+    MediaPoll,
     MediaOrganizationGroup,
 )
 
@@ -38,7 +43,10 @@ def make_shell_context():
         "Experience": Experience,
         "Group": Group,
         "Comment": Comment,
+        "Option": Option,
         "Communication": Communication,
+        "Event": Event,
+        "Poll": Poll,
         "OrganizationGroup": OrganizationGroup,
         "MediaUser": MediaUser,
         "MediaEducation": MediaEducation,
@@ -46,6 +54,8 @@ def make_shell_context():
         "MediaSkill": MediaSkill,
         "MediaComment": MediaComment,
         "MediaCommunication": MediaCommunication,
+        "MediaEvent": MediaEvent,
+        "MediaPoll": MediaPoll,
         "MediaOrganizationGroup": MediaOrganizationGroup,
         "Skill": Skill,
         "User": User,

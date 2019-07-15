@@ -36,6 +36,14 @@ def update_poll(poll_id):
     return domain.update_poll(request.json, poll_id)
 
 
+@bp.route("/<poll_id>/vote", methods=["PUT"])
+@schema("/update_poll_vote.json")
+@token_auth.login_required
+def update_poll_vote(poll_id):
+
+    return domain.update_poll_vote(request.json, poll_id)
+
+
 @bp.route("/<poll_id>", methods=["DELETE"])
 @token_auth.login_required
 def delete_poll(poll_id):

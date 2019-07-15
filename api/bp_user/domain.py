@@ -22,6 +22,13 @@ def get_users():
     return users_list
 
 
+def get_users_count():
+    count = backend.get_users_count()
+    count_dict = {"total_members": count}
+
+    return count_dict
+
+
 def get_user(user_id):
     user = get_user_by_id(user_id)
     user_dict = user.to_dict(only=ONLY)

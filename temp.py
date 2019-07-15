@@ -64,5 +64,6 @@ kryesia = OrganizationGroup(**kryesia_dict)
 kryesia.save()
 bordi = OrganizationGroup(**bordi_dict)
 bordi.save()
+admin.organizationgroup = koordinatori
 
 db_session.commit()

@@ -40,6 +40,12 @@ def get_users():
     return users
 
 
+def get_users_count():
+    count = User.query.count()
+
+    return count
+
+
 def update_user(user_data, user_id):
     if int(user_id) == g.current_user.id:
         user = get_user_by_id(user_id)
