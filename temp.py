@@ -65,5 +65,6 @@ kryesia.save()
 bordi = OrganizationGroup(**bordi_dict)
 bordi.save()
 admin.organizationgroup = koordinatori
+admin.save()
 
 db_session.commit()
