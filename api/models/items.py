@@ -205,7 +205,9 @@ class Poll(BaseModel, ModelSerializerMixin):
     )
     medias = relationship("MediaPoll", back_populates="poll", lazy="dynamic")
     comments = relationship("Comment", back_populates="poll", lazy="dynamic")
-    options = relationship("Option", back_populates="poll", lazy="dynamic")
+    options = relationship(
+        "Option", back_populates="poll", lazy="dynamic", cascade="delete, delete-orphan"
+    )
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.name}, id = {self.id})"
