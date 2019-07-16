@@ -7,6 +7,8 @@ from .bp_media_skill.backend import files_skill
 from .bp_media_payment.backend import files_payment
 from .bp_media_organizationgroup.backend import files_organizationgroup
 from .bp_media_communication.backend import files_communication
+from .bp_media_event.backend import files_event
+from .bp_media_poll.backend import files_poll
 from .bp_media_comment.backend import files_comment
 from .common.middleware import (
     after_request_middleware,
@@ -65,6 +67,8 @@ def create_app(config_class=Config):
     configure_uploads(app, files_payment)
     configure_uploads(app, files_organizationgroup)
     configure_uploads(app, files_communication)
+    configure_uploads(app, files_event)
+    configure_uploads(app, files_poll)
     configure_uploads(app, files_comment)
 
     # Set maximum size of files (?)
