@@ -249,6 +249,19 @@ class Comment(BaseModel, ModelSerializerMixin):
         return f"{self.__class__.__name__}({self.body}, id = {self.id})"
 
 
+class ContactForm(BaseModel, ModelSerializerMixin):
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    name = Column(String)
+    email = Column(String)
+    message = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.message}, id = {self.id})"
+
+
 ##############################################################################
 ##############################################################################
 #   Below here are not used classes  #

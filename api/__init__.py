@@ -30,6 +30,7 @@ from .bp_communication import bp as communication_bp
 from .bp_event import bp as event_bp
 from .bp_poll import bp as poll_bp
 from .bp_comment import bp as comment_bp
+from .bp_contactform import bp as contactform_bp
 from .bp_media_user import bp as media_user_bp
 from .bp_media_education import bp as media_education_bp
 from .bp_media_experience import bp as media_experience_bp
@@ -90,6 +91,7 @@ def create_app(config_class=Config):
     app.register_blueprint(user_bp, url_prefix="/api/user")
     app.register_blueprint(search_bp, url_prefix="/api/user/search")
     app.register_blueprint(comment_bp, url_prefix="/api/comment")
+    app.register_blueprint(contactform_bp, url_prefix="/api/contactform")
     app.register_blueprint(media_user_bp, url_prefix="/api/user/<user_id>")
     app.register_blueprint(
         media_education_bp, url_prefix="/api/user/<user_id>/education/<education_id>"

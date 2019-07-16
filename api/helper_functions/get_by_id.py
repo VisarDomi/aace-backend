@@ -10,6 +10,7 @@ from ..models.items import (
     Poll,
     Comment,
     Option,
+    ContactForm,
 )
 from .is_allowed import (
     is_user_allowed_to_view_communication,
@@ -87,3 +88,9 @@ def get_organizationgroup_by_id(organizationgroup_id):
     organizationgroup = get_entity(organizationgroup_id, OrganizationGroup)
 
     return organizationgroup
+
+
+def get_contactform_by_id(contactform_id):
+    contactform = get_entity(contactform_id, ContactForm)
+
+    return contactform
