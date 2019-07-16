@@ -7,7 +7,7 @@ from ..models.items import Event, OrganizationGroup
 from ..bp_media_event.backend import get_medias, delete_media
 from ..helper_functions.decorators import admin_required
 from ..helper_functions.get_by_id import get_event_by_id, get_organizationgroup_by_id
-from ..helper_functions.email import send_email_to_users
+# from ..helper_functions.email import send_email_to_users
 
 
 @admin_required
@@ -132,4 +132,5 @@ def remove_organizationgroup_from_event(event_id, organizationgroup_id):
 
 @admin_required
 def send_email(event_id):
-    send_email_to_users(event_id)
+    # send_email_to_users(event_id) doesn't work, needs copy paste
+    print("event_id", event_id)
