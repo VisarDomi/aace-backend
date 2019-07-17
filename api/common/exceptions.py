@@ -156,3 +156,7 @@ class CannotGetOthersMedia(InvalidPermissions):
 
 class EmailCannotBeSent(InvalidAPIRequest):
     pass
+
+
+class UserHasAlreadyVoted(InvalidPermissions):
+    pass

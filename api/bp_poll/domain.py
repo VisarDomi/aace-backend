@@ -1,3 +1,4 @@
+from flask import g
 from . import backend
 from ..helper_functions.get_by_id import get_poll_by_id
 
@@ -11,14 +12,19 @@ def create_poll(poll_data):
 
 def get_polls():
     polls = backend.get_polls()
+    user = g.current_user
+    has_voted = False
     polls_list = []
     for poll in polls:
         poll_dict = poll.to_dict()
         poll_dict["options"] = []
         for option in poll.options.all():
+            if user in option.users.all():
+                has_voted = True
             option_dict = option.to_dict()
             option_dict["votes"] = option.users.count()
             poll_dict["options"].append(option_dict)
+        poll_dict["has_voted"] = has_voted
         polls_list.append(poll_dict)
 
     return polls_list
@@ -26,17 +32,21 @@ def get_polls():
 
 def get_poll(poll_id):
     poll = get_poll_by_id(poll_id)
+    user = g.current_user
+    has_voted = False
     poll_dict = poll.to_dict()
-
     poll_medias = []
     poll_dict["options"] = []
     for option in poll.options.all():
+        if user in option.users.all():
+            has_voted = True
         option_dict = option.to_dict()
         option_dict["votes"] = option.users.count()
         poll_dict["options"].append(option_dict)
     for poll_media in poll.medias:
         poll_medias.append(poll_media.to_dict())
     poll_dict["poll_medias"] = poll_medias
+    poll_dict["has_voted"] = has_voted
 
     return poll_dict
 

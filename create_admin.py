@@ -1,5 +1,7 @@
-#########################################################
-# Admin
+###################
+# users
+
+
 def create_user(user_data):
     if user_data["email"] is None or user_data["password"] is None:
         print("Please provide an email and a password.")
@@ -16,56 +18,53 @@ def create_user(user_data):
 
     return user
 
+
 admin_dict = {
     "email": "admin@aace.al",
     "password": "password"
 }
 admin = create_user(admin_dict)
-admin.save()
 
-#########################################################
-# Groups
+####################
+# organizationgroups
 
 anetaret_dict = {
     "name": "anetaret",
-    "description": "anetaret shoqates"
+    "description": "anetaret e shoqates"
+}
+presidenti_dict = {
+    "name": "presidenti",
+    "description": "presidenti i shoqates"
+}
+sekretari_dict = {
+    "name": "sekretari",
+    "description": "sekretari i shoqates"
+}
+koordinatori_dict = {
+    "name": "koordinatori",
+    "description": "koordinatori i shoqates"
+}
+kryesia_dict = {
+    "name": "kryesia",
+    "description": "kryesia e shoqates"
+}
+bordi_dict = {
+    "name": "bordi",
+    "description": "bordi i shoqates"
 }
 anetaret = OrganizationGroup(**anetaret_dict)
 anetaret.save()
-
-presidenti_dict = {
-    "name": "presidenti",
-    "description": "presidenti shoqates"
-}
 presidenti = OrganizationGroup(**presidenti_dict)
 presidenti.save()
-
-sekretari_dict = {
-    "name": "sekretari",
-    "description": "sekretari shoqates"
-}
 sekretari = OrganizationGroup(**sekretari_dict)
 sekretari.save()
-
-koordinatori_dict = {
-    "name": "koordinatori",
-    "description": "koordinatori shoqates"
-}
 koordinatori = OrganizationGroup(**koordinatori_dict)
 koordinatori.save()
-
-kryesia_dict = {
-    "name": "kryesia",
-    "description": "kryesia shoqates"
-}
 kryesia = OrganizationGroup(**kryesia_dict)
 kryesia.save()
-
-bordi_dict = {
-    "name": "bordi",
-    "description": "bordi shoqates"
-}
 bordi = OrganizationGroup(**bordi_dict)
 bordi.save()
+admin.organizationgroup = koordinatori
+admin.save()
 
 db_session.commit()

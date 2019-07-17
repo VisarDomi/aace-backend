@@ -2,6 +2,7 @@ from flask import g
 from ..common.exceptions import (
     OrganizationGroupIsAlreadyPartOfGroup,
     NoOrganizationGroupByThatID,
+    UserHasAlreadyVoted,
 )
 from ..models.items import Poll, OrganizationGroup, Option
 from ..bp_media_poll.backend import get_medias, delete_media
@@ -42,26 +43,31 @@ def get_polls():
 @admin_required
 def update_poll(poll_data, poll_id):
     poll = get_poll_by_id(poll_id)
-    poll.update(**poll_data)
-    poll.save()
+    # needs further development
+    # poll.update(**poll_data)
+    # poll.save()
 
     return poll
 
 
 def update_poll_vote(poll_data, poll_id):
-    user = g.current_user
     poll = get_poll_by_id(poll_id)
+    user = g.current_user
     incoming_options = poll_data.pop("options")
     poll_options = poll.options.all()
+    for option in poll_options:
+        if user in option.users.all():
+
+            msg = f"User with id `{user.id}` has already voted"
+            f" in the poll with id `{poll.id}`"
+            raise UserHasAlreadyVoted(message=msg)
     for incoming_option in incoming_options:
+
         for option in poll_options:
             incoming_body = incoming_option["body"]
-            print("incoming_body", incoming_body)
             option_dict = option.to_dict()
             body = option_dict["body"]
-            print("body", body)
             if incoming_body == body:
-                print("they are equal")
                 option.users.append(user)
                 option.save()
 
