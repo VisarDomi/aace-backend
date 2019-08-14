@@ -68,10 +68,10 @@ go to aace-backend in bitbucket and select clone and select https and copy it
 git clone https://VisarDomi@bitbucket.org/verweb/aace-backend.git
 cd aace-backend
 
-12. sudo apt install pipenv -y
+12. sudo apt -y install pipenv
 
 13. install postgres:
-sudo apt install -y postgresql postgresql-contrib -y
+sudo apt -y install postgresql postgresql-contrib
 
 14. delete Pipfile.lock
 rm -rf Pipfile.lock
@@ -116,13 +116,6 @@ local   all             postgres                                md5
 24
 sudo service postgresql restart
 
-
-25. Login and logout from server:
-exit
-ssh ubuntu@159.65.127.70
-cd aace-backend
-pipenv shell
-
 26. Login with password 'postgres':
 psql -U postgres
 create database aace;
@@ -133,7 +126,7 @@ alembic upgrade head
 
 28 create admin:
 flask shell
-copy paste from after_resetting_database.py
+copy paste from create_admin.py
 
 Setup supervisorctl:
 29 open file:
@@ -157,15 +150,62 @@ Setup nginx:
 32 remove default config if it exists:
 sudo rm /etc/nginx/sites-enabled/default
 
-33 add config:
-sudo nano /etc/nginx/sites-enabled/aace
-
-33.2 before copy pasting:
+33.1 before copy pasting:
 sudo mkdir /etc/nginx/ssl
 sudo openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
-chmod 400 /etc/nginx/ssl/*
+sudo chmod 400 /etc/nginx/ssl/*
 
+33.2 add config:
+sudo nano /etc/nginx/sites-enabled/aace
+
+34. empty nginx:
 34 copy paste the following into the file:
+
+# your nginx version might not have all directives included, test this configuration before using in production against your nginx:
+# $ sudo nginx -c /etc/nginx/nginx.conf -t
+
+server {
+        server_name aace.ml;
+}
+
+
+35. reload nginx:
+sudo service nginx start
+sudo service nginx reload
+
+Site is online (unsafe connection) at 159.65.127.70
+
+Real certificates with auto renewal:
+36. at freenom.com go to:
+services -> my domains -> aace-backend.ml -> manage domains -> manage freedom dns -> add records
+
+37. at target add the ip address:
+Name	Type	TTL	  Target
+A     3600  159.65.127.70
+save changes
+
+38. Install certbot:
+sudo apt-get update
+
+sudo apt-get install -y software-properties-common
+
+sudo add-apt-repository universe
+
+sudo add-apt-repository ppa:certbot/certbot
+press enter to continue
+
+sudo apt-get update
+
+sudo apt-get install -y python-certbot-nginx
+
+39. get certificate:
+sudo certbot --nginx
+enter domain name: aace.ml
+choose: redirect
+autorenew is on by default
+
+
+40. copy paste the following into the file:
 
 # read more at https://terrty.net/2014/ssl-tls-in-nginx/
 # latest version on https://gist.github.com/paskal/628882bee1948ef126dd/126e4d1daeb5244aacbbd847c5247c2e293f6adf
@@ -309,40 +349,10 @@ server {
 
 }
 
-35. reload nginx:
-sudo service nginx start
+
+41. reload
 sudo service nginx reload
 
-Site is online (unsafe connection) at 159.65.127.70
-
-Real certificates with auto renewal:
-36. at freenom.com go to:
-services -> my domains -> aace-backend.ml -> manage domains -> manage freedom dns -> add records
-
-37. at target add the ip address:
-Name	Type	TTL	  Target
-A     3600  159.65.127.70
-save changes
-
-38. Install certbot:
-sudo apt-get update
-
-sudo apt-get install -y software-properties-common
-
-sudo add-apt-repository universe
-
-sudo add-apt-repository ppa:certbot/certbot
-press enter to continue
-
-sudo apt-get update
-
-sudo apt-get install -y python-certbot-nginx
-
-39. get certificate:
-sudo certbot --nginx
-enter domain name: aace-backend.ml
-choose: redirect
-autorenew is on by default
 
 #---------------------------------------
 Now site is live at:
