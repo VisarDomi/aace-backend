@@ -134,7 +134,7 @@ sudo nano /etc/supervisor/conf.d/aace.conf
 
 30 paste the following:
 [program:aace]
-command=/home/ubuntu/.virtualenvs/aace-backend-klOTBomT/bin/gunicorn -b localhost:5000 -w 4 aace:app
+command=/home/ubuntu/.local/share/virtualenvs/aace-backend-klOTBomT/bin/gunicorn -b localhost:5000 -w 4 aace:app
 directory=/home/ubuntu/aace-backend
 user=ubuntu
 autostart=true
@@ -159,7 +159,6 @@ sudo chmod 400 /etc/nginx/ssl/*
 sudo nano /etc/nginx/sites-enabled/aace
 
 34. empty nginx:
-34 copy paste the following into the file:
 
 # your nginx version might not have all directives included, test this configuration before using in production against your nginx:
 # $ sudo nginx -c /etc/nginx/nginx.conf -t
@@ -206,149 +205,49 @@ autorenew is on by default
 
 
 40. copy paste the following into the file:
-
-# read more at https://terrty.net/2014/ssl-tls-in-nginx/
-# latest version on https://gist.github.com/paskal/628882bee1948ef126dd/126e4d1daeb5244aacbbd847c5247c2e293f6adf
-# security test score: https://www.ssllabs.com/ssltest/analyze.html?d=aace.ml
-# your nginx version might not have all directives included, test this configuration before using in production against your nginx:
-# $ nginx -c /etc/nginx/nginx.conf -t
+# $ sudo nginx -c /etc/nginx/nginx.conf -t
 
 server {
-        # Diffie-Hellman parameter for DHE ciphersuites, recommended 2048 bits
-        # to generate your dhparam.pem file, run in the terminal:
-        # $ openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
-        ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+    if ($host = aace.ml) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
 
-        # don't forget to set secure rights to these files:
-        # $ chmod 400 /etc/nginx/ssl/*
-
-        # http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_cache
-        # make it bigger for more sessions, one megabyte for ~ 4000 session
-        ssl_session_cache shared:SSL:100m;
-        ssl_session_timeout 60m;
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-
-        # ciphers are latest modern from https://wiki.mozilla.org/Security/Server_Side_TLS (only place you can trust on web)
-        # working example:
-        # ssl_ciphers 'EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DES';       
-        ssl_ciphers 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384';
-        ssl_prefer_server_ciphers on;
-
-        # OCSP Stapling ---
-        # fetch OCSP records from URL in ssl_certificate and cache them
-        ssl_stapling on;
-        ssl_stapling_verify on;
-        # dns resolver, we're using Google IPv4 and IPv6 servers
-        resolver 8.8.8.8 [2001:4860:4860::8888];
-        # verify chain of trust of OCSP response using Root CA and Intermediate certs, example for StartSSL:
-        # $ wget -O - https://www.startssl.com/certs/ca.pem https://www.startssl.com/certs/class1/sha2/pem/sub.class1.server.sha2.ca.pem | tee -a ca-certs.pem > /dev/null
-        ssl_trusted_certificate /etc/letsencrypt/live/aace.ml/chain.pem;
-
-        # consider turning 'deferred' off on old versions of nginx if you occur any problems
-        listen 443 deferred ssl;
-        listen [::]:443 deferred ssl ipv6only=on;
-        server_name aace.ml;
-
-        # location of the self-signed SSL certificate
-        # (non-existent, not needed) temporary
-        ssl_certificate /etc/letsencrypt/live/aace.ml/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/aace.ml/privkey.pem; # managed by Certbot
-
-        # write access and error logs to /var/log
-        access_log /var/log/aace_access.log;
-        error_log /var/log/aace_error.log;
-
-        location / {
-            # forward application requests to the gunicorn server
-            proxy_pass http://localhost:5000;
-            proxy_redirect off;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        }
-
-        location /static {
-            # handle static files directly, without forwarding to the application
-            alias /home/ubuntu/aace-backend/static;
-        }
-
-        charset utf-8;
-
-        #don't send the nginx version number in error pages and Server header
-        server_tokens off;
-
-        # https://www.owasp.org/index.php/List_of_useful_HTTP_headers
-        # http://nginx.org/en/docs/http/ngx_http_headers_module.html
-        # enabling HSTS(HTTP Strict Transport Security)
-        # https://developer.mozilla.org/en-US/docs/Web/Security/HTTP_strict_transport_security
-        add_header Strict-Transport-Security 'max-age=63072000';
-        
-        
-        # config to don't allow the browser to render the page inside an frame or
-        # iframe and avoid clickjacking http://en.wikipedia.org/wiki/Clickjacking
-        # if you need to allow [i]frames, you can use SAMEORIGIN
-        # or set an uri with ALLOW-FROM uri
-        # warning, this option breaking some analitics tools
-        add_header X-Frame-Options DENY;
-
-        # when serving user-supplied content, include a
-        # X-Content-Type-Options: nosniff header along with the Content-Type:
-        # header to disable content-type sniffing on some browsers.
-        # https://github.com/blog/1482-heads-up-nosniff-header-support-coming-to-chrome-and-firefox
-        add_header X-Content-Type-Options nosniff;
-
-        # this header enables the Cross-site scripting (XSS) filter, it's usually
-        # enabled by default anyway, so the role of this header is to re-enable
-        # the filter for this particular website if it was disabled by the user.
-        add_header X-XSS-Protection "1; mode=block";
-
-        # deny access to files, starting with dot (hidden) or ending with ~ (temp)
-
-        location ~ /\. {
-                access_log off;
-                log_not_found off;
-                deny all;
-        }
-
-        location ~ ~$ {
-                access_log off;
-                log_not_found off;
-                deny all;
-        }
-
-        # block of rules for static content
-
-        location ~ /(favicon.ico|favicon.png|robots.txt)$ {
-                access_log off;
-                log_not_found off;
-                expires 1y;
-                add_header Cache-Control public,max-age=259200;
-        }
-
-        location ~*  \.(jpg|jpeg|png|gif|ico|css|js|mp3)$ {
-                expires 30d;
-                add_header Cache-Control public,max-age=259200;
-        }
-
+    # listen on port 80 (http)
+    listen 80;
+    server_name aace.ml;
+    location / {
+        # redirect any requests to the same URL but on https
+        return 301 https://$host$request_uri;
+    }
 }
 
 server {
-        if ($host = aace.ml) {
-            return 301 https://$host$request_uri;
-        } # managed by Certbot
+    # listen on port 443 (https)
+    listen 443 ssl;
+    server_name aace.ml;
 
-        # catch all unsecure requests (both IPv4 and IPv6)
-        listen 80 default_server;
-        listen [::]:80 default_server ipv6only=on;
+    ssl_certificate /etc/letsencrypt/live/aace.ml/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/aace.ml/privkey.pem; # managed by Certbot
 
-        server_name aace.ml;
-        location / {
-            # redirect any requests to the same URL but on https
-            return 301 https://$host$request_uri;
-        }
+    # write access and error logs to /var/log
+    access_log /var/log/microblog_access.log;
+    error_log /var/log/microblog_error.log;
 
+    location / {
+        # forward application requests to the gunicorn server
+        proxy_pass http://localhost:5000;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /static {
+        # handle static files directly, without forwarding to the application
+        alias /home/ubuntu/aace-backend/static;
+        expires 30d;
+    }
 }
-
 
 41. reload
 sudo service nginx reload
