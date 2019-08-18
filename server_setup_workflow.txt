@@ -266,7 +266,11 @@ sudo supervisorctl start aace
 
 end server computer
 
-40. aace only, increase upload file size
+42. aace only, increase upload file size
 sudo nano /etc/nginx/nginx.conf
 at http context add the line:
 client_max_body_size 64M;
+
+
+43. copy dpi.png to static
+cp dpi.png static/dpi.png

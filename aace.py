@@ -1,6 +1,6 @@
 import os
-
-from werkzeug.contrib.fixers import ProxyFix
+from gevent.pywsgi import WSGIServer
+# from werkzeug.contrib.fixers import ProxyFix
 
 from api import create_app
 
@@ -62,17 +62,19 @@ def make_shell_context():
     }
 
 
-def run():
+# def run():
     # debug = os.environ.get('APP_DEBUG', True)
-    host = os.environ.get("APP_HOST", "0.0.0.0")
-    port = int(os.environ.get("APP_PORT", 8000))
+    # host = os.environ.get("APP_HOST", "0.0.0.0")
+    # port = int(os.environ.get("APP_PORT", 8000))
 
     # app.run(debug=debug, host=host, port=port)
-    app.run(host=host, port=port)
+    # app.run(host=host, port=port)
 
 
-wsgi = ProxyFix(app.wsgi_app)
+# wsgi = ProxyFix(app.wsgi_app)
 
 
 if __name__ == "__main__":
-    run()
+    # run()
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
